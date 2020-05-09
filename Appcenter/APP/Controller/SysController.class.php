@@ -53,9 +53,9 @@ class SysController extends ApiController
                 'message' => 'ok',
                 'time' => date('Y-m-d H:i:s', time()),
             );
-            $this->ajaxReturn($result);
+            $this->myApiPrint('', 400, $result);
         } else {
-            $this->ajaxReturn($result = null);
+            $this->myApiPrint('无最新版', 300);
         }
     }
 
