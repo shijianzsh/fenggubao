@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 测试接口：商家输入兑换码兑换订单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="/Public/Api/js/css.css" rel="stylesheet">
+	</head>
+<body>
+
+<div  class="testdiv">
+	<h3>测试接口：商家输入兑换码兑换订单</h3>
+	<div class="testform">
+	<form name="theform" enctype="multipart/form-data" method="post">
+		<table>
+			<tr>
+				<td class="label" title="店铺id">storeid</td>
+				<td><input type="text" name="storeid" value="13618"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="订单id">id</td>
+				<td><input type="text" name="id" value="178223"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="兑换码">exchangeno</td>
+				<td><input type="text" name="exchangeno" value="50515305796229"> </td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input type="button" class="commit" value="测试4版"  onclick="test('http://local.zcsh4.com/APP/Store/checkno')" />
+					<input type="button" class="commit" value="测试3版"  onclick="test('http://cs.b.zcsh123.com/Store/checkno')"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+</div>
+<script>
+	function test(url) {
+		document.forms['theform'].action=url;
+		document.forms['theform'].submit();
+    }
+</script>
+</body>
+</html>

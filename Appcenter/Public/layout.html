@@ -1,0 +1,119 @@
+<include file="./Appcenter/Public/public/head.html"/> 
+
+    <div class="zc_Top">
+        <div class="zc_logo left clear">
+            <h2>{$Think.config.APP_TITLE}管理系统</h2>
+        </div>
+        <div class="zc_list left clear">
+            <ul class="zc_lainainfe">
+            	<php>$module_list = $sess_auth['admin_module_list'];</php>
+            	<if condition="$sess_auth['admin_id'] eq 1 || in_array('Admin', $module_list)">
+                <li class="top_menu_0"><a href="{:U('/Admin/Index/index')}" class="zc_iov1">分销管理</a></li>
+                </if>
+                <if condition="$sess_auth['admin_id'] eq 1 || in_array('Shop', $module_list)">
+                <li class="top_menu_1"><a href="{:U('/Shop/Goods/goodsList/type/0')}" class="zc_iov2">商城管理</a></li>
+                </if>
+                <if condition="$sess_auth['admin_id'] neq 1 && in_array('Merchant', $module_list)">
+                <li class="top_menu_2"><a href="{:U('/Merchant/Order/index')}" class="zc_iov3">商户管理</a></li>
+                </if>
+                <if condition="$sess_auth['admin_id'] eq 1 || in_array('System', $module_list)">
+                <li class="top_menu_3"><a href="{:U('/System/Index/index')}" class="zc_iov4">系统设置</a></li>
+                </if>
+            </ul>
+        </div>
+        <div class="zcZ_personage right clear">
+            <ul>
+                <li style="width:160px;">
+                    <span class="zc_touxiamg">
+						<img src="<if condition="!preg_match('/^http/',$sess_auth['admin_img'])">{:U('/', '','', true)}</if>{$sess_auth['admin_img']}" alt="{$sess_auth['admin_nickname']}">
+					</span>
+                    欢迎你：<span>{$sess_auth['admin_nickname']}</span>
+                </li>
+                <li style="width:225px;" class="zc_operation">
+                    <a href="javascript:history.back(-1);">返回</a>
+                    <span>|</span>
+                    <a href="{:U('Overall/Index/passwordModify')}">个人信息</a>
+                    <span>|</span>
+                    <a href="javascript:chat();">在线客服</a>
+                </li>
+                <li style="width:80px;" class="zc_tuichu">
+                    <a href="{:U('Admin/Login/logout')}">退出</a>
+                </li>
+            </ul>
+        </div>
+        <div class="zc_shrink">
+            <a href="javascript:" class="zc-pic"><img src="<if condition="!preg_match('/^http/',$sess_auth['admin_img'])">{:U('/', '','', true)}</if>{$sess_auth['admin_img']}" alt="{$sess_auth['admin_nickname']}"></a>
+            <div class="zc_aniqbfi">
+                <p><a href="javascript:"><span style="display:inline-block;width:60px;margin:0;text-indent:0;text-align:right">欢迎你：</span><em class="zc_tel">{$sess_auth['admin_loginname']}</em></a></p>
+                <p><a href="javascript:"><span style="display:inline-block;width:60px;margin:0;text-indent:0;text-align:right">身份：</span><em class="zc_Administrator">{$sess_auth['admin_group']}</em></a></p>
+                <p style="text-align:right;padding-right:10px;margin-top:20px;">
+                	<a href="{:U('Admin/Login/logout')}">退出</a>
+                	<span>|</span>
+                	<a href="{:U('Overall/Index/passwordModify')}">个人信息</a>
+                	<span>|</span>
+                    <a href="javascript:chat();">在线客服</a>
+                </p>
+            </div>
+        </div>
+    </div>
+<div class="zc_content clear">
+    <div class="zc_broadside_left left">
+        <div class="zc_ttgoracf">
+            <a href="{:U('Admin/Index/index')}">首页</a>
+        </div>
+		
+		<foreach name="navigation" key="key1" item="one">
+		<div class="zc_list_left">
+			<div class="zc_item_title">
+                <span>{$one.title}</span>
+                <em></em>
+            </div>
+			<ul>
+			<if condition="is_array($one['son'])">
+				<foreach name="one['son']" key="key2" item="two">
+				<li><a href="{$two.url}" class="<php>echo 'zc_iov_'.strtolower(MODULE_NAME).'_'.$key1.$key2;</php>">{$two.title}</a></li>
+				</foreach>
+			<else />
+				<li><a href="{$one.url}">{$one.title}</a></li>
+			</if>
+			</ul>
+		</div>
+		</foreach>
+		
+    </div>
+    <div class="zc_broadside_right right">
+        <div class="zc_fold"></div>
+		{__CONTENT__}
+		<if condition="$page neq ''"><div class="page">{$page}</div></if>
+        <div class="footer">
+            <p>Copyright &copy; 2016-2018 All Rights Reserved {$Think.config.APP_TITLE} 版权所有 <span></span></p>
+        </div>
+    </div>
+</div>
+
+<!-- [通用按钮权限控制] -->
+<script>
+var button_purview = {};
+<foreach name="button_purview" item="purview">
+button_purview.{$key} = "{$purview}";
+</foreach>
+
+//在线客服
+function chat() {
+	var index = waitingWin('加载中，请稍后...');
+	layer.open({
+		id: 'A',
+		title: '在线客服',
+		type: 2,
+		content: "http://"+location.host+"{:U('APP/Im/chatList')}",
+		area: ['500px', '700px'],
+		offset: 'rb',
+		success: function(o,i){
+			layer.close(index);
+		}
+	});
+}
+</script>
+<!-- [/通用按钮权限控制] -->
+
+<include file="./Appcenter/Public/public/foot.html"/>

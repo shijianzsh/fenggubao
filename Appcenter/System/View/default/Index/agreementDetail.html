@@ -1,0 +1,55 @@
+<div class="zc_anwia">
+    <h2>协议管理</h2>
+</div>
+<div class="zc_message">
+    <form name="agreementSave" method="post" action="{:U('__CONTROLLER__/agreementSave')}">
+        <div>
+            <span class="zc_xy_title">申请省级合伙人协议</span>
+            <textarea id="content1" name="benefittxt" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.benefittxt|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请省级合伙人协议 - 英文</span>
+            <textarea id="content2" name="benefittxt_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.benefittxt_en|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请省级合伙人协议 - 韩文</span>
+            <textarea id="content3" name="benefittxt_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.benefittxt_ko|htmlspecialchars_decode}</textarea>
+        </div>
+        <div>
+            <span class="zc_xy_title">申请区域合伙人协议</span>
+            <textarea id="content4" name="warranttxt" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.warranttxt|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请区域合伙人协议 - 英文</span>
+            <textarea id="content5" name="warranttxt_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.warranttxt_en|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请区域合伙人协议 - 韩文</span>
+            <textarea id="content6" name="warranttxt_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.warranttxt_ko|htmlspecialchars_decode}</textarea>
+        </div>
+        <div>
+            <span class="zc_xy_title">申请个人代理协议</span>
+            <textarea id="content7" name="makertxt" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.makertxt|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请个人代理协议 - 英文</span>
+            <textarea id="content8" name="makertxt_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.makertxt_en|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">申请个人代理协议 - 韩文</span>
+            <textarea id="content9" name="makertxt_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.makertxt_ko|htmlspecialchars_decode}</textarea>
+        </div>
+
+        <div>
+            <span class="zc_xy_title">用户协议</span>
+            <textarea id="content10" name="usertxt" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.usertxt|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">用户协议 - 英文</span>
+            <textarea id="content11" name="usertxt_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.usertxt_en|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">用户协议 - 韩文</span>
+            <textarea id="content12" name="usertxt_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.usertxt_ko|htmlspecialchars_decode}</textarea>
+        </div>
+
+        <div>
+            <span class="zc_xy_title">隐私政策</span>
+            <textarea id="content13" name="privacytxt" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.privacytxt|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">隐私政策 - 英文</span>
+            <textarea id="content14" name="privacytxt_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.privacytxt_en|htmlspecialchars_decode}</textarea>
+            <span class="zc_xy_title">隐私政策 - 韩文</span>
+            <textarea id="content15" name="privacytxt_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.privacytxt_ko|htmlspecialchars_decode}</textarea>
+        </div>
+
+        <div>
+            <span></span>
+            <input type="submit" name="submit" value="保存">
+        </div>
+        <input type="hidden" name="id" value="{$info.id}">
+    </form>
+</div>

@@ -1,0 +1,53 @@
+<div class="zc_anwia">
+	<h2>摇一摇管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="shakeSearch" method="get" action="__ACTION__">
+		<assign name="search_user_hide" value="1"/>
+		<assign name="search_date_title" value="发布日期"/>
+		<assign name="search_date_min_value" value="$Think.get.time_min"/>
+		<assign name="search_date_max_value" value="$Think.get.time_max"/>
+		<include file="./Appcenter/Public/public/common.search.html"/>
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search">搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>金额</th>
+				<th>次数</th>
+				<th>摇中提示图片</th>
+				<th>范围距离</th>
+				<th>发布时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.shake_id}</td>
+				<td>{$item.shake_amount}</td>
+				<td>{$item.shake_times}</td>
+				<td>
+					<img src="{:U('/','','',true)}{$item.shake_img}" width="0" height="0" style="display:none;">
+					<a href="javscript:;" class="text-danger" data-toggle="modal">点击查看</a>
+				</td>
+				<td>{$item.shake_ranges}km</td>
+				<td>{$item.shake_addtime|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a href="{:U('__CONTROLLER__/shakeRecords/shake_id/'.$item['shake_id'])}">摇中记录</a>
+					<a href="{:U('__CONTROLLER__/shakeRefund/shake_id/'.$item['shake_id'])}">回本记录</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

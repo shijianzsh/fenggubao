@@ -1,0 +1,257 @@
+<div class="zc_anwia">
+    <h2>后台充值</h2>
+</div>
+<div class="zc_message">
+
+    <!-- [count] -->
+    <h2 style="margin-bottom:20px;">用户账户管理
+        <small>
+            【
+            增加现金币：<span style="color:red">{$admin_acount['add_cash']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去现金币：<span style="color:red">{$admin_acount['dec_cash']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加公让宝：<span style="color:red">{$admin_acount['add_goldcoin']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去公让宝：<span style="color:red">{$admin_acount['dec_goldcoin']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加激活锁定通证：<span style="color:red">{$admin_acount['add_bonus']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去激活锁定通证：<span style="color:red">{$admin_acount['dec_bonus']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加矿池：<span style="color:red">{$admin_acount['add_points']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去矿池：<span style="color:red">{$admin_acount['dec_points']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加提货券：<span style="color:red">{$admin_acount['add_colorcoin']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去提货券：<span style="color:red">{$admin_acount['dec_colorcoin']}</span>&nbsp;&nbsp;&nbsp;&nbsp;  
+            增加兑换券：<span style="color:red">{$admin_acount['add_enroll']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去兑换券：<span style="color:red">{$admin_acount['dec_enroll']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加农场：<span style="color:red">{$admin_acount['add_portion']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去农场：<span style="color:red">{$admin_acount['dec_portion']}</span>&nbsp;&nbsp;&nbsp;&nbsp;  
+            增加原始锁定通证：<span style="color:red">{$admin_acount['add_supply']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去原始锁定通证：<span style="color:red">{$admin_acount['dec_supply']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加澳洲SKN股份：<span style="color:red">{$admin_acount['add_enjoy']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去澳洲SKN股份：<span style="color:red">{$admin_acount['dec_enjoy']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            增加GRC购物积分：<span style="color:red">{$admin_acount['add_credits']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            减去GRC购物积分：<span style="color:red">{$admin_acount['dec_credits']}</span>&nbsp;&nbsp;&nbsp;&nbsp;  
+            <!--增加转账：<span style="color:red">{$admin_acount['add_transfer']}</span>&nbsp;&nbsp;&nbsp;&nbsp;-->
+            <!--减去转账：<span style="color:red">{$admin_acount['dec_transfer']}</span>-->
+            】
+        </small>
+    </h2>
+    <!-- [/count] -->
+
+    <!-- [form] -->
+    <div class="shuoming">用户充值</div>
+    <strong class="shuoming_warning">矿池充值操作：在进行系统矿池充值操作时，“用户账户”输入框中只能输入专用的指定账号，其他账号不能进行矿池操作！</strong>
+    <form role="form" action="__CONTROLLER__/memberCashCheck/" method="post">
+        <div>
+            <assign name="search_date_hide" value="1"/>
+            <assign name="search_user_title" value="用户名"/>
+            <include file="./Appcenter/Public/public/common.search.html"/>
+            <div>
+                <label for="member_cash" class="col-sm-2 control-label left">账户类型</label>
+                <div class="col-sm-10 left">
+                    <select class="form-control zc_input" id="member_cash" name="member_cash">
+                        <option value="cash">现金币</option>
+                        <option value="goldcoin">丰谷宝</option>
+                        <option value="bonus">激活锁定通证</option>
+                        <option value="points">矿池</option>
+                        <option value="colorcoin">提货券(不分收益)</option>
+                        <option value="enroll">兑换券(分收益)</option>
+                        <option value="portion">农场</option>
+                        <option value="supply">原始锁定通证</option>
+                        <option value="enjoy">澳洲SKN股份</option>
+                        <option value="credits">GRC购物积分</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="crease" class="col-sm-2 control-label left">操作类型</label>
+                <div class="col-sm-10 left">
+                    <select class="form-control zc_input" id="crease" name="crease">
+                        <option value="increase">增加</option>
+                        <option value="decrease">减去</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="money" class="col-sm-2 control-label left">操作金额</label>
+                <div class="col-sm-10 left">
+                    <input type="text" class="form-control zc_if_price zc_if_empty" id="money" name="money" value="" placeholder="请输入金额">
+                    <span class="zc_if_alt">金额格式有误</span>
+                </div>
+            </div>
+            <input type="hidden" class="form-control" name="uid" id="uid" value="{$info.id}">
+        </div>
+        <div class="zc_aniinfeuifn" style="margin-left:58px;">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="text" class="form-control" style="width:400px !important;" name="beizhu"
+                       placeholder="备注说明，最多50字">
+                <button type="submit" class="btn btn-success zc_submit">确认</button>
+            </div>
+        </div>
+        <style type="text/css">
+            .zc_aniinfeuifn {
+                margin-top: 10px;
+                margin-left: 48px;
+            }
+        </style>
+    </form>
+    <!-- [/form] -->
+
+    <!-- [list] -->
+    <div class="shuoming">操作明细</div>
+    <div>
+        <div class="left">
+            <div class="col-sm-10">
+                <form name="searchBonus" method="get" action="__ACTION__" style="margin-bottom:5px;">
+                    <input type="text" name="username" id="username" class="form-control left"
+                           placeholder="请输入手机/姓名/用户名">
+
+                    <assign name="search_user_hide" value="1"/>
+                    <assign name="search_date_hide" value=""/>
+                    <assign name="search_date_title" value="充值日期"/>
+                    <include file="./Appcenter/Public/public/common.search.html"/>
+
+                    <button type="submit" class="btn btn-success zc_submit">搜索</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th align="center">账号</th>
+                    <th align="left">姓名</th>
+                    <th align="left">昵称</th>
+                    <th>账户类型</th>
+                    <th align="right">操作金额</th>
+                    <th>操作时间</th>
+                    <if condition="$sess_auth['admin_id'] eq '1' or $is_small_super">
+                        <th>备注说明</th>
+                    </if>
+                </tr>
+                </thead>
+                <tbody class="cont">
+                <volist name="account" id="item" key="k" mod="2">
+                    <tr>
+                        <td align="center"><if condition="$item[id] neq '1'">{$item.loginname}</if></td>
+                        <td>{$item.truename}</td>
+                        <td>{$item.nickname}</td>
+                        	<if condition="$item.ac_type eq '300'">
+                            <td align="center">现金币</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '350'"/>
+                            <td align="center">现金币</td>
+                            <td align="right">-{$item.ac_money}</td>
+                            
+                            <elseif condition="$item.ac_type eq '101'"/>
+                            <td align="center">丰谷宝</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '151'"/>
+                            <td align="center">丰谷宝</td>
+                            <td align="right">-{$item.ac_money}</td>
+                            
+                            <elseif condition="$item.ac_type eq '201'"/>
+                            <td align="center">锁定通证</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '251'"/>
+                            <td align="center">锁定通证</td>
+                            <td align="right">-{$item.ac_money}</td>    
+                            
+                            <elseif condition="$item.ac_type eq '501'"/>
+                            <td align="center">矿池</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '551'"/>
+                            <td align="center">矿池</td>
+                            <td align="right">-{$item.ac_money}</td>   
+                            
+                            <elseif condition="$item.ac_type eq '401'"/>
+                            <td align="center">提货券</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '451'"/>
+                            <td align="center">提货券</td>
+                            <td align="right">-{$item.ac_money}</td>    
+                            
+                            <elseif condition="$item.ac_type eq '601'"/>
+                            <td align="center">兑换券</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '651'"/>
+                            <td align="center">兑换券</td>
+                            <td align="right">-{$item.ac_money}</td>   
+                            
+                            <elseif condition="$item.ac_type eq '10001'"/>
+                            <td align="center">农场</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '10002'"/>
+                            <td align="center">农场</td>
+                            <td align="right">-{$item.ac_money}</td>     
+                            
+                            <elseif condition="$item.ac_type eq '700'"/>
+                            <td align="center">报单币</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '750'"/>
+                            <td align="center">报单币</td>
+                            <td align="right">-{$item.ac_money}</td> 
+                            
+                            <elseif condition="$item.ac_type eq '800'"/>
+                            <td align="center">澳洲SKN股份</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '850'"/>
+                            <td align="center">澳洲SKN股份</td>
+                            <td align="right">-{$item.ac_money}</td> 
+                            
+                            <elseif condition="$item.ac_type eq '901'"/>
+                            <td align="center">GRC购物积分</td>
+                            <td align="right">+{$item.ac_money}</td>
+                            <elseif condition="$item.ac_type eq '951'"/>
+                            <td align="center">GRC购物积分</td>
+                            <td align="right">-{$item.ac_money}</td> 
+                            
+                            <else/>
+                            <td align="center">{$item.ac_type}</td>
+                            <td align="right">{$item.ac_money}</td>
+                        </if>
+                        <td align="center">{$item.ac_post_time|date="Y-m-d H:i:s",###}</td>
+                        <if condition="$sess_auth['admin_id'] eq '1' or $is_small_super">
+                            <td>{$item.beizhu}</td>
+                        </if>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+
+           <div class="exportData right"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+
+        </div>
+    </div>
+    <!-- [/list] -->
+
+</div>
+
+<script>
+    $(function () {
+        /*
+        $('#userid').blur(function(){
+            if(/^[0-9]+$/.test($(this).val())){
+                getNickname($(this));
+            }
+        });
+        */
+    });
+
+    function getNickname(obj) {
+        if ($(obj).val() == "") {
+            return false;
+        }
+        var url = "{:U('__CONTROLLER__/getNickName')}";
+        $.post(url, {
+            //loginname:$(obj).val(),
+            username: $(obj).val(),
+        }, function (data) {
+            console.log(data);
+            var nickname = data['nickname'];
+            if (nickname == '') {
+                nickname = '此帐号不存在';
+                $(".zc_submit").attr('disabled', 'disabled');
+            } else {
+                $(".zc_submit").removeAttr('disabled');
+            }
+            $(obj).val($(obj).val() + '[' + nickname + ']');
+        });
+    }
+</script>

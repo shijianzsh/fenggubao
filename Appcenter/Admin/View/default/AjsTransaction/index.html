@@ -1,0 +1,288 @@
+<style>
+    .bank_balance em {
+        margin-left: 5px;
+        color: #000;
+        cursor: pointer;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>
+    	澳交所转入申请管理 
+    	<span style="color:red; margin:0 5px;">[合计转入金额:{$score_receive|default='0.00'}]</span>
+    	<span style="color:red; margin:0 5px;">[合计奖励金额:{$score_reward|default='0.00'}]</span>
+    </h2>
+</div>
+<div class="zc_message">
+    <!-- [search] -->
+    <form name="form" method="get" action="">
+        <assign name="search_date_title" value="日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+        <div class="form-group left">
+            <label class="left">日期类型</label>
+            <select name="date_type">
+                <option value="c_time"
+                <if condition="$Think.get.date_type eq '' or $Think.get.date_type eq 'c_time'">selected</if>
+                >交易录入时间</option>
+                <option value="timereceived"
+                <if condition="$Think.get.date_type eq 'timereceived'">selected</if>
+                >交易确认时间</option>
+            </select>
+        </div>
+
+        <div class="form-group left">
+            <label class="left">状态</label>
+            <select class="form-control zc_input" name="status">
+                <php>$status_config = C('FIELD_CONFIG')['transactions']['status'];</php>
+                <foreach name="status_config" item="item" key="key">
+                <option value="{$key}" <if condition="$Think.get.status eq $key">selected</if> >{$item}</option>
+                </foreach>
+            </select>
+        </div>
+        
+        <div class="form-group left">
+            <label class="left">类型</label>
+            <select class="form-control zc_input" name="platform">
+                <option value="AJS" <if condition="$Think.get.platform eq 'AJS'">selected</if> >澳交所</option>
+                <option value="AGX" <if condition="$Think.get.platform eq 'AGX' or $Think.get.platform eq ''">selected</if> >AOGEX</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="height:33px;">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover" id="withdraw_list">
+            <thead>
+            <tr>
+            	<th>ID</th>
+                <th>用户</th>
+                <th>金额</th>
+                <th>钱包地址</th>
+                <th>处理状态</th>
+                <th>录入时间</th>
+                <th>确认时间</th>
+                <th>备注</th>
+                <th>详情</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <volist name="list" id="item" key="k" mod="2">
+                <tr>
+                    <td align="center">
+                        <label>
+                            <if condition="$item[status] eq '0'">
+                                <input type="checkbox" name="id[]" class="zc_choose" value="{$item.id}">
+                            </if>
+                            {$item.id}
+                        </label>
+                    </td>
+                    <td>{$item.user.loginname}[{$item.user.username}]</td>
+                    <td align="center" id="amount_{$k}" class="single_amount">{$item.amount}</td>
+                    <td align="center">{$item.address}</td>
+                    <td align="center">{$item.status_cn}</td>
+                    <td align="center"><if condition="$item[created_time] neq '0'">{$item.created_time|date='Y-m-d H:i:s',###}</if></td>
+                    <td align="center"><if condition="$item[timereceived] neq '0'">{$item.timereceived|date='Y-m-d H:i:s',###}</if></td>
+                    <td align="center">{$item.remark}</td>
+                    <td align="center"><a href="javascript:details('{$item.id}');">查看</a></td>
+                </tr>
+            </volist>
+            <tr id="amount_show">
+                <td colspan="9" style="text-align:right">
+                    <span class="amount_title">已勾选金额统计：</span><span class="amount_show">0</span>
+                    <span style="display:inline-block; margin-top:5px; margin-bottom:5px;">
+                    <div class="exportData"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+                </td>
+            </tr>
+            <tr id="zc_all_list">
+                <td colspan="9" style="text-align:center">
+                    <if condition="$item.status eq '0'">
+                        <input type="button" value="全选" class="btn zc_selesce" id="selectAll" style="background:#999;">
+                        <input type="button" value="全不选" class="btn zc_selesce" id="unSelect" style="background:#999;">
+                        <input type="button" value="批量转账" class="btn zc_selesce" id="TradeAction" onclick="return TradeAction();">
+                        <input type="button" value="批量驳回" class="btn zc_selesce" id="TradeBack" onclick="return TradeBack();" style="background:red;">
+                        <input type="text" name="remark" class="hidden remark" value="" placeholder="驳回理由">
+                    </if>
+                </td>
+            </tr>
+            </tbody>
+    </table>
+    <!-- [/list] -->
+</div>
+
+<script type="text/javascript">
+    var amount = 0;
+    var commission = 0;
+    var qxuan = document.getElementsByName("id[]");
+    var selectAll = document.getElementById("selectAll");
+    var unSelect = document.getElementById("unSelect");
+    var all = document.getElementById("all");
+    $(function () {
+        selectChangeBase();
+        //单选事件
+        $('.zc_choose').change(function () {
+            selectChangeBase();
+        });
+
+        $('#selectAll').click(function () {
+            $('#withdraw_list input:checkbox').prop('checked', true);
+            selectChangeBase();
+        });
+
+        $('#unSelect').click(function () {
+            $('#withdraw_list input:checkbox').prop('checked', false);
+            selectChangeBase();
+        });
+
+        //多选框基础
+        function selectChangeBase() {
+            var amount = 0;
+            $('#withdraw_list input:checkbox:checked').each(function (index, item) {
+                amount += parseFloat($(this).parents('tr').find('.single_amount').text());
+            });
+            var show_content = amount.toFixed(2);
+            $('.amount_show').text(show_content);
+        }
+
+    });
+
+    //进行转账操作
+    function TradeAction() {
+        var is_black_count = 0;
+        var obj = document.getElementsByName("id[]");
+        var check_val = [];
+        
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+            }
+        }
+
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        
+        if (confirm("确定执行操作？")) {
+            waitingWin('正在处理中，请稍后...');
+            $.ajax({
+                url: "{:U('__CONTROLLER__/tradeAction')}",
+                type: "post",
+                data: {id: check_val},
+                timeout: 0,
+                success: function (re) {
+                    layer.closeAll();
+                    if (re == '') {
+                        alert('批量转入操作已完成');
+                        window.location.reload();
+                    } else {
+                        alert(re);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                	e = JSON.stringify(e);
+                	alert(e);
+                	e = $.parseJSON(e);
+                	console.log(e);
+                    alert('异常错误');
+                    window.location.reload();
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
+    }
+    
+  	//进行退款操作
+    function TradeBack() {
+        var is_black_count = 0;
+        var obj = document.getElementsByName("id[]");
+        var check_val = [];
+        var remark = $('.remark').val();
+        
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+            }
+        }
+
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        if (remark == '') {
+        	alert('请填写驳回理由');
+        	return false;
+        }
+        
+        if (confirm("确定执行操作？")) {
+            waitingWin('正在处理中，请稍后...');
+            $.ajax({
+                url: "{:U('__CONTROLLER__/tradeBack')}",
+                type: "post",
+                data: {id: check_val, remark: remark},
+                timeout: 1000,
+                success: function (re) {
+                    layer.closeAll();
+                    if (re == '') {
+                        alert('批量驳回已完成');
+                        window.location.reload();
+                    } else {
+                        alert(re);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert(e);
+                    window.location.reload();
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
+    }
+  	
+  	//查看详情
+    function details(id) {
+    	if (id=='') {
+    		alert('参数格式有误');
+    		return false;
+    	}
+    	
+    	var layer_id = waitingWin('加载中，请稍后...');
+    	
+    	$.ajax({
+    		url: "{:U('__CONTROLLER__/getDetails')}",
+    		type: "post",
+    		data: {id: id},
+    		timeout: 5000,
+    		success: function(re){
+    			layer.close(layer_id);
+    			layer.open({
+    				'id': 'A',
+                    'title': '转入详情',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    //'btn': false,
+                });
+    		},
+    		error: function(e){
+    			layer.close(layer_id);
+    			alert(e);
+    			return false;
+    		}
+    	});
+    }
+    
+</script>

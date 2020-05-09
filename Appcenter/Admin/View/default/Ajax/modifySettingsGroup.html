@@ -1,0 +1,20 @@
+<div id="ajax_block">
+
+<form name="saveSettingsGroup" method="post" action="{:U('System/Config/saveSettingsGroup')}">
+<table>
+	<tr>
+		<td>配置组名称</td>
+		<td><input type="text" name="group_name" value="{$info.group_name}"></td>
+	</tr>
+	<tr>
+		<td>排序</td>
+		<td><input type="text" name="group_order" value="{$info.group_order}"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+		<input type="hidden" name="group_id" value="{$info.group_id}">
+	</tr>
+</table>
+</form>
+
+</div>

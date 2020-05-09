@@ -1,0 +1,56 @@
+<div id="ajax_block">
+
+<table>
+	<tr>
+		<td>ID</td>
+		<td>{$info.id}</td>
+	</tr>
+	<tr>
+		<td>用户</td>
+		<td>{$info.user.loginname}[{$info.user.username}]</td>
+	</tr>
+	<tr>
+		<td>金额</td>
+		<td>{$info.amount}</td>
+	</tr>
+	<!--  
+	<tr>
+		<td>钱包用户</td>
+		<td>{$info.account}</td>
+	</tr>
+	-->
+	<tr>
+		<td>钱包类型</td>
+		<td>{$info.type_cn}</td>
+	</tr>
+	<tr>
+		<td>钱包地址</td>
+		<td>{$info.address}</td>
+	</tr>
+	<tr>
+		<td>交易类型</td>
+		<td>{$info.category_cn}</td>
+	</tr>
+	<tr>
+		<td>交易流水号</td>
+		<td>{$info.txid}</td>
+	</tr>
+	<tr>
+		<td>处理状态</td>
+		<td>{$info.status_cn}</td>
+	</tr>
+	<tr>
+		<td>录入时间</td>
+		<td><if condition="$info[created_time] neq '0'">{$info.created_time|date='Y-m-d H:i:s',###}</if></td>
+	</tr>
+	<tr>
+		<td>确认时间</td>
+		<td><if condition="$info[timereceived] neq '0'">{$info.timereceived|date='Y-m-d H:i:s',###}</if></td>
+	</tr>
+	<tr>
+		<td>备注</td>
+		<td>{$info.remark}</td>
+	</tr>
+</table>
+
+</div>

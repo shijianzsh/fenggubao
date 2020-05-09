@@ -1,0 +1,35 @@
+<div class="zc_anwia">
+	<h2>定时任务管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>操作命令</th>
+				<th>操作参数</th>
+				<th>操作说明</th>
+				<th>操作状态</th>
+				<th>开始执行时间</th>
+				<th>结束执行时间</th>
+				<th>添加时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.task_id}</td>
+				<td>{$item.task_action}</td>
+				<td>{$item.task_params}</td>
+				<td>{$item.task_summary}</td>
+				<td>{$item.task_status_cn}</td>
+				<td><if condition="$item[task_starttime]">{$item.task_starttime|date='Y/m/d H:i:s',###}</if></td>
+				<td><if condition="$item[task_endtime]">{$item.task_endtime|date='Y/m/d H:i:s',###}</if></td>
+				<td>{$item.task_tag}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

@@ -1,0 +1,50 @@
+<div class="zc_anwia">
+    <h2>奖金记录</h2>
+</div>
+<div class="zc_message">
+    <!-- [notice] -->
+    <div class="shuoming_warning">默认只显示当月数据，查看历史数据，请通过日期搜索查询</div>
+    <!-- [/notice] -->
+    <!-- [search] -->
+    <form name="form" method="get" action="">
+        <assign name="search_user_hide" value="1"/>
+        <assign name="search_date_title" value="日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>商家收益</th>
+            <th>VIP销售奖（直推奖）</th>
+            <th>VIP业绩结算</th>
+            <th>区域合伙人销售奖（直推奖）</th>
+            <th>区域合伙人消费奖（压缩查找3代）</th>
+            <th>星级区域合伙人业务补贴</th>
+            <th>实发</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="item" key="k" mod="2">
+            <tr>
+                <td align="center">{$item.income_tag}</td>
+                <td align="right">{$item.income_cash_merchant}</td>
+                <td align="right">{$item.income_cash_recommend}</td>
+                <td align="right">{$item.income_cash_performance}</td>
+                <td align="right">{$item.income_cash_recommend_service}</td>
+                <td align="right">{$item.income_cash_consume}</td>
+                <td align="right">{$item.income_cash_bonus}</td>
+                <td align="right">{$item.income_cash_total}</td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>

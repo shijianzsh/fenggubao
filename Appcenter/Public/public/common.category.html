@@ -1,0 +1,91 @@
+<!-- [通用分类联动]
+---- select_category_fid_hide: 只要有值即认为隐藏fid选择框,不隐藏时无需定义此变量
+---- select_category_fid_value: fid的默认值
+---- select_category_fid_disabled: 有值即认为只读不能选择,可选择时无需定义此变量
+---- select_category_sid_hide: 只要有值即认为隐藏sid选择框,不隐藏时无需定义此变量
+---- select_category_sid_value: sid的默认值
+---- select_category_sid_disabled: 有值即认为只读不能选择,可选择时无需定义此变量
+---- select_category_option_type: option选择框显示的值类型(number:对应数字/chs:对应中文),默认number
+-->
+<if condition="$select_category_fid_hide eq ''">
+<select name="fid" id="select_category_fid" <if condition="$select_category_fid_disabled neq ''">disabled</if> ></select>
+</if>
+
+<if condition="$select_category_sid_hide eq ''">
+<select name="sid" id="select_category_sid" <if condition="$select_category_sid_disabled neq ''">disabled</if> ></select>
+</if>
+
+<script>
+var category_ajax_url = "{:U('Admin/Ajax/categorySelect')}";
+var select_category_fid_value = "{$select_category_fid_value}";
+var select_category_sid_value = "{$select_category_sid_value}";
+var select_category_option_type = "{$select_category_option_type}";
+select_category_option_type = select_category_option_type=='' ? 'number' : 'chs'; //option值是显示对应数字或者中文名
+$(function(){
+	
+	//默认加载一级分类
+	if ($('#select_category_fid').length){
+		categoryLoad($('#select_category_fid'), {type:0});
+	}
+
+	//监测是否传入有sid的值,有则自动加载二级分类
+	if(select_category_sid_value!=''){
+		categoryLoad($('#select_category_sid'), {fid:select_category_fid_value,type:1});
+	}
+	
+	//动态加载二级分类
+	$('#select_category_fid').change(function(){
+		if($('#select_category_sid').length){
+			var fid = $(this).val();
+			categoryLoad($('#select_category_sid'), {fid:fid,type:1});
+		}
+	});
+	
+});
+//动态加载核心函数
+function categoryLoad(obj,data) {
+	$.ajax({
+		url: category_ajax_url,
+		type: 'POST',
+		data: data,
+		success: function(re){
+			if(re.data==''){
+				alert(re.error);
+				return false;
+			}else{
+				var option = '';
+				var type = data.type;
+				$.each(re.data, function(k,v){
+					var selected = '';
+					var option_value = '';
+					switch (type) {
+					case 0: //一级分类
+						selected = select_category_fid_value!='' ? (select_category_fid_value==v.fm_id ? ' selected ' : '') : selected;
+						option_value = select_category_option_type=='number' ? v.fm_id : v.fm_name;
+						option += '<option value="'+option_value+'"'+selected+'>'+v.fm_name+'</option>';
+						break;
+					case 1: //二级分类
+						selected = select_category_sid_value!='' ? (select_category_sid_value==v.sm_id ? ' selected ' : '') : selected;
+						option_value = select_category_option_type=='number' ? v.sm_id : v.sm_name;
+						option += '<option value="'+option_value+'"'+selected+'>'+v.sm_name+'</option>';
+						break;
+					}
+				});
+				
+				obj.html(option);
+				
+				switch (type){
+				case 0:
+					$('#select_category_fid').change();
+					break;
+				case 1:
+					$('#select_category_sid').change();
+					break;
+				}
+				
+			}
+		},
+	});
+}
+</script>
+<!-- [/通用分类联动] -->

@@ -1,0 +1,18 @@
+<div class="zc_message">
+	<table>
+	    <thead>
+	        <tr>
+	           <th>导入失败数据</th>
+	           <th>导入失败原因</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <foreach name="failed_data" item="data">
+	        <tr>
+	            <td>{$data.list}</td>
+	            <td>{$data.error}</td>
+	        </tr>
+	        </foreach>
+	    </tbody>
+	</table>
+</div>

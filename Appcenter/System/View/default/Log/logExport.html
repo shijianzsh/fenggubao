@@ -1,0 +1,21 @@
+<div class="zc_anwia">
+	<h2>日志导出</h2>
+</div>
+<div class="zc_message">
+    <form name="apiLogExport" method="post" action="{:U('__CONTROLLER__/logExportAction')}">
+        <p>日志类型：
+	        <select name="type" id="type">
+	            <option value="0">后台日志</option>
+	            <option value="1">接口日志</option>
+	        </select>
+	    </p>
+	    <p>导出日期：
+	    	<select name="days">
+	    		<option value="0">今天数据</option>
+	    		<option value="1">昨天数据</option>
+	    		<option value="2">前天数据</option>
+	    	</select>
+	    </p>
+        <p><input type="submit" name="submit" value="{:L('submit')}"/></p>
+    </form>
+</div>

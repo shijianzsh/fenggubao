@@ -1,0 +1,35 @@
+<div class="zc_anwia">
+	<h2>APP过渡页管理</h2>
+</div>
+<div class="zc_message">
+	<form name="form" method="post" action="{:U('__CONTROLLER__/mustReadSave')}">
+		<table id="zc_Sasnfisd">
+		<tr>
+			<td class="partxt zc_ldaia">引导页必读内容</td>
+			<td>
+				<p>
+					是否启用：
+					<select name="data[loading_must_read_open]">
+						<option vlaue="0" <if condition="C('PARAMETER_CONFIG.LOADING_MUST_READ_OPEN') eq '0'">selected</if> >否</option>
+						<option value="1" <if condition="C('PARAMETER_CONFIG.LOADING_MUST_READ_OPEN') eq '1'">selected</if> >是</option>
+					</select>
+				</p>
+				<textarea id="content1" name="data[loading_must_read]" style="width:500px;height:300px;">{:C('PARAMETER_CONFIG.LOADING_MUST_READ')}</textarea>
+				<p>内容-英文</p>
+				<textarea id="content2" name="data[loading_must_read_en]" style="width:500px;height:300px;">{:C('PARAMETER_CONFIG.LOADING_MUST_READ_en')}</textarea>
+				<p>内容-韩文</p>
+				<textarea id="content3" name="data[loading_must_read_ko]" style="width:500px;height:300px;">{:C('PARAMETER_CONFIG.LOADING_MUST_READ_ko')}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input type="submit" name="submit" value="保存">
+			</td>
+		</tr>
+		</table>
+</div>
+
+<script>
+
+</script>

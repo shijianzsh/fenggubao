@@ -1,0 +1,47 @@
+<div class="zc_anwia">
+	<h2>执行队列管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>操作标识</th>
+				<th>操作命令</th>
+				<th>操作参数</th>
+				<th>输出参数</th>
+				<th>操作说明</th>
+				<th>操作状态</th>
+				<th>开始执行时间</th>
+				<th>结束执行时间</th>
+				<th>执行次数</th>
+				<th>添加时间</th>
+				<th>修改时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.queue_id}</td>
+				<td>{$item.queue_tag}</td>
+				<td>{$item.queue_action}</td>
+				<td>{$item.queue_params}</td>
+				<td>{$item.queue_params_out}</td>
+				<td>{$item.queue_summary}</td>
+				<td>{$item.queue_status_cn}</td>
+				<td><if condition="$item[queue_starttime]">{$item.queue_starttime|date='Y/m/d H:i:s',###}</if></td>
+				<td><if condition="$item[queue_endtime]">{$item.queue_endtime|date='Y/m/d H:i:s',###}</if></td>
+				<td>{$item.queue_execute_count}</td>
+				<td><if condition="$item[queue_addtime]">{$item.queue_addtime|date='Y/m/d H:i:s',###}</if></td>
+				<td><if condition="$item[queue_time]">{$item.queue_uptime|date='Y/m/d H:i:s',###}</if></td>
+				<td>
+					<a href="{:U('__CONTROLLER__/modify/queue_id/'.$item[queue_id])}">修改</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

@@ -1,0 +1,24 @@
+<div id="ajax_block">
+
+<div class="title">物流信息</div>
+
+<form name="saveExpress" method="post" action="{:U('Merchant/Order/saveExpress')}">
+<table>
+	<tr>
+	<td>
+		<label>物流公司：</label>
+		<select name="express_name">
+			<foreach name="list" item="item">
+			<option value="{$item.express_name}">{$item.express_name}</option>
+			</foreach>
+		</select>
+	</td>
+	</tr>
+	<tr><td><label>快递单号：</label><input type="text" name="affiliate_trackingno" style="width:200px !important;"></td></tr>
+</table>
+<div style="text-align:center;"><input type="submit" value="提交" name="submit"></div>
+
+<input type="hidden" name="id" value="{$id}">
+</form>
+
+</div>

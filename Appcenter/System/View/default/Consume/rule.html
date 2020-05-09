@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+    <h2>消费等级规则管理</h2>
+</div>
+<div class="zc_message">
+    <table>
+        <thead>
+        <tr>
+            <th align="center">等级</th>
+            <th align="center">消费指标</th>
+            <th align="center">管理津贴比例</th>
+            <th align="center">出局倍数</th>
+            <th align="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="data.list" item="list">
+            <tr>
+                <td align="center">{$list.level}</td>
+                <td align="center">{$list.amount}</td>
+                <td align="center">{$list.subsidy_bai}%</td>
+                <td align="center">{$list.out_bei}倍</td>
+                <td align="center">
+                    <a href="{:U('__CONTROLLER__/modify/id/'.$list[id])}">编辑</a>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>

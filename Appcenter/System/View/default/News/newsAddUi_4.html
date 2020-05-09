@@ -1,0 +1,40 @@
+<div class="zc_anwia">
+	<h2>添加APP弹窗消息</h2>
+</div>
+<div class="zc_message">
+	<div class="shuoming">
+		APP弹窗消息：此类型信息的发布仅用于推送至APP终端用户，以终端任务栏通知和APP内弹窗的形式展示给用户
+	</div>
+	<form name="newsAdd" method="post" action="{:U('__CONTROLLER__/newsAdd')}">
+		<div class="zc_shop">
+			<span>标题</span>
+			<input type="text" name="flash_content" value="" class="inputWidth400 zc_if_empty">
+		</div>
+		<div class="zc_shop">
+			<span>内容</span>
+			<textarea name="flash_link" id="flash_link"></textarea>
+			<p class="len_notice" style="font-size:12px;">你还可以输入<span>140</span>个字</p>
+		</div>
+		<div class="zc_shop">
+			<span></span>
+			<input type="submit" name="submit" value="添加">
+		</div>
+		<input type="hidden" name="type" value="4">
+	</form>
+</div>
+
+<script>
+var max_length = 140;
+$(function(){
+	$('.len_notice').css('marginLeft', $('#flash_link').width()-70);
+	$('#flash_link').keyup(function(){
+		var val = $(this).val();
+		var len = parseInt($('.len_notice span').text());
+		if(val.length > max_length){
+			$(this).val(val.substring(0,max_length));
+		}else{
+			$('.len_notice span').text(max_length-val.length);
+		}
+	});
+});
+</script>

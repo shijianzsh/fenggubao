@@ -1,0 +1,160 @@
+<style>
+    .bank_balance em {
+        margin-left: 5px;
+        color: #000;
+        cursor: pointer;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>丰谷宝流通兑换查看</h2>
+</div>
+<div class="zc_message">
+    <!-- [search] -->
+    <form name="form" method="get" action="">
+        <assign name="search_date_title" value="日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+        <div class="form-group left">
+            <label class="left">日期类型</label>
+            <select name="date_type">
+                <option value="addtime"
+                <if condition="$Think.get.date_type eq '' or $Think.get.date_type eq 'addtime'">selected</if>
+                >用户申请时间</option>
+                <option value="uptime"
+                <if condition="$Think.get.date_type eq 'uptime'">selected</if>
+                >系统处理时间</option>
+            </select>
+        </div>
+
+        <div class="form-group left">
+            <label class="left">状态</label>
+            <select class="form-control zc_input" name="status">
+                <option value="">全部</option>
+                <option value="0" <if condition="$Think.get.status eq '0'">selected</if> >待审核</option>
+                <option value="1" <if condition="$Think.get.status eq '1'">selected</if> >驳回</option>
+                <option value="2" <if condition="$Think.get.status eq '2'">selected</if> >提交失败</option>
+                <option value="3" <if condition="$Think.get.status eq '3'">selected</if> >提交成功</option>
+                <option value="4" <if condition="$Think.get.status eq '4'">selected</if> >执行队列中</option>
+            </select>
+        </div>
+        
+        <div class="form-group left">
+            <label class="left">类型</label>
+            <select class="form-control zc_input" name="type">
+                <if condition="$wallet_type eq 'ZWY'">
+                	<option value="ZWY" selected>中网云</option>
+                <else/>
+	                <option value="AJS" <if condition="$wallet_type eq 'AJS'">selected</if> >澳交所</option>
+	                <option value="AGX" <if condition="$wallet_type eq 'AGX' or $wallet_type eq ''">selected</if> >AOGEX</option>
+	                <option value="SLU" <if condition="$wallet_type eq 'SLU'">selected</if> >Silk Trader</option>
+                </if>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="height:33px;">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover" id="withdraw_list">
+            <thead>
+            <tr>
+            	<th>ID</th>
+                <th>用户</th>
+                <th>金额</th>
+                <th>手续费</th>
+                <th>钱包地址</th>
+                <th>兑换号</th>
+                <th>备注</th>
+                <th>状态</th>
+                <th>停留余额</th>
+                <th>提交时间</th>
+                <th>处理时间</th>
+                <th>平台</th>
+                <th>明细</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <volist name="list" id="item" key="k" mod="2">
+                <tr>
+                    <td align="center">
+                        <label>
+                            <if condition="$item[status] eq '0'">
+                                <input type="checkbox" name="id[]" class="zc_choose" value="{$item.id}">
+                            </if>
+                            {$item.id}
+                        </label>
+                    </td>
+                    <td>{$item.user.loginname}[{$item.user.username}]</td>
+                    <td align="center" id="amount_{$k}" class="single_amount">{$item.amount}</td>
+                    <td align="center" id="commission_{$k}" class="single_commission">{$item.fee}</td>
+                    <td align="center">{$item.wallet_address}</td>
+                    <td align="center">{$item.txid}</td>
+                    <td align="center">{$item.remark}</td>
+                    <td align="center">
+                    	<if condition="$item[status] eq '0'">
+                    	待审核
+                    	<elseif condition="$item[status] eq '1'"/>
+                    	驳回
+                    	<elseif condition="$item[status] eq '2'"/>
+                    	提交失败
+                    	<elseif condition="$item[status] eq '3'"/>
+                    	提交成功
+                    	<elseif condition="$item[status] eq '4'"/>
+                    	执行队列中
+                    	</if>
+                    </td>
+                    <td align="center">{$item.balance}</td>
+                    <td align="center"><if condition="$item[addtime] neq '0'">{$item.addtime|date='Y-m-d H:i:s',###}</if></td>
+                    <td align="center"><if condition="$item[uptime] neq '0'">{$item.uptime|date='Y-m-d H:i:s',###}</if></td>
+                    <td align="center">{$item.type_cn}</td>
+                    <td align="center"><if condition="$item[txid] neq ''"><a href="javascript:details('{$item.txid}');">查看</a></if></td>
+                </tr>
+            </volist>
+            </tbody>
+    </table>
+    
+    <div class="exportData" style="float:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+    <!-- [/list] -->
+</div>
+
+<script type="text/javascript">
+    //查看明细
+    function details(txid) {
+    	if (txid=='') {
+    		alert('暂无对应明细');
+    		return false;
+    	}
+    	
+    	var layer_id = waitingWin('加载中，请稍后...');
+    	
+    	$.ajax({
+    		url: "{:U('Admin/Ajax/getGrbTransactionDetails')}",
+    		type: "post",
+    		data: {txid: txid},
+    		timeout: 2000,
+    		success: function(re){
+    			layer.close(layer_id);
+    			layer.open({
+    				'id': 'A',
+                    'title': '转账明细',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    //'btn': false,
+                });
+    		},
+    		error: function(e){
+    			layer.close(layer_id);
+    			alert(e);
+    			return false;
+    		}
+    	});
+    }
+</script>

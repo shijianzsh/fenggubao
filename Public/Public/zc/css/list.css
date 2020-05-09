@@ -1,0 +1,45 @@
+/* CSS Document */
+* { padding: 0px; margin: 0px; }
+body { font: 13px/1.5 "Microsoft Yahei", Arial, Helvetica, sans-serif, "宋体", "黑体"; }
+ul { list-style-type: none; }
+a { text-decoration: none; }
+*:focus { outline: none; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+th, td, caption { font-weight: normal; }
+input, select, textarea { font-size: 100%; border: 1px solid #CCC; }
+/*会员注册*/
+.reg { margin: 0 30px 10px 0; overflow: hidden; font-size: 110%; background: #FFF; box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1); padding: 0 0 60px; }
+.reg h1 { line-height: 40px; padding: 0 10px; border-bottom: 1px solid #dedede; border-top: 1px solid #111111; font-size: 18px; }
+.reg h2 { padding: 5px 20px; text-align: left; line-height: 30px; font-weight: bold; font-size: 18px; color: #000; }
+.table { width: 100%; border-bottom: 1px solid #eee; border-collapse: collapse; border-spacing: 0; }
+.table tr:hover { background: #f5f5f5 }
+.table th { height: 30px; line-height: 30px; color: #000; font-weight: 600; border-bottom: 1px solid #ddd; text-align: center; background: #ededed; }
+.table td { border-bottom: 1px solid #eee; border-left: 1px solid #eee; line-height: 35px; padding: 0 5px; text-align: center; }
+.bitian { color: #FF0000; margin-left: 5px; }
+.table a { color: #0089DA; padding:0 5px;}
+.table a:hover { text-decoration:underline; color:#F00}
+.select { padding: 5px; height: 35px; line-height: 35px; margin: 8px 5px; border: 1px solid #CCC; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; }
+.input { padding: 5px; height: 25px; line-height: 25px; margin: 8px 5px; border: 1px solid #CCC; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; }
+.but { padding: 0 20px; height: 30px; line-height: 30px; background: #111111; color: #FFF; margin: 10px; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; cursor: pointer; }
+.textarea { padding: 5px; line-height: 30px; margin: 5px 30px 10px 5px; width: 60%; border: 1px solid #CCC; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; }
+/*修改密码*/
+.find { margin: 0 20px 20px 0; font-size: 110%; background: #FFF; overflow: hidden; box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1); }
+.find h1 { line-height: 40px; padding: 0 10px; border-bottom: 1px solid #dedede; border-top: 1px solid #111111; font-size: 18px; }
+.find ul { padding:20px; }
+.find ul li { line-height: 50px; overflow: hidden; }
+.find label { float: left; min-width: 150px; line-height: 50px; text-align: right; padding-right: 5px; }
+.find ul li span { color: #999; }
+
+/**/
+.info { margin: 0 20px 20px 0; font-size: 110%; background: #FFF; overflow: hidden; box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1); }
+.info h1 { line-height: 40px; padding: 0 10px; border-bottom: 1px solid #dedede; border-top: 1px solid #111111; font-size: 18px; }
+.info ul { padding: 10px 20px; }
+.info ul li { line-height:30px; overflow: hidden; font-size:16px; }
+.info ul li span { color: #999; }
+/*公告详情*/
+.content { padding: 20px; clear: both; }
+/*分页*/
+.page { padding: 20px; text-align: center; }
+.page a { height: 30px; padding: 5px 10px; line-height: 30px; background: #000; border: 1px solid #666; margin: 2px; text-decoration: none; color: #FFF; border-radius: 3px; box-shadow: 0 0 1px #666; }
+.page a:hover { background: #f0a401; color: #000; }
+.page span { height: 30px; padding: 0 10px; line-height: 30px; border: 1px solid #CCC; margin: 2px; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; }

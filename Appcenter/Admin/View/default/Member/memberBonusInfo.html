@@ -1,0 +1,161 @@
+<div class="zc_anwia">
+    <h2>{$member_info['username']}[{$member_info['nickname']}][{$member_info['loginname']}]-账户明细</h2>
+</div>
+<div class="zc_message">
+
+    <!-- [count] -->
+    <h2 style="margin-bottom:20px;">
+        <small>
+            丰谷宝：<span style="color:red">{$account['account_goldcoin_balance']|default='0'}</span>&nbsp;&nbsp;
+            现金币：<span style="color:red">{$account['account_cash_balance']|default='0'}</span>&nbsp;&nbsp;
+            锁定通证：<span style="color:red">{$account['account_bonus_balance']|default='0'}</span>&nbsp;&nbsp;
+   	 提货券：<span style="color:red">{$account['account_colorcoin_balance']|default='0'}</span>&nbsp;&nbsp;
+           兑换券：<span style="color:red">{$account['account_enroll_balance']|default='0'}</span>&nbsp;&nbsp;
+           农场：<span style="color:red">{$portion|default='0'}</span>&nbsp;&nbsp;
+           报单币：<span style="color:red">{$account['account_supply_balance']|default='0'}</span>&nbsp;&nbsp;
+           澳洲SKN股数：<span style="color:red">{$account['account_enjoy_balance']|default='0'}</span>&nbsp;&nbsp;
+           出局状态：<span style="color:red">{$out_status}</span>&nbsp;&nbsp;
+    GRC购物积分：<span style="color:red">{$account['account_credits_balance']|default='0'}</span>&nbsp;&nbsp;
+        </small>
+    </h2>
+    <!-- [/count] -->
+
+    <!-- [notice] -->
+    <div class="shuoming_warning">默认只显示当前月明细，通过日期选择可查看历史记录</div>
+    <!-- [/notice] -->
+
+    <!-- [form] -->
+    <form role="form" action="__ACTION__" method="get">
+        <assign name="search_date_hide" value="1"/>
+        <div>
+            <label for="member_cash" class="col-sm-2 control-label left">账户类型</label>
+            <div class="col-sm-10 left">
+                <select class="form-control zc_input" id="member_cash" name="member_cash">
+                    <?php $selected = $member_cash == 'goldcoin' ? 'selected' :''; ?>
+                    <option value="goldcoin" {$selected}>丰谷宝</option>
+                    <?php $selected = $member_cash == 'cash' ? 'selected' :''; ?>
+                    <option value="cash" {$selected}>现金币</option>
+                    <?php $selected = $member_cash == 'bonus' ? 'selected' :''; ?>
+                    <option value="bonus" {$selected}>锁定通证</option>
+                    <?php $selected = $member_cash == 'colorcoin' ? 'selected' :''; ?>
+                    <option value="bonus" {$selected}>提货券</option>
+                    <?php $selected = $member_cash == 'enroll' ? 'selected' :''; ?>
+                    <option value="bonus" {$selected}>兑换券</option>
+                    <?php $selected = $member_cash == 'supply' ? 'selected' :''; ?>
+                    <option value="supply" {$selected}>报单币</option>
+                    <?php $selected = $member_cash == 'enjoy' ? 'selected' :''; ?>
+                    <option value="enjoy" {$selected}>澳洲SKN股数</option>
+                    <?php $selected = $member_cash == 'credits' ? 'selected' :''; ?>
+                    <option value="credits" {$selected}>GRC购物积分</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label for="member_cash" class="col-sm-2 control-label left">日期范围</label>
+           	<div class="left">
+	            <input type="text" class="layui-input" id="start_time" name="start_time" value='{$Think.get.start_time}' readonly>
+	            &nbsp;&nbsp;--&nbsp;&nbsp;
+	            <input type="text" class="layui-input" id="end_time" name="end_time" value='{$Think.get.end_time}' readonly>
+            </div>
+        </div>
+
+        <div>
+            <label for="member_cash" class="col-sm-2 control-label left">收入支出</label>
+            <div class="col-sm-10 left">
+                <select class="form-control zc_input" id="balance_type" name="balance_type">
+                    <option value=""
+                    <if condition="$Think.get.balance_type eq '' or $Think.get.bonus_type neq ''">selected="selected"
+                    </if>
+                    >全部</option>
+                    <option value="income"
+                    <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'income'">
+                        selected="selected"
+                    </if>
+                    >收入</option>
+                    <option value="expense"
+                    <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'expense'">
+                        selected="selected"
+                    </if>
+                    >支出</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success zc_submit">确认</button>
+            </div>
+        </div>
+        <input type="hidden" name="uid" value="{$Think.get.uid}">
+    </form>
+    <!-- [/form] -->
+
+    <!-- [total] -->
+    <div class="total" style="margin-bottom:10px;font-size:14px;">
+        <!--<if condition="$Think.get.member_cash eq 'cash' or $Think.get.member_cash eq ''">-->
+            <!--累计现金币收益：<span style="color:red;">{$total_income.income_cash_total|default='0'}</span>-->
+            <!--<elseif condition="$Think.get.member_cash eq 'goldcoin'"/>-->
+            累计丰谷宝收益：<span style="color:red;">{$total_income.income_goldcoin_total|default='0'}</span>
+            <!--<elseif condition="$Think.get.member_cash eq 'points'"/>-->
+            <!--累计积分收益：<span style="color:red;">{$total_income.income_points_total|default='0'}</span>-->
+        <!--</if>-->
+    </div>
+    <!-- [/total] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>来源</th>
+            <th>收入</th>
+            <th>支出</th>
+            <th>停留余额</th>
+            <th>收支类型</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="datalist" id="item" key="k" mod="2">
+            <tr>
+                <td align="center">{$item.record_id}</td>
+                <td align="left">{$item.from_name}</td>
+                <td align="right">
+                    <if condition="$item['record_amount'] gt '0'">{$item.record_amount}
+                        <else/>
+                        0.0000
+                    </if>
+                </td>
+                <td align="right">
+                    <if condition="$item['record_amount'] lt '0'">{$item.record_amount}
+                        <else/>
+                        0.0000
+                    </if>
+                </td>
+                <td align="right">{$item.record_balance}</td>
+                <td align="left">{$item.record_remark}</td>
+                <td align="center">{$item.record_addtime|date='Y-m-d H:i',###}</td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+    
+    <div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+</div>
+<script>
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	laydate.render({
+		elem: '#start_time',
+		type: 'date'
+	});
+	
+	laydate.render({
+		elem: '#end_time',
+		type: 'date'
+	});
+});
+</script>

@@ -1,0 +1,11 @@
+<div class="zc_anwia"><h2>规则添加</h2></div>
+<div class="zc_message">
+	<div class="shuoming_warning">非专业技术人员，请勿随意 添加 或 修改，以免导致系统问题，影响系统正常使用！</div>
+    <form name="rule_add" id="rule_add" method="post" action="{:U('__CONTROLLER__/ruleAdd')}">
+	<p><span>规则名称：</span><input type="text" name="title" id="title" class="inputWidth500 zc_if_regulation zc_if_empty"/><span class="zc_if_alt"></span></p>
+	<p><span>规则标识：</span><input type="text" name="name" id="name" class="inputWidth900 zc_if_sundry zc_if_empty"/><span class="zc_if_alt"></span></p>
+	<p><span>规则表达式：</span><textarea name="condition" id="condition"></textarea></p>
+	<p><span>是否启用：</span><input type="radio" name="status" value="1" checked>启用 <input type="radio" name="status" value="0">禁用</p>
+	<p><input type="submit" name="submit" id="submit" value="添加" /></p>
+	</form>
+</div>

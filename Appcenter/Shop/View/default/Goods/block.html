@@ -1,0 +1,110 @@
+<div class="zc_anwia">
+	<h2>板块管理</h2>
+</div>
+
+<div class="zc_message">
+	<!-- [list] -->
+    <table>
+    	<thead>
+    		<tr>
+    			<th>序号</th>
+    			<th>名称</th>
+				<th>丰谷宝抵扣比例</th>
+				<th>普通会员折扣</th>
+				<th>5星会员（钻石经销商）折扣</th>
+    			<!--<th>公让宝可用比例</th>-->
+    			<!--<th>特供券可用比例</th>-->
+    			<!--<th>基础运费</th>-->
+    			<!--<th>操作</th>-->
+    			
+    			<th>是否只允许会员购买</th>
+    			<th>运费规则</th>
+    			<th>赠送澳洲SKN股数</th>
+    			
+    			<th>图标</th>
+    			<th>封面图</th>
+    			<th>排序</th>
+    			<th>状态</th>
+    			<th>操作</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<foreach name="list" item="item">
+    		<tr>
+    			<td>{$item.block_id}</td>
+    			<td>{$item.block_name}</td>
+				<td>{$item.block_goldcoin_percent}%</td>
+				<td>{$item.block_discount_1}(折)</td>
+				<td>{$item.block_discount_5}(折)</td>
+    			<!--<td>最低：{$item.block_goldcoin_percent}%，最高：{$item.block_goldcoin_percent_max}%</td>-->
+    			<!--<td>最低：{$item.block_supply_percent}%，最高：{$item.block_supply_percent_max}%</td>-->
+    			<!--<td>{$item.block_freight}</td>-->
+    			<!--<td>-->
+    				<!--<a href="{:U('__CONTROLLER__/blockModify/block_id/'.$item['block_id'])}">修改</a>-->
+    			<!--</td>-->
+    			
+    			<td>{$item.block_only_member_cn}</td>
+    			<td>
+	    			订单不满<font style="color:red;">{$item.block_freight_order_amount}</font>元
+	    			自动增加<font style="color:red;">{$item.block_freight_increase_amount}</font>元运费
+    			</td>
+    			<td>
+    				订单PV业绩每满<font style="color:red;">{$item.block_enjoy_order_amount}</font>元
+	    			赠送<font style="color:red;">{$item.block_enjoy_give_amount}</font>澳洲SKN股数
+    			</td>
+    			
+    			<td>
+    				<img src="{:U('/', '','', true)}{$item.block_icon}" class="img-thumbnail" alt="此处显示图片" width="100" height="100">
+                	<a class="text-danger" data-toggle="modal" data-target="#myModal{$item.block_icon|substr=17,13}">点击看大图</a>
+    			</td>
+    			<td>
+    				<img src="{:U('/', '','', true)}{$item.block_cover}" class="img-thumbnail" alt="此处显示图片" width="100" height="100">
+                	<a class="text-danger" data-toggle="modal" data-target="#myModal{$item.block_cover|substr=17,13}">点击看大图</a>
+    			</td>
+    			<td><a href="javascript:modifySort({$item.block_id});" title="点击修改">{$item.block_order}</a></td>
+    			<td>{$item.block_enabled_cn}</td>
+    			<td>
+    				<if condition="$item[block_enabled]">
+    				<a href="{:U('__CONTROLLER__/block_enabled/enabled/0/id/'.$item[block_id])}" style="color:red;">禁用</a>
+    				<else/>
+    				<a href="{:U('__CONTROLLER__/block_enabled/enabled/1/id/'.$item[block_id])}">激活</a>
+    				</if>
+					<a href="{:U('__CONTROLLER__/blockModify/block_id/'.$item['block_id'])}">修改</a>
+    			</td>
+    		</tr>
+    		</foreach>
+    	</tbody>
+    </table>
+    <!-- [/list] -->
+</div>
+
+<script>
+//编辑排序
+function modifySort(id) {
+	var layer_id = waitingWin('加载中，请稍后...');
+	
+	$.ajax({
+		url: "{:U('Admin/Ajax/setBlockSort')}",
+		type: "post",
+		data: {id: id},
+		timeout: 2000,
+		success: function(re){
+			layer.close(layer_id);
+			layer.open({
+				'id': 'A',
+                'title': '编辑排序',
+                'content': re,
+                'area': 'auto',
+                'maxWidth': CW - 200,
+                'maxHeight': CH - 200,
+                'btn': false,
+            });
+		},
+		error: function(e){
+			layer.close(layer_id);
+			alert(e);
+			return false;
+		}
+	});
+}
+</script>

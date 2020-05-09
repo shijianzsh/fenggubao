@@ -1,0 +1,24 @@
+<div class="zc_anwia">
+	<h2>商品分类管理</h2>
+	<a href="{:U('__CONTROLLER__/categoryAddUi')}">添加分类</a>
+	<a href="{:U('__CONTROLLER__/attributeList')}">属性管理</a>
+</div>
+<div class="zc_message">
+
+	<form name="attributeSave" method="post" action="{:U('__CONTROLLER__/attributeSave')}">
+		<div>
+			<span>属性名称</span>
+			<input type="text" name="name" class="form-control zc_if_empty" value="{$info.name}">
+		</div>
+		<div>
+			<span>属性排序</span>
+			<input type="text" name="attr_order" class="form-control zc_if_number" value="{$info.attr_order}">
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>
+    
+</div>

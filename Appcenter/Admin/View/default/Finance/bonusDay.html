@@ -1,0 +1,41 @@
+<div class="zc_anwia">
+	<h2>日奖金记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [list] -->
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>日期</th>
+				<th>用户编号</th>
+				<th>推广奖</th>
+				<th>免费补贴奖</th>
+				<th>责任消费奖</th>
+				<th>实体消费奖</th>
+				<th>机构补贴奖</th>
+				<th>联盟投放奖</th>
+				<th>商家联盟奖</th>									
+				<th>实发</th>
+				<!-- <th>明细</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.finance_tag}</td>
+				<td>{$item.loginname}<span style="color:red;padding-left:3px;">[{$item.nickname}]</span></td>
+				<td>{$item.finance_cash_marketsubsidy}</td>
+				<td></td>
+				<td>{$item.finance_cash_dutyconsume}</td>
+				<td>{$item.finance_cash_repeat}</td>
+				<td>{$item.finance_cash_companysubsidy}</td>
+				<td>{$item.finance_cash_uniondelivery}</td>
+				<td>{$item.finance_cash_merchant}</td>
+				<td>{$item.finance_sum}</td>
+				<!-- <td><a class="glyphicon glyphicon-list" href="__CONTROLLER__/bonusInfo/day/{$item.finance_tag|strtotime}/userid/{$item.user_id}/">明细</a></td> -->
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

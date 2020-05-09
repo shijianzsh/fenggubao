@@ -1,0 +1,28 @@
+<div id="ajax_block">
+
+    <table>
+    	<if condition="$error neq ''">
+	    	<tr>
+	    		<td>{$error}</td>
+	    	</tr>
+    	<else/>
+	    	<tr>
+	            <td>兑换号</td>
+	            <td>{$info.txid}</td>
+	        </tr>
+	        <tr>
+	            <td>金额</td>
+	            <td>{$info.amount}</td>
+	        </tr>
+	        <tr>
+	            <td>兑换费</td>
+	            <td>{$info.fee}</td>
+	        </tr>
+	        <tr>
+	            <td>网络状态</td>
+	            <td>{$info.confirmations_cn}</td>
+	        </tr>  
+	     </if>
+    </table>
+
+</div>

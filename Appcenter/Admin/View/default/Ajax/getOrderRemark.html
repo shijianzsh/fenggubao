@@ -1,0 +1,13 @@
+<div id="ajax_block">
+
+    <div class="title">商家备注</div>
+    <form name="save_remark" method="post" action="{:U('Merchant/Order/saveMerchantRemark')}">
+    	<div style="border:1px #ccc solid;">
+        	<textarea name="merchant_remark" style="display:block; width:400px; height:100px;">{$info.merchant_remark}</textarea>
+		</div>
+		
+		<center><input type="submit" name="submit" value="保存"></center>
+		<input type="hidden" name="id" value="{$info.id}">
+    </form>
+
+</div>

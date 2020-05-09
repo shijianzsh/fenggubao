@@ -1,0 +1,25 @@
+<div class="zc_anwia">
+	<h2>客服平台添加</h2>
+</div>
+<div class="zc_message">
+	<form name="customerServiceAdd" method="post" action="{:U('__CONTROLLER__/customerServiceAdd')}">
+		<div class="zc_shop">
+			<div><span>平台名称:</span></div>
+			<select name="platform_name">
+				<foreach name="platform_list" key="key" item="item">
+				<option value="{$key}">{$item}</option>
+				</foreach>
+			</select>
+		</div>
+	
+		<div class="zc_shop">
+			<div><span>平台配置参数模板:</span></div>
+			<textarea name="platform_config"></textarea>
+		</div>
+		
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="添加">
+		</div>
+	</form>
+</div>

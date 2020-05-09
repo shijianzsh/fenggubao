@@ -1,0 +1,87 @@
+<style type="text/css">
+    .form-inline h2 {
+        /*font-weight: bold;*/
+    }
+
+    .shuoming_warning {
+        clear: both;
+        /*margin-top: 10px;*/
+    }
+
+    .exclude-list {
+        clear: both;
+    }
+
+    .exclude-list li {
+        float: left;
+        border: solid 1px #EEEEEE;
+        margin-left: -1px;
+        margin-top: -1px;
+    }
+
+    .exclude-list li:hover {
+        background: #EEEEEE;
+    }
+
+    .exclude-list li label {
+        width: 230px;
+        display: block;
+    }
+
+    .buttons {
+        clear: both;
+        text-align: center;
+    }
+
+    .buttons input {
+        width: auto !important;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>特殊分红配置</h2>
+</div>
+<div class="zc_message clear">
+    <form name="form" method="post" action="__CONTROLLER__/specialSave/" class="form-inline"
+          style="background: #FFFFFF; padding: 10px; width: 48%; float: left;">
+        <h2>不参与分红的合伙人</h2>
+        <ul class="exclude-list clear">
+            <foreach name="partnerList" key="key" item="item">
+                <li><label>
+                    <if condition="$item[is_exclude] neq '1'">
+                        <input type="checkbox" value="{$item.id}" name="bonus_exclude_partner[]">
+                        <else/>
+                        <input type="checkbox" value="{$item.id}" name="bonus_exclude_partner[]" checked>
+                    </if>
+                    {$item.loginname} {$item.truename}
+                </label></li>
+            </foreach>
+        </ul>
+        <div class="shuoming_warning">以下勾选合伙人将不参与分红，请谨慎操作！</div>
+        <input type="hidden" name="action" value="save_bonus_exclude_partner"/>
+        <div class="buttons"><input type="submit" class="submit" value="保存不参与分红的合伙人"/></div>
+    </form>
+
+    <form name="form" method="post" action="__CONTROLLER__/specialSave/" class="form-inline"
+          style="background: #FFFFFF; padding: 10px; width: 48%; float: right;">
+        <h2>不参与分红的省级合伙人</h2>
+
+        <ul class="exclude-list clear">
+            <foreach name="companyList" key="key" item="item">
+                <li><label>
+                    <if condition="$item[is_exclude] neq '1'">
+                        <input type="checkbox" value="{$item.id}" name="bonus_exclude_company[]">
+                        <else/>
+                        <input type="checkbox" value="{$item.id}" name="bonus_exclude_company[]" checked>
+                    </if>
+                    {$item.loginname} {$item.truename}
+                </label></li>
+            </foreach>
+        </ul>
+        <div class="shuoming_warning">以下勾选省级合伙人将不参与分红，请谨慎操作！</div>
+        <input type="hidden" name="action" value="save_bonus_exclude_company"/>
+        <div class="buttons"><input type="submit" class="submit" value="保存不参与分红的省级合伙人"/></div>
+    </form>
+
+
+</div>

@@ -1,0 +1,34 @@
+<div class="zc_anwia">
+	<h2>{$account['nickname']}[{$account['loginname']}]-累计收益明细</h2>
+</div>
+<div class="zc_message">
+
+	<!-- [count] -->
+	<h2 style="margin-bottom:20px;">
+		<small>
+           累计通证汇总：<span style="color:red">{$income['total_income']['finance_total']|default='0'}</span>&nbsp;&nbsp;
+          当月收益：<span style="color:red">{$income['month_income']['finance_total']|default='0'}</span>
+		</small>
+    </h2>
+	<!-- [/count] -->
+ 
+ 	<!-- [list] -->
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>收益</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="list" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.finance_total}</td>
+				<td>{$item.day}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+</div>

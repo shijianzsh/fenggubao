@@ -1,0 +1,119 @@
+<div id="ajax_block">
+
+    <div class="title">订单金额</div>
+    <table>
+        <tbody>
+        <!--<if condition="$info[affiliate_goldcoin] gt '0'">-->
+        <!--<tr>-->
+        <!--<td align="center">丰谷宝</td>-->
+        <!--<td align="right">{$info.affiliate_goldcoin|number_format=###, 2, '.', ''}</td>-->
+        <!--</tr>-->
+
+        <!--</if>-->
+        <!--<tr>-->
+        <!--<td align="center">-->
+        <!--<if condition="$info[amount_type] eq '4'">-->
+        <!--微信-->
+        <!--<elseif condition="$info[amount_type] eq '5'"/>-->
+        <!--支付宝-->
+        <!--<elseif condition="$info[amount_type] eq '1'"/>-->
+        <!--现金币-->
+        <!--</if>-->
+        <!--</td>-->
+        <!--<td align="right">-->
+        <!--{$info.affiliate_pay|number_format=###, 2, '.', ''}-->
+        <!--</td>-->
+        <!--</tr>-->
+        <tr>
+            <td align="center">总额</td>
+            <td align="right">{$info.amount|number_format=###, 2, '.', ''}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="title">运费</div>
+    <table>
+
+        <if condition="$info[order_status] eq '0'">
+            <tr>
+                <td>
+                    <form name="save_freight" method="post" action="{:U('Merchant/Order/orderFreightModify')}"
+                          style="margin-bottom: 0;">
+                        修改运费：
+                        <input type="text" name="order_freight" value="{$info.affiliate_freight}">
+                        <input type="submit" name="submit" value="保存">
+                        <input type="hidden" name="order_id" value="{$info.order_id}">
+                    </form>
+                </td>
+            </tr>
+            <else/>
+            <tr>
+                <td><label>费用：</label>{$info.affiliate_freight|number_format=###, 2, '.', ''}</td>
+            </tr>
+        </if>
+    </table>
+
+    <div class="title">商品</div>
+    <table>
+        <thead>
+        <tr>
+            <th>商品</th>
+            <th>价格</th>
+            <th>运费</th>
+            <th>数量</th>
+            <th>板块</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="product" item="item">
+            <tr>
+                <td>{$item.product_name}</td>
+                <td align="right">
+                    {$item.price_cash|number_format=###, 2, '.', ''}
+                    <!--<if condition="$item[price_goldcoin] gt '0'">-->
+                    <!--代：{$item.price_goldcoin|number_format=###, 2, '.', ''}-->
+                    <!--</if>-->
+                </td>
+                <td>
+                    {$item.product_freight|number_format=###, 2, '.', ''}
+                </td>
+                <td align="right">{$item.product_quantity}</td>
+                <td>{$item.block_name}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+
+    <if condition="$info[affiliate_pickup] neq '1'">
+        <div class="title">收货信息</div>
+        <table>
+            <tr>
+                <td><label>收货人：</label>{$info.affiliate_consignee}</td>
+            </tr>
+            <tr>
+                <td><label>收货电话：</label>{$info.affiliate_phone}</td>
+            </tr>
+            <tr>
+                <td><label>收货地址：</label>{$info.affiliate_city} {$info.affiliate_address}</td>
+            </tr>
+            <!-- <tr><td><label>邮编：</label>{$info.affiliate_postcode}</td></tr> -->
+        </table>
+    </if>
+
+    <div class="title">物流信息</div>
+    <table>
+        <if condition="$info[affiliate_pickup] eq '1'">
+            <tr>
+                <td>自提</td>
+            </tr>
+            <else/>
+            <tr>
+                <td><label>物流公司：</label>{$info.express_name}</td>
+            </tr>
+            <tr>
+                <td><label>物流单号：</label>{$info.affiliate_trackingno}</td>
+            </tr>
+        </if>
+    </table>
+
+</div>

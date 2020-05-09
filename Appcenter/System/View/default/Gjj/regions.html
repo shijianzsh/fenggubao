@@ -1,0 +1,36 @@
+<div class="zc_anwia">
+	<h2>大中华区区域管理</h2>
+	<a href="{:U('__CONTROLLER__/regionAdd')}">区域添加</a>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>名称</th>
+
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		    <foreach name="list" item="parent">
+		    <tr>
+				<td  class="shuoming">{$parent.name}</td>
+				<td>
+					<!--<a href="{:U('__CONTROLLER__/edit/p/1/chl/0/id/'.$parent['id'])}">编辑</a>-->
+					<a href="{:U('__CONTROLLER__/regionAdd/id/'.$parent['id'])}">添加</a>
+					<a href="{:U('__CONTROLLER__/regionDel/p/1/chl/0/id/'.$parent['id'])}">删除</a>
+				</td>
+			</tr>
+			    <foreach name="parent.children" item="child">
+				<tr>
+					<td>{$child.province}</td>
+					<td>
+					    <!--<a href="{:U('__CONTROLLER__/edit/p/0/chl/1/id/'.$child['id'])}">编辑</a>-->
+						<a href="{:U('__CONTROLLER__/regionDel/p/0/chl/1/id/'.$child['id'])}">删除</a>
+					</td>
+				</tr>
+				</foreach>
+		    </foreach>
+		</tbody>
+	</table>
+</div>

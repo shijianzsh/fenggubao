@@ -1,0 +1,28 @@
+<div class="zc_anwia">
+	<h2>签到管理</h2>
+</div>
+<div class="zc_message zc_message_feedback">
+	<!-- [shuoming] -->
+	<div class="shuoming">默认只显示当前月的记录</div>
+	<!-- [/shuoming] -->
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>编号ID</th>
+				<th>用户</th>
+				<th>签到时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.checkin_id}</td>
+				<td>{$item.username}[姓名:{$item.truename}][昵称:{$item.nickname}]</td>
+				<td>{$item.checkin_addtime|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

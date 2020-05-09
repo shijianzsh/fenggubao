@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 测试接口：第三方(ALI,WX)充值</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="/Public/Api/js/css.css" rel="stylesheet">
+	</head>
+<body>
+
+<div  class="testdiv">
+	<h3>测试接口：第三方(ALI,WX)充值</h3>
+	<div class="testform">
+	<form name="theform" enctype="multipart/form-data" method="post">
+		<table>
+			<tr>
+				<td class="label" title="会员ID">uid</td>
+				<td><input type="text" name="uid" value="9536"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="金额">amount</td>
+				<td><input type="text" name="amount" value="10"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="充值类型 1支付宝 2微信">pay_type</td>
+				<td><input type="text" name="pay_type" value="2"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="订单标题">subject</td>
+				<td><input type="text" name="subject" value="test"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="订单内容">body</td>
+				<td><input type="text" name="body" value="test"> </td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input type="button" class="commit" value="测试4版"  onclick="test('http://local.zcsh4.com/APP/Recharge/thirdparty_recharge')" />
+					<input type="button" class="commit" value="测试3版"  onclick="test('http://cs.b.zcsh123.com/Recharge/thirdparty_recharge')"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+</div>
+<script>
+	function test(url) {
+		document.forms['theform'].action=url;
+		document.forms['theform'].submit();
+    }
+</script>
+</body>
+</html>

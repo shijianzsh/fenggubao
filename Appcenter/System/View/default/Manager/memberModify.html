@@ -1,0 +1,28 @@
+<div class="zc_anwia"><h2>账号修改</h2></div>
+<div class="zc_message">
+	<div class="shuoming">服务商家、区域合伙人、商家角色的 添加 或 删除，请移至对应的 创客/体验会员审核 或 店铺审核 中操作！</div>
+	<form name="member_modify" id="member_modify" method="post" action="{:U('__CONTROLLER__/memberSave')}">
+	<p>账户：<input type="text" name="username" value="{$member_info.username}" readonly class="zc_if_empty"/><span></span></p>
+	<!-- <p>密码：<input type="password" name="password" value=""/>留空则默认不修改</p> -->
+	<if condition="$member_info.id neq 1">
+	<p>
+	角色：
+	<php>$role_must_list = array_values(C('ROLE_MUST_LIST'));</php>
+	<foreach name="group_list" item="list">
+	<php>
+		$option_hide = in_array($list['id'], $role_must_list) ? "style='display:none;'" : '';
+		$list['title'] = empty($option_hide) ? $list['title'] : '';
+	</php>
+	<input type="checkbox" name="group_id[]" value="{$list.id}" <php>if(in_array($list[id], explode(',', $group_access_list))){echo 'checked';}</php> {$option_hide}>{$list.title}
+	</foreach>
+	</p>
+	<p>
+	状态：
+	<input type="radio" name="is_lock" value="1" <if condition="$member_info.is_lock eq 1">checked</if>>锁定 
+	<input type="radio" name="is_lock" value="0" <if condition="$member_info.is_lock eq 0">checked</if>>启用
+	</p>
+	</if>
+	<p><input type="submit" name="submit" id="submit" value="保存"/></p>
+	<input type="hidden" name="id" value="{$member_info.id}"/>
+	</form>
+</div>

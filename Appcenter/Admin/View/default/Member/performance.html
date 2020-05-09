@@ -1,0 +1,105 @@
+<style>
+.zc_message .y_input_1 {
+	width: 10% !important;
+	margin-right: 5px;
+	margin-bottom: 0px;
+}
+.zc_message .y_input_2 {
+	width: 100% !important;
+}
+.zc_message label {
+	display: block;
+}
+.zc_message h3 {
+	font-weight: bold;
+	line-height: 30px;
+}
+.zc_message dl dt {
+	font-weight: bold;
+	line-height:25px;
+}
+.zc_message dl dd {
+	line-height: 20px;
+	text-indent: 2em;
+}
+</style>
+
+<div class="zc_anwia">
+	<h2>业绩查询</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="performance" method="post" onsubmit="return hold();">
+		<div class="col-sm-4" style="padding-top:20px;">
+			<label>日期：</label>
+			<div>
+				<div class="input-group date form_date left" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input1" data-link-format="yyyy-mm-dd">
+					<input name="time_min" id="LAY_demorange_s" class="form-control" size="8" type="text" value='{$Think.post.time_min}' readonly>
+				</div>
+				<div class="input-group date form_date left" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+					<label for="dtp_input2" class="control-label left zc_shugang">--</label>
+					<input name="time_max" class="form-control" id="LAY_demorange_e" size="8" type="text" value='{$Think.post.time_max}' readonly>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		
+		<div class="col-sm-4" style="padding-top:20px;">
+			<label>主号：</label>
+			<input type="text" class="form-control y_input_1" name="phone1" placeholder="请输入要查询的主帐号" value="{$Think.post.phone1}">
+		</div>
+		
+		<div class="col-sm-4" style="padding-top:20px;">
+			<label>中止号（多个帐号用空格隔开）：</label>
+			<input type="text" class="form-control y_input_1 y_input_2" name="phone2" placeholder="请输入要中止的帐号" value="{$Think.post.phone2}">
+		</div>
+		
+		<div class="col-sm-4" style="padding-top:20px;">
+			<button class="btn btn-primary search_submit" style="height:39px; margin-left:0;"><span class="glyphicon glyphicon-search">查询</span></button>
+		</div>
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<if condition="$_POST">
+	<div>
+		<h3>查询结果：</h3>
+		<dl>
+			<if condition="$Think.post.time_min neq '' or $Think.post.time_max neq ''">
+				<dt>日期：</dt>
+				<dd>{$Think.post.time_min} 至 {$Think.post.time_max}</dd>
+			</if>
+			
+			<dt>主号：</dt>
+			<dd><foreach name="assign_phone1" item="item" key="key">{$key}（{$item}）</foreach></dd>
+			
+			<dt>中止号：</dt>
+			<foreach name="assign_phone2" item="item">
+				<foreach name="item" key="key1" item="item1">
+				<if condition="$key1 neq ''">
+				<dd>
+					{$key1}（{$item1.nickname}）
+					<if condition="!$item1[is_line]">[与主号不在同一条线上]</if>
+				</dd>
+				</if>
+				</foreach>
+			</foreach>
+		</dl>
+		<h3>总业绩：{$profits_money|default='0.00'}元</h3>
+	</div>
+	</if>
+	<!-- [/list] -->
+</div>
+
+<script>
+function hold(){
+	var phone1 = $("input[name='phone1']").val();
+	phone1 = phone1.replace(/^\s+|\s+$/gm, '');
+	if(phone1==''){
+		alert('主号不能为空');
+		return false;
+	}
+	waitingWin('查询中，请稍后...');
+	$("from[name='performance']").submit();
+}
+</script>

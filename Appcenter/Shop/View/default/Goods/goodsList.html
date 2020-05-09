@@ -1,0 +1,88 @@
+<div class="zc_anwia"><h2>商品管理</h2></div>
+<div class="zc_message">
+    <!-- [search] -->
+    <form name="form" method="get" action="__ACTION__/type/{$Think.get.type}">
+        <div class="form-group left">
+            <label for="product_name"></label>
+            <input type="text" id="product_name" name="product_name" style="width:300px !important;"
+                   placeholder="请输入店铺名称 / 商品名称">
+        </div>
+
+        <label class="left">所属板块</label>
+        <div class="left">
+            <select name="block_id">
+                <option value=""
+                <if condition="$Think.get.block_id eq ''">selected</if>
+                >全部</option>
+                <foreach name="block" item="item">
+                    <option value="{$item.block_id}"
+                    <if condition="$Think.get.block_id eq $item.block_id">selected</if>
+                    >{$item.block_name}</option>
+                </foreach>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>名称</th>
+            <th>店铺</th>
+            <th>状态</th>
+            <th>所属板块</th>
+            <!--<th>可用币种</th>-->
+            <th>商品原价</th>
+            <th>销售价格</th>
+            <th>运费</th>
+            <th>已售/总量</th>
+            <th>库存</th>
+            <th>排序</th>
+            <th>审核状态</th>
+            <th>添加时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="center">{$item.id}</td>
+                <td>{$item.name}</td>
+                <td>{$item.store_name}</td>
+                <td align="center">{$item.status_cn}</td>
+                <td align="center">{$item.block_name}</td>
+                <td align="right">{$item['price']|default='0.00'}</td>
+                <td align="right">{$item.prices}</td>
+                <td align="right">
+                    <?php echo sprintf( "%.2f", $item['affiliate_freight'] );?>
+                </td>
+                <td align="center">{$item.exchangenum}/{$item.totalnum}</td>
+                <td align="center">{$item[totalnum] - $item[exchangenum]}</td>
+                <td align="center">{$item.ishot}</td>
+                <td align="center">{$item.manage_status_cn}</td>
+                <td align="center">{$item.create_time|date='Y-m-d H:i:s',###}</td>
+                <td align="center">
+                    <a href="{:U('__CONTROLLER__/goodsDetail/id/'.$item['id'])}">详情</a>
+                    <if condition="$item['manage_status'] neq 2">
+                        <a href="{:U('__CONTROLLER__/goodsReject/id/'.$item['id'])}" onclick="return confirmWin();"
+                           class="zccolor">驳回</a>
+                    </if>
+                    <if condition="$item['manage_status'] neq 1">
+                        <a href="{:U('__CONTROLLER__/goodsPass/id/'.$item['id'])}"
+                           onclick="return confirmWin();">审核通过</a>
+                    </if>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>

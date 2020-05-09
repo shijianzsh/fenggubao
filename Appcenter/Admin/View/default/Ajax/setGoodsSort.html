@@ -1,0 +1,36 @@
+<div id="ajax_block">
+
+<form name="modifySort" method="post" action="{:U('Merchant/Goods/modifySort')}">
+<table>
+
+<if condition="$error neq ''">
+	 <tr>
+	 	<td>{$error}</td>
+	 </tr>
+<else/>
+	<tr>
+		<td>商品名称</td>
+		<td>
+			{$info.name}
+		</td>
+	</tr>
+	<tr>
+		<td>排序</td>
+		<td>
+			<input type="text" name="ishot" value="{$info.ishot}">
+		</td>
+	</tr>
+	<tr>
+		<td class="shuoming" colspan="2">
+			商品将按排序从大到小顺序展示
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+		<input type="hidden" name="id" value="{$info.id}">
+	</tr>
+</if>
+</table>
+</form>
+
+</div>

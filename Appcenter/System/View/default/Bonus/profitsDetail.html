@@ -1,0 +1,50 @@
+<div class="zc_anwia">
+	<h2>日毛利润明细</h2>
+</div>
+<div class="zc_message">
+	<!-- [form] -->
+	<form name="search" method="get" action="__ACTION__">
+		<input type="text" name="keyword" class="inputWidth200" value="{$Think.get.keyword}" placeholder="请输入买家/卖家的帐号或姓名">
+		<input type="hidden" name="id" value="{$Think.get.id}"/>
+		<button type="submit" class="btn btn-primary">搜 索</button>
+	</form>
+	<!-- [/form] -->
+	<table>
+		<thead>
+			<tr>
+				<th>ID编号</th>
+				<th>毛利润(元)</th>
+				<th>兑换类型</th>
+				<th>兑换金额(元)</th>
+				<th>支付类型</th>
+				<th>商家</th>
+				<th>商品</th>
+				<th>买家</th>
+				<th>下单时间</th>
+				<th>完成时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.id}</td>
+				<td>{$item.profits}</td>
+				<td>{$item.exchangeway_cn}</td>
+				<td>{$item.money}</td>
+				<td>{$item.amount_type_cn}</td>
+				<td>{$item.store_loginname}[{$item.store_nickname}]<span style="color:red">[{$item.store_name}]</span></td>
+				<td>
+					<if condition="$item['product_name'] eq ''">
+					无
+					<else/>
+					{$item.product_name}[￥:{$item.product_price}]
+					</if>
+				</td>
+				<td>{$item.loginname}[{$item.nickname}]</td>
+				<td>{$item.time|date='Y-m-d H:i:s',###}</td>
+				<td>{$item.pay_time|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

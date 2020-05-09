@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <title>丰谷宝APP下载</title>
+    <link rel="stylesheet" href="css/test.css"/>
+    <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        (function (doc, win) {
+            var docEl = doc.documentElement, resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (clientWidth >= 640) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+</head>
+<body>
+<div class="logo">
+    <img src="/Public/images/logo.png">
+</div>
+<!-- <div class="imgania"><img src="img/timg-_02.jpg"></div> -->
+<div class="text">
+    <h2>丰谷宝</h2>
+</div>
+<div class="APP_pic">
+    <img src="img/qrcode.png" alt="" id="APP_Android">
+</div>
+<div class="interlinkage"><a href="javascript:;" class="android" id="skip">Android 客户端</a></div>
+<div class="keep"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var apk = "https://bsyx.oss-cn-shenzhen.aliyuncs.com/Uploads/apk/bsyx1.0.0_100_jiagu_sign.apk";
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+        $("#skip").removeClass("android").addClass('iphone').text("iphone 客户端").prop("href", "https://itunes.apple.com/cn/app/%E5%B7%B4%E8%9C%80%E5%8D%B0%E8%B1%A1/id1436666378?mt=8");
+        // $("#APP_Android").prop("src","img/ios.png");
+        // $("#skip.iphone").on("click",function(){
+        // 	$(".keep").show();
+        // });
+    } else if (/(Android)/i.test(navigator.userAgent)) {
+        $("#APP_Android").prop("src", "img/qrcode.png");
+        if (!isweixin()) {
+            $("#skip").removeClass("iphone").addClass('Android').text("Android 客户端").prop("href", apk);
+        }
+        $('.keep').css({"background-image": "url(/android/img/live_weixin.png)"});
+        $("#skip").on("click", function () {
+            if (isweixin()) {
+                $(".keep").show();
+            }
+        });
+    }
+
+    function isweixin() {
+        var ua = navigator.userAgent.toLowerCase();
+        var isWeixin = ua.indexOf('micromessenger') != -1;
+        if (isWeixin) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

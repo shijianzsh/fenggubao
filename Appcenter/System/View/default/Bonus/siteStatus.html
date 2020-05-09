@@ -1,0 +1,56 @@
+<div class="zc_anwia">
+	<h2>系统维护</h2>
+</div>
+<div class="zc_message">
+	<form name="form" method="post" action="{:U('__CONTROLLER__/siteStatusSave')}">
+		<table id="zc_Sasnfisd">
+		<tr>
+			<td>系统当前状态</td>
+			<td>
+				<span style="color:red;font-weight:bold;"><if condition="$data.is_close eq '0'">已开启<else/>已关闭</if></span>
+			</td>
+		</tr>
+		<tr>
+			<td>设置系统状态</td>
+			<td>
+				<select name="data[is_close]" class="form-control">
+					<option value="1" <if condition="$data.is_close eq 1"> selected="selected"</if>>关闭</option>
+					<option value="0" <if condition="$data.is_close eq 0"> selected="selected"</if>>开启</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>关闭时提示信息</td>
+			<td>
+				<textarea name="data[close_msg]" id="close_msg" cols="45" rows="3" class="form-control">{$data.close_msg}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input type="submit" name="submit" value="保存" style="width:auto !important;">
+				<input type="hidden" name="data[id]" value="{$data.id}" />
+			</td>
+		</tr>
+		</table>
+</div>
+
+<script>
+var time = "{$time}";
+var interval;
+$(function(){
+	if(time!=''){
+		$("input[type='submit']").val("分红数据整理中,请等待"+time+"s").prop('disabled', true).css("background","#ccc");
+		interval = setInterval("wait()",1000);
+	}
+});
+function wait(){
+	time--;
+	if(time=='0'){
+		clearInterval(interval);
+		$("input[type='submit']").val("保存").prop('disabled', false).css("background","#00A0E9");
+	}else{
+		$("input[type='submit']").val("分红数据整理中,请等待"+time+"s");
+	}
+}
+</script>

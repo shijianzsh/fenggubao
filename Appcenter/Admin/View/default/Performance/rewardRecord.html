@@ -1,0 +1,39 @@
+<div class="zc_anwia">
+    <h2>业绩结算记录管理</h2>
+</div>
+<div class="zc_message">
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户</th>
+            <th>结算身份</th>
+            <th>结算业绩</th>
+            <th>结算金额</th>
+            <th>操作状态</th>
+            <th>开始执行时间</th>
+            <th>结束执行时间</th>
+            <th>添加时间</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="center">{$item.record_id}</td>
+                <td >{$item.loginname}/{$item.nickname}</td>
+                <td align="center">{$item.dengji}</td>
+                <td align="right">{$item.user_performance_amount}</td>
+                <td align="right">{$item.user_reward_amount}</td>
+                <td align="center">{$item.record_status}</td>
+                <td align="center">{$item.record_starttime|dated='Y-m-d H:i:s',###}</td>
+                <td align="center">{$item.record_endtime|dated='Y-m-d H:i:s',###}</td>
+                <td align="center">{$item.record_addtime|dated='Y-m-d H:i:s',###}</td>
+                <td align="center">{$item.record_remark}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>

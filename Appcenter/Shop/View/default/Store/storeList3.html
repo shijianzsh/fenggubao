@@ -1,0 +1,198 @@
+<div class="zc_anwia">
+	<h2>店铺管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [shuoming] -->
+	<div class="shuoming_warning">
+		APP客户端显示店铺的条件：已审店铺 + 店铺状态[正常] + 店铺活动[已审已启用]。
+	</div>
+	<!-- [/shuoming] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="__ACTION__/type/{$Think.get.type}">
+		<div class="form-group left">
+			<label for="store_name"></label>
+			<input type="text" id="store_name" name="store_name" value="{$Think.get.store_name}" style="width:300px !important;" placeholder="请输入店铺名称/营业电话/申请人账号/姓名/用户名">
+		</div>
+		
+		<div class="form-group left">
+			<label>所属地区</label>
+			<assign name="select_area_province_value" value="$Think.get.province"/>
+			<assign name="select_area_city_value" value="$Think.get.city"/>
+			<assign name="select_area_country_value" value="$Think.get.country"/>
+			<assign name="select_area_option_type" value="chs"/>
+			<assign name="select_area_select_init" value="全部"/>
+			<include file="./Appcenter/Public/public/common.area.html"/>
+		</div>
+		
+		<div class="form-group left">
+			<label>店铺状态</label>
+			<select name="store_status">
+				<option value="">不限</option>
+				<option value="1" <if condition="$Thinke.get.store_status eq 1">selected</if> >正常</option>
+				<option value="2" <if condition="$Thinke.get.store_status eq 2">selected</if> >冻结</option>
+			</select>
+		</div>
+		
+		<div class="form-group left">
+			<label>店铺活动</label>
+			<select name="store_activity">
+				<option value="">不限</option>
+				<option value="1" <if condition="$Thinke.get.store_activity eq 1">selected</if> >未审活动</option>
+				<option value="2" <if condition="$Thinke.get.store_activity eq 2">selected</if> >已审已启用</option>
+				<option value="3" <if condition="$Thinke.get.store_activity eq 3">selected</if> >已审未启用</option>
+				<option value="4" <if condition="$Thinke.get.store_activity eq 4">selected</if> >已驳回</option>
+			</select>
+		</div>
+
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+		<input type="hidden" name="p" value="1">
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+    <table>
+    	<thead>
+    		<tr>
+  				<th>序号</th>
+  				<th>店铺名称</th>
+  				<th>申请人</th>
+  				<th>推荐人账号</th>
+  				<th>营业电话</th>
+  				<th>店铺地址</th>
+				<th>注销原因</th>
+  				<th>申请注销时间</th>
+  				<if condition="$Think.get.type eq 1">
+  					<th>人均消费</th>
+  					<th>月均消费</th>
+  					<th>评分等级</th>
+  					<th>关注度</th>
+  				</if>
+  				<th>操作</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<foreach name="list" item="item">
+    		<tr>
+    			<td>{$item.id}</td>
+    			<td>{$item.store_name}</td>
+    			<td>
+    				{$item.username}[昵称:{$item.nickname}][姓名:{$item.truename}]
+    				<if condition="getUser($item['uid'],'is_blacklist') neq '0'"><span style="color:#fff;background:#000;">[<php>echo C('FIELD_CONFIG.member')['is_blacklist'][getUser($item['uid'],'is_blacklist')];</php>黑名单]</span></if>
+    			</td>
+    			<td>{$item.retel}</td>
+    			<td>{$item.phone}</td>
+    			<td>{$item.address}</td>
+				<td>{$item.beizhu}</td>
+    			<td><if condition="$item['cancel_time'] neq 0">{$item.cancel_time|date='Y-m-d H:i:s',###}</if></td>
+    			<td>
+    				<if condition="$item['manage_status'] eq 10">
+    				<a href="{:U('__CONTROLLER__/storeout/id/'.$item['id'])}" onclick="return confirmWin();">注销</a>
+    				<a href="{:U('__CONTROLLER__/storeoutReject/id/'.$item['id'])}" onclick="return confirmWin();">驳回</a>
+    				</if>
+					<if condition="$item['manage_status'] eq 11">
+						<p>已通过注销</p>
+					</if>
+    				<if condition="$item['manage_status'] eq 1">
+    					<if condition="$item['status'] eq 1">
+    					<a href="{:U('__CONTROLLER__/storeThaw/id/'.$item['id'])}" onclick="return confirmWin();">解冻</a>
+    					<else/>
+    					<a href="{:U('__CONTROLLER__/storeForzen/id/'.$item['id'])}" onclick="return confirmWin();">冻结</a>
+    					</if>
+    				<a href="{:U('__CONTROLLER__/storeDetail/id/'.$item['id'])}">店铺详情</a>
+    				<a href="{:U('__CONTROLLER__/storeOrderList/id/'.$item['id'])}">订单详情</a>
+    				</if>
+    				
+    				<if condition="$item['manage_status'] eq 2">
+    				<a href="{:U('__CONTROLLER__/storeDelete/id/'.$item['id'])}" class="zccolor">删除</a>
+    				</if>
+    			</td>
+    		</tr>
+    		</foreach>
+    	</tbody>
+    </table>
+    <!-- [/list] -->
+
+<style type="text/css">
+		.zc_kepadmie{
+			position:fixed;
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,0.5);
+			left:0px;
+			top:0px;
+			z-index:1197;
+			display:none;
+		}
+		.zc_dnsai{
+			width:500px;
+			height:300px;
+			background:#fff;
+			border:1px solid #ddd;
+			position:fixed;
+			left:50%;
+			margin-left:-250px;
+			margin-top:-150px;
+			top:50%;
+			z-index: 1198;
+			display:none;
+		}
+		.zc_dnsai h3{
+			height:40px;
+			border-bottom:1px solid #ddd;
+			line-height:40px;
+			text-indent:20px;
+		}
+		.zc_liyou{
+			width:99%;
+			height:180px;
+			color:#999;
+			border: 1px red solid;
+		}
+		.zc_affirm{
+			display:block;
+			width:70%;
+			height:40px;
+			margin:0 auto;
+			background:#00a0e9;
+			color:#fff;
+			text-align:center;
+			line-height:40px;
+			font-size:16px;
+		}
+	</style>
+	<div class="zc_kepadmie"></div>
+	<div class="zc_dnsai">
+		<h3>驳回理由</h3>
+		<textarea class="zc_liyou"></textarea>
+		<a href="javascript:;" class="zc_affirm">确认驳回</a>
+	</div>
+</div>
+<script>
+	$(function(){
+		$(".zc_Bxoani_if").on("click",function(){
+			var href=$(this).attr("url");
+			$(".zc_dnsai,.zc_kepadmie").show();
+			$(".zc_affirm").on("click", function(){
+				var reason = $(".zc_liyou").val();
+				 reason = $.trim(reason);
+				if(reason==''){
+					layer.msg('请填写驳回理由',{
+						time:1000
+					});
+					return false;
+					
+				}else{
+					location.href = href+'/reason/'+encodeURI(encodeURI(reason));
+				};
+
+			});
+		});
+		$(".zc_kepadmie").on("click",function(){
+			$(".zc_dnsai,.zc_kepadmie").hide();
+		});
+	
+	});
+</script>

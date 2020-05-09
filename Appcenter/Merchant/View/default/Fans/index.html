@@ -1,0 +1,39 @@
+<div class="zc_anwia">
+	<h2>我的粉丝</h2>
+</div>
+<div class="zc_message">
+
+ 	<!-- [list] -->
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>头像</th>
+				<th>账号</th>
+				<th>昵称</th>
+				<th>手机</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="datalist" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.id}</td>
+				<td><img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$item.img}" class="zc_shop_img" style="width:60px; height:60px; margin:5px ;" /></td>
+				<td>{$item.username}</td>
+				<td>{$item.nickname}</td>
+				<td>{$item.loginname}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+</div>
+<script>
+function exporta(){
+	cash = $('#member_cash').val();
+	starttime = $('#LAY_demorange_s').val();
+	endtime = $('#LAY_demorange_e').val();
+	window.open('/Merchant/Account/exportAction?member_cash='+cash+'&start_time='+starttime+'&end_time='+endtime);
+}
+</script>

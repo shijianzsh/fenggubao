@@ -1,0 +1,62 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>{$Think.config.APP_TITLE}_填写资料 </title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/H5/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/H5/register/css/index.css"/>
+    <script src="__PUBLIC__/H5/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__PUBLIC__/H5/register/js/index.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<header class="zcrniwl_dr">填写资料</header>
+<div class="zcdcutona_input">
+    <form action="">
+        <div class="zctatrun_list">
+            <span class="zc_input_ico4"></span>
+            <input type="text" name="" id="username" placeholder="请输入id号"/>
+            <div style="color: red; font-size: 13px; margin-left: 80px; margin-bottom: 10px;">
+                以字母开头,至少6位字母或数字组合，用于登录，请牢记您的id号！
+            </div>
+        </div>
+        <div class="zctatrun_list">
+            <span class="zc_input_ico4"></span>
+            <input type="text" name="" id="name" placeholder="真实姓名"/>
+        </div>
+        <div class="zctatrun_list">
+            <span class="zc_input_ico5"></span>
+            <input type="password" name="" id="password" placeholder="密码"/>
+        </div>
+        <div class="zcinput_all_loing">
+            <button type="button" id="btn" onclick="register()">确定</button>
+            <!--disabled=""-->
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    function register() {
+        var name = $("#name").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            type: "post",
+            url: "{:U('H5/Index/recommer')}",
+            data: {name: name, password: password, username: username},
+            dataType: "json",
+            success: function (data) {
+                if (data.code == '300') {
+                    alert(data.msg);
+                } else if (data.code == '400') {
+                    alert(data.msg);
+                    var url = '__APP__/H5/Index/download';
+                    window.location.href = url;
+                }
+            }
+        });
+    }
+</script>

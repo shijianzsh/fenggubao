@@ -1,0 +1,68 @@
+<div id="ajax_block">
+
+<form name="saveSettings" method="post" action="{:U('System/Config/saveSettings')}">
+<table>
+	<tr>
+		<td>所属配置组</td>
+		<td>
+			<select name="group_id">
+				<foreach name="list" item="item">
+				<option value="{$item.group_id}" <if condition="$item[group_id] eq $info[group_id]">selected</if> >{$item.group_name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>配置项标题</td>
+		<td><input type="text" name="settings_title" value="{$info.settings_title}"></td>
+	</tr>
+	<tr>
+		<td>配置项标识</td>
+		<td>{$info.settings_code}</td>
+	</tr>
+	<tr>
+		<td>配置项值</td>
+		<td>
+			<if condition="$info[settings_type] eq 'text'">
+			<input type="text" name="settings_value" value="{$info.settings_value}">
+			<elseif condition="$info[settings_type] eq 'textarea'"/>
+			<textarea name="settings_value" cols="30" rows="4">{$info.settings_value}</textarea>
+			<else/>
+			暂不支持
+			</if>
+		</td>
+	</tr>
+	<tr>
+		<td>配置项类型</td>
+		<td>
+			<select name="settings_type">
+				<php>$settings_type_config = C('FIELD_CONFIG')['settings']['settings_type'];</php>
+				<foreach name="settings_type_config" key="key" item="item">
+				<option value="{$key}" <if condition="$key eq $info[settings_type]">selected</if> >{$item}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>配置项说明</td>
+		<td><input type="text" name="settings_summary" value="{$info.settings_summary}"></td>
+	</tr>
+	<tr>
+		<td>排序</td>
+		<td><input type="text" name="settings_order" value="{$info.settings_order}"></td>
+	</tr>
+	<tr>
+		<td>启用状态</td>
+		<td>
+			<input type="radio" name="settings_status" value="0" <if condition="$info[settings_status] eq '0'">checked</if> >停用
+			<input type="radio" name="settings_status" value="1" <if condition="$info[settings_status] eq '1'">checked</if> >启用
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+		<input type="hidden" name="settings_id" value="{$info.settings_id}">
+	</tr>
+</table>
+</form>
+
+</div>

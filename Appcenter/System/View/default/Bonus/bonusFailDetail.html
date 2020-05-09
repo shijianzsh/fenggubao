@@ -1,0 +1,38 @@
+<div class="zc_anwia">
+	<h2>日分红失败明细</h2>
+</div>
+<div class="zc_message">
+	<!-- [form] -->
+	<form name="search" method="get" action="__ACTION__">
+		<input type="text" name="keyword" class="inputWidth200" value="{$Think.get.keyword}" placeholder="请输入未分红用户帐号或姓名">
+		<input type="hidden" name="id" value="{$Think.get.id}"/>
+		<button type="submit" class="btn btn-primary">搜 索</button>
+	</form>
+	<!-- [/form] -->
+	<table>
+		<thead>
+			<tr>
+				<th>未分红用户</th>
+				<th>用户股数(股)</th>
+				<th>每股金额(元)</th>
+				<th>待分红金额(元)</th>
+				<th>日期</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.loginname}[{$item.nickname}]</td>
+				<td>{$item.bonus}</td>
+				<td>{$bonus_per}</td>
+				<td>公让宝:{$item.goldcoin} | 现金币:{$item.cash}</td>
+				<td>{$date_created|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a href="{:U('__CONTROLLER__/bonusRepeatShare/id/'.$item['id'].'/time/'.$date_created)}">补发分红</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

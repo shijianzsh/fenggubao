@@ -1,0 +1,242 @@
+<div class="zc_anwia">
+    <h2>商品管理</h2>
+</div>
+<div class="zc_message">
+
+    <!-- [form] -->
+    <form role="form" action="__CONTROLLER__/index/" method="get">
+        <label for="member_cash" class="col-sm-2 control-label left">商品名称</label>
+        <div class="col-sm-10 left">
+            <input type="text" name="kw" value="{$Think.get.kw}">
+        </div>
+
+        <label for="member_cash" class="col-sm-2 control-label left">状态</label>
+        <div class="col-sm-10 left">
+            <select class="form-control zc_input" id="member_cash" name="status">
+                <option value="-1"
+                <if condition="$Think.get.status eq '-1'">selected="selected"</if>
+                >不限</option>
+                <option value="0"
+                <if condition="$Think.get.status eq '0'">selected="selected"</if>
+                >正常</option>
+                <option value="1"
+                <if condition="$Think.get.status eq '1'">selected="selected"</if>
+                >下架</option>
+            </select>
+        </div>
+
+        <label for="member_cash" class="col-sm-2 control-label left">审核状态</label>
+        <div class="col-sm-10 left">
+            <select class="form-control zc_input" id="member_cash" name="manage_status">
+                <option value="-1"
+                <if condition="$Think.get.status eq '-1'">selected="selected"</if>
+                >不限</option>
+                <option value="0"
+                <if condition="$Think.get.manage_status eq '0'">selected="selected"</if>
+                >未审核</option>
+                <option value="1"
+                <if condition="$Think.get.manage_status eq '1'">selected="selected"</if>
+                >审核通过</option>
+                <option value="2"
+                <if condition="$Think.get.manage_status eq '2'">selected="selected"</if>
+                >驳回</option>
+            </select>
+        </div>
+
+        <div class="col-sm-10 left">
+            <label for="member_cash" class="col-sm-2 control-label left">发布时间</label>
+            <div class="form-group left">
+                <input type="text" class="layui-input" id="start_time" name="start_time" readonly value='{$Think.get.start_time}'>
+                --&nbsp;
+            </div>
+            <div class="form-group left">
+                <input type="text" class="layui-input" id="end_time" name="end_time" readonly value='{$Think.get.end_time}'>
+            </div>
+        </div>
+
+        <label class="left">所属板块</label>
+        <div class="left">
+            <select name="block_id">
+                <option value=""
+                <if condition="$Think.get.block_id eq ''">selected</if>
+                >全部</option>
+                <foreach name="block" item="item">
+                    <option value="{$item.block_id}"
+                    <if condition="$Think.get.block_id eq $item.block_id">selected</if>
+                    >{$item.block_name}</option>
+                </foreach>
+            </select>
+        </div>
+
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success zc_submit">确认</button>
+        </div>
+    </form>
+    <!-- [/form] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>商品名称</th>
+            <th>状态</th>
+            <th>所属板块</th>
+            <th>商品原价</th>
+            <th>销售价格</th>
+            <th>运费</th>
+            <!--<th>浏览次数</th>-->
+            <th>已售/总量</th>
+            <th>库存</th>
+            <th>审核状态</th>
+            <th>排序</th>
+            <th>添加时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="datalist" id="item" key="k" mod="2">
+            <tr>
+                <td align="center">{$item.id}</td>
+                <td>{$item.name}</td>
+                <td align="center">
+                    <if condition="$item.status eq '0'">已上架
+                        <elseif condition="$item.status eq '1'"/>
+                        已下架
+                    </if>
+                </td>
+                <td align="center">{$item.block_name}</td>
+                <td align="right">{$item['price']|default='0.00'}</td>
+                <td align="right">{$item.prices}</td>
+                <td align="right">
+                    <?php echo sprintf( "%.2f", $item['affiliate_freight'] );?>
+                </td>
+                <td align="center">{$item.exchangenum}/{$item.totalnum}</td>
+                <td align="center">{$item[totalnum]-$item[exchangenum]}</td>
+                <td align="center">
+                    <if condition="$item.manage_status eq '0'">未审核
+                        <elseif condition="$item.manage_status eq '1'"/>
+                        审核通过
+                        <elseif condition="$item.manage_status eq '2'"/>
+                        驳回
+                    </if>
+                </td>
+                <td align="center">
+                	<a href="javascript:modifySort({$item.id});" title="点击修改">{$item.ishot}</a>
+                </td>
+                <td align="center">{$item.create_time|date='Y-m-d H:i:s',###}</td>
+                <td align="center">
+                    <a href="{:U('__CONTROLLER__/goodsModify/id/'.$item['id'])}">修改</a>
+
+                    <if condition="$item.status eq '1' AND $item.manage_status eq '1'">
+                        &nbsp; &nbsp;
+                        <!--<a href="javascript:changestatus('确定上架？', '{:U('__CONTROLLER__/changeStatus/cs/0/id/'.$item['id'])}')" style="color:#c80000">上架</a>-->
+                        <a href="{:U('__CONTROLLER__/changeStatus/cs/0/id/'.$item['id'])}" style="color:#c80000">上架</a>
+                    </if>
+                    <if condition="$item.status eq '0' AND $item.manage_status eq '1'">
+                        &nbsp; &nbsp;
+                        <!--<a href="javascript:changestatus('确定下架？', '{:U('__CONTROLLER__/changeStatus/cs/1/id/'.$item['id'])}')">下架</a>-->
+                        <a href="{:U('__CONTROLLER__/changeStatus/cs/1/id/'.$item['id'])}">下架</a>
+                    </if>
+
+                    &nbsp;&nbsp;
+                    <a href="javascript:exchangenumModify(this,{$item.id});">修改库存</a>
+
+                    &nbsp; &nbsp;
+                    <a href="{:U('__CONTROLLER__/goodsDelete/id/'.$item['id'])}">删除</a>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+</div>
+<script>
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	laydate.render({
+		elem: '#start_time',
+		type: 'date'
+	});
+	
+	laydate.render({
+		elem: '#end_time',
+		type: 'date'
+	});
+});
+
+    function changestatus(msg, url) {
+        if (confirm(msg)) {
+            window.location.href = url;
+        }
+    }
+
+    //修改库存
+    function exchangenumModify(obj, product_id) {
+        var layer_id = waitingWin('加载中，请稍后...');
+        var T = $(obj).parent('td').parent('tr');
+        T.addClass('isCursor');
+
+        $.ajax({
+            'url': "{:U('Admin/Ajax/exchangenumModify')}",
+            'type': 'post',
+            'data': {product_id: product_id},
+            'success': function (re) {
+                layer.close(layer_id);
+                re = $.parseJSON(re);
+                if (re.error != '') {
+                    alert(re.error);
+                } else {
+                    layer.open({
+                        'title': '修改库存',
+                        'content': re.data,
+                        'area': 'auto',
+                        'maxWidth': CW - 200,
+                        'maxHeight': CH - 200,
+                        'btn': false,
+                        'cancel': function (index, layero) {
+                            T.removeClass('isCursor');
+                        }
+                    });
+                }
+            },
+            'error': function (e, msg) {
+                layer.close(layer_id);
+                T.removeClass('isCursor');
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+    
+    //编辑排序
+    function modifySort(id) {
+    	var layer_id = waitingWin('加载中，请稍后...');
+    	
+    	$.ajax({
+    		url: "{:U('Admin/Ajax/setGoodsSort')}",
+    		type: "post",
+    		data: {id: id},
+    		timeout: 2000,
+    		success: function(re){
+    			layer.close(layer_id);
+    			layer.open({
+    				'id': 'A',
+                    'title': '编辑排序',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                });
+    		},
+    		error: function(e){
+    			layer.close(layer_id);
+    			alert(e);
+    			return false;
+    		}
+    	});
+    }
+</script>

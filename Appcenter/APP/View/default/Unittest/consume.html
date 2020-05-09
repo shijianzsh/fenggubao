@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 测试接口：买单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="/Public/Api/js/css.css" rel="stylesheet">
+	</head>
+<body>
+
+<div  class="testdiv">
+	<h3>测试接口：买单</h3>
+	<div class="testform">
+	<form name="theform" enctype="multipart/form-data" method="post">
+		<table>
+			<tr>
+				<td class="label" title="付款人ID">uid</td>
+				<td><input type="text" name="uid" value="9536"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="店铺id">storeid</td>
+				<td><input type="text" name="storeid" value="13618"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="责任消费标识；0不是；1是">dutypay</td>
+				<td><input type="text" name="dutypay" value="0"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="兑换金额">amount</td>
+				<td><input type="text" name="amount" value="1"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="支付类型:1支付宝,2微信,3其他,4现金,5丰谷宝,6商超券">pay_type</td>
+				<td><input type="text" name="pay_type" value="4"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="备注留言">comment</td>
+				<td><input type="text" name="comment" value="test"> </td>
+			</tr>
+			
+
+			<tr>
+				<td></td>
+				<td>
+					<input type="button" class="commit" value="测试4版"  onclick="test('http://local.zcsh4.com/APP/Pay/consume')" />
+					<input type="button" class="commit" value="测试3版"  onclick="test('http://cs.b.zcsh123.com/Pay/consume')"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+</div>
+<script>
+	function test(url) {
+		document.forms['theform'].action=url;
+		document.forms['theform'].submit();
+    }
+</script>
+</body>
+</html>

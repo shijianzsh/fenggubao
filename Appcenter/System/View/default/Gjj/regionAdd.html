@@ -1,0 +1,21 @@
+<div class="zc_anwia"><h2>大中华区区域</h2></div>
+<div class="zc_message">
+	<div class="shuoming_warning">非专业技术人员，请勿随意 添加 或 修改，以免导致系统问题，影响系统正常使用！</div>
+    <form name="rule_add" id="rule_add" method="post" action="{:U('__CONTROLLER__/regionInsert')}">
+		<if condition="$data['id']">
+			<p><span>区域名称：</span><input type="text" name="name" value="{$data['name']}"/><span class="zc_if_alt"></span></p>
+			<else />
+			<p><span>区域名称：</span><input type="text" name="name"/><span class="zc_if_alt"></span></p>
+		</if>
+
+	<p><span>省份：</span>
+		<select name="province">
+			<foreach name="province" item="pro">
+			<option value ="{$pro['province']}">{$pro['province']}</option>
+			</foreach>
+		</select>
+		<span class="zc_if_alt"></span></p>
+
+	<p><input type="submit" name="submit" id="submit" value="添加" /></p>
+	</form>
+</div>

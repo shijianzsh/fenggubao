@@ -1,0 +1,38 @@
+<div class="zc_anwia">
+	<h2>货币转换记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="">
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		<button type="submit" class="btn">
+			<span> 搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>用户账号</th>
+				<th>彩分数额</th>
+				<th>现金币额</th>
+				<th>操作时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.uid|getZUser='loginname'}<span style="color:red;padding-left:3px;">[{$item.uid|getzUser='nickname'}]</span></td>
+                <td>{$item.amount}</td>
+                <td>{$item.get_cash}</td>
+				<td>{$item.time|date="Y-m-d H:i:s",###}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+</div>

@@ -1,0 +1,97 @@
+<div class="zc_anwia">
+    <h2>加权分红管理</h2>
+</div>
+
+<div class="zc_message">
+    <br>
+    <h2>业绩统计</h2>
+    <h3><span class="zc_mapp_tongji">昨日系统总业绩：<em>{$yesterdayPerformanceAmount}</em></span></h3>
+    <table>
+        <thead>
+        <tr>
+            <th>等级</th>
+            <th>头衔</th>
+            <th>总消费</th>
+            <th>总人数</th>
+            <th>通证汇总份额(每份{$performancePortionBase})</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="consumes" item="item">
+            <tr>
+                <td align="center">{$item.star}</td>
+                <td align="center">{$item.label}</td>
+                <td align="right">{$item.amount}</td>
+                <td align="right">{$item.count}</td>
+                <td align="right">{$item.portion}</td>
+                <td align="center">
+                    <a href="javascript:bonus('{$item.star}');">分红</a>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <br>
+    <h2>分红记录</h2>
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>日期</th>
+            <th>总业绩</th>
+            <th>总分红金额</th>
+            <th>分红等级</th>
+            <th>分红份数</th>
+            <th>实际分红金额</th>
+            <!-- <th>时间</th> -->
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="bonus" item="item">
+            <tr>
+                <td align="center">{$item.id}</td>
+                <td align="center">{$item.tag}</td>
+                <td align="right">{$item.performance_amount}</td>
+                <td align="right">{$item.total_amount}</td>
+                <td align="right">{$item.agent_star}</td>
+                <td align="right">{$item.agent_count}</td>
+                <td align="right">{$item.bonus_amount}</td>
+                <!-- <td align="center">{$item.update_at|dated='Y-m-d H:i:s',###}</td> -->
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>
+<script type="text/javascript">
+    //修改配置项
+    function bonus(star) {
+        var index = waitingWin('加载中，请稍后...');
+        $.ajax({
+            'url': "{:U('Admin/Ajax/bonus')}",
+            'type': 'post',
+            'data': {star: star},
+            'success': function (re) {
+                layer.open({
+                    'id': 'A',
+                    'title': '加权分红',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                    success: function (o, i) {
+                        layer.close(index);
+                    }
+                });
+            },
+            'error': function (e, msg) {
+                layer.close(index);
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+</script>

@@ -1,0 +1,90 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia">
+	<h2>新闻资讯编辑</h2>
+</div>
+<div class="zc_message">
+	<form name="save" method="post" action="{:U('__CONTROLLER__/save')}" enctype="multipart/form-data">
+		<div class="zc_shop">
+			<span>标题</span>
+			<input type="text" name="title" value="{$info.title}" class="inputWidth100 zc_if_empty">
+			<input type="text" name="title_en" value="{$info.title_en}" class="inputWidth100" placeholder="标题-英文">
+			<input type="text" name="title_ko" value="{$info.title_ko}" class="inputWidth100" placeholder="标题-韩文">
+		</div>
+		<div class="zc_shop">
+			<span>分类</span>
+			<select name="category">
+			<foreach name="category_list" key="key" item="item">
+				<option value="{$key}" <if condition="$key eq $info[category]">selected</if> >{$item}</option>
+			</foreach>
+			</select>
+		</div>
+		<div class="zc_shop">
+			<span>排序</span>
+			<input type="text" name="sort" value="{$info.sort}">
+		</div>
+		<div class="zc_shop">
+            <span>封面:</span>
+            <ul id="warp2">
+                <li>
+                    <div class="warp_pic">
+                        <if condition="preg_match('/^http/',$info['cover'])">
+                            <img id="imgShow_WU_FILE_0" src="{$info.cover}" class="zc_shop_img"/>
+                            <else/>
+                            <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.cover}" class="zc_shop_img"/>
+                        </if>
+                    </div>
+                    <div class="zc_imgStum">上传文件</div>
+                    <input type="file" id="up_img_WU_FILE_0" name="cover" class="zc_np_pic"/>
+                    <script>
+                        new uploadPreview({
+                            UpBtn: "up_img_WU_FILE_0",
+                            DivShow: "warp_pic",
+                            ImgShow: "imgShow_WU_FILE_0",
+                            Width: 210,
+                            Height: 210
+                        });
+                    </script>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+		<div class="zc_shop">
+			<span>内容</span>
+		    <textarea id="content1" name="content" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.content|htmlspecialchars_decode}</textarea>
+		    <span>内容-英文</span>
+		    <textarea id="content2" name="content_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.content_en|htmlspecialchars_decode}</textarea>
+		    <span>内容-韩文</span>
+		    <textarea id="content3" name="content_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.content_ko|htmlspecialchars_decode}</textarea>
+		</div>
+		<div class="zc_shop">
+			<span>创建时间</span>
+			<input type="text" class="layui-input" id="created_at" name="created_at" value="{$info.created_at}">
+		</div>
+		<div class="zc_shop">
+			<span>修改时间</span>
+			<input type="text" class="layui-input" id="updated_at" name="updated_at" value="{$info.updated_at}">
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>
+</div>
+
+<script>
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	laydate.render({
+		elem: '#created_at',
+		type: 'datetime'
+	});
+	
+	laydate.render({
+		elem: '#updated_at',
+		type: 'datetime'
+	});
+});
+</script>

@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+	<h2>角色管理</h2>
+	<a href="{:U('__CONTROLLER__/groupAddUi')}">角色添加</a>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>角色ID</th>
+				<th>角色名称</th>
+				<th>角色状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="group_list" item="list">
+			<tr>
+				<td>{$list.id}</td>
+				<td>{$list.title}</td>
+				<td><if condition="$list.status eq 0">已禁用<else />已启用</if></td>
+				<td>
+					<a href="{:U('__CONTROLLER__/groupModify/id/'.$list['id'])}">编辑</a> 
+					<!--<a href="{:U('__CONTROLLER__/groupDelete/id/'.$list['id'])}">删除</a>-->
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

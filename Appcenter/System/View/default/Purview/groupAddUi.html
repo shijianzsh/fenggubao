@@ -1,0 +1,51 @@
+<div class="zc_anwia"><h2>角色添加</h2></div>
+<div class="zc_message">
+    <form name="group_add" id="group_add" method="post" action="{:U('__CONTROLLER__/groupAdd')}">
+	<p><span>角色名称：</span><input type="text" name="title" id="title" class="zc_if_empty" /></p>
+	<p>
+	拥有规则：
+	    <dl>
+	        <dt style="margin-bottom:10px;"><a href="javascript:;" class="shuoming checkall all" id="zcAll">[全选]</a></dt>
+			<foreach name="rule_list" item="rule">
+			<div class="zc_marin">
+			<dt><strong>{$key}</strong> <a href="javascript:;" class="shuoming checkall">[全选]</a></dt>
+			<dd>
+			    <foreach name="rule" item="list">
+			     <span style="display:inline-block;width:155px;">
+			   	<label> <input type="checkbox" name="rules[]" value="{$list.list.id}"/>{$list.title}</label>
+			    </span>&nbsp;&nbsp;
+			    </foreach>
+			</dd>
+			</div>
+			</foreach>
+		</dl>
+	</p>
+	<p><input type="submit" name="submit" id="submit" value="添加"/></p>
+	</form>
+</div>
+<script>
+$(function(){
+	
+	$('.shuoming').css('fontSize', '12px');
+	var zcAll=document.getElementById("zcAll");
+	var inpu=document.getElementsByName("rules[]");
+	zcAll.onclick=function(){
+		for(var i=0;i<inpu.length;i++){
+			if(inpu[i].checked==false){
+				inpu[i].checked=true;
+			}else{
+				inpu[i].checked=false;
+			}
+		}
+	};
+	$(".checkall").on("click",function(){
+		var dd=$(this).parent("dt").next("dd").find("input[type='checkbox']");
+		if(dd.prop("checked")==false){
+			dd.prop("checked","checked");
+		}else{
+			dd.prop("checked",false);
+		}
+	});
+	
+});
+</script>

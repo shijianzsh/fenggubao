@@ -1,0 +1,33 @@
+<div id="ajax_block">
+
+    <form name="bonus" method="post" action="{:U('Admin/Performance/bonus')}">
+        <table>
+            <tr>
+                <td>等级</td>
+                <td>{$consume.label}</td>
+            </tr>
+            <tr>
+                <td>总消费</td>
+                <td>{$consume.amount}</td>
+            </tr>
+            <tr>
+                <td>总人数</td>
+                <td>{$consume.count}</td>
+            </tr>
+            <tr>
+                <td>通证汇总份额(每份{$performancePortionBase})</td>
+                <td>{$consume.portion}</td>
+            </tr>
+            <tr>
+                <td>总分红金额</td>
+                <td><input type="text" name="total_amount" value=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+                <input type="hidden" name="star" value="{$consume.star}">
+                <input type="hidden" name="performance_amount" value="{$consume.amount}">
+            </tr>
+        </table>
+    </form>
+
+</div>

@@ -1,0 +1,41 @@
+<div class="zc_anwia">
+    <h2>业绩结算任务管理</h2>
+</div>
+<div class="zc_message">
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>任务时间</th>
+            <th>预计结算业绩总额</th>
+            <th>实际结算业绩总额</th>
+            <th>总结算金额</th>
+            <th>操作状态</th>
+            <th>操作时间</th>
+            <th>操作备注</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="center">{$item.task_id}</td>
+                <td align="center">{$item.task_tag}</td>
+                <td align="right">{$item.task_performance_amount}</td>
+                <td align="right">{$item.real_performance_amount}</td>
+                <td align="right">{$item.task_reward_amount}</td>
+                <td align="center">{$item.task_status}</td>
+                <td align="center">
+                    添加：{$item.task_addtime|dated='Y-m-d H:i:s',###} <br/>
+                    开始：{$item.task_starttime|dated='Y-m-d H:i:s',###} <br/>
+                    结束：{$item.task_endtime|dated='Y-m-d H:i:s',###}
+                </td>
+                <td align="center">{$item.task_remark}</td>
+                <td align="center"><a href="{:U('__CONTROLLER__/rewardRecord/task_id/'.$item[task_id])}">查看</a></td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>

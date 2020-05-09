@@ -1,0 +1,67 @@
+<div class="zc_anwia">
+	<h2>{$type_title}兑换记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [notice] -->
+	<div class="shuoming_warning">默认只显示当前月的记录，可通过日期搜索查看历史记录</div>
+	<!--  [/notice] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="" class="clear">
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		
+		
+		类型：
+		<select name="type">
+			<option value="cash" <if condition="$Think.get.type eq 'cash'"> selected="selected"</if>>现金币</option>
+			<option value="goldcoin" <if condition="$Think.get.type eq 'goldcoin'"> selected="selected"</if> >丰谷宝</option>
+			<!--<option value="supply" <if condition="$Think.get.type eq 'supply'"> selected="selected"</if> >特供券</option>-->
+		</select>
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+	</form>
+	<!-- [/search] -->
+	<div style=" margin:0px 0px 12px 0px; font-size: 16px;">
+		总兑换额：<span style="color:#a00; font-weight: bold;">{$total.amount|default='0.00'}</span>
+		{$type_title}总兑换额：<span style="color:#a00; font-weight: bold;"><if condition="$Think.get.type eq 'cash'">{$total.amount|default='0.00'}<else/>{$total['amount_current']|default='0.00'}</if></span>
+		总毛利润：<span style="color:#a00; font-weight: bold;">{$total_profits|default='0.00'}</span>
+	</div>
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>用户账户</th>
+				<th>商家信息</th>
+				<th>订单号</th>
+				<th>总金额</th>
+				<th>{$type_title}支付金额</th>
+				<th>创建时间</th>										
+				<th>付款时间</th>
+				<th>毛利润</th>														
+			</tr>
+		</thead>
+		
+		<tbody id="list">
+			<volist name="datalist" id="item" key="k" mod="2">
+			<tr>
+				<td><label>{$item.loginname}<span style="color:red;padding-left:3px;">[{$item.username}]</span></label></td>
+				<td>{$item.store_name}<if condition="$item[productname] neq ''">[{$item.productname}]</if></td>
+				<td>{$item.order_number}</td>
+				<td style="font-weight: bold;">{$item.amount}</td>
+				<td style="font-weight: bold;">{$item.amount_current}</td>
+				<td>{$item.time|date='Y-m-d H:i:s',###}</td>
+				<td>{$item.pay_time|date='Y-m-d H:i:s',###}</td>
+				<td style="font-weight: bold;">{$item.profits|default='0.00'}</td>
+			</tr>
+			</volist>							
+		</tbody>
+
+	</table>
+	<!-- [/list] -->
+	
+	<div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+	
+</div>

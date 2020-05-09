@@ -1,0 +1,83 @@
+<style>
+ul,li {margin:0; padding:0; list-style:none;}
+ul {margin-left:2em;}
+#tree {margin-left:0;}
+#tree li {background:url('__PUBLIC__/images/treeview-default-line-2.gif') repeat-y -3px top;}
+#tree li a {background: url('__PUBLIC__/images/plus.gif') no-repeat left 50%; display:inline-block; padding-left:10px;}
+#tree li a.is_clicked {background-image:url('__PUBLIC__/images/minus.gif');}
+</style>
+
+<div class="zc_anwia">
+	<h2>推荐关系</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<div class="col-sm-4" style="padding-top:20px;">
+		<input type="text" style="float:left;width:40% !important;margin-right:5px;margin-bottom:0px;" class="form-control" id="search_account"  placeholder="请输入要查询的手机号/姓名/用户名" value="">
+		<button class="btn btn-primary search_submit" style="height:39px;"><span class="glyphicon glyphicon-search">搜索</span></button>
+	</div>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<ul id="tree">{$tree1}</ul>
+	<!-- [/list] -->
+</div>
+
+<script>
+function getTree(obj){
+	obj = $(obj);
+	
+	//无同级去掉竖线背景条
+	if(obj.parent('li').siblings('li').length==0){
+		obj.parent('li').css('background','none');
+	}
+	
+	//收缩
+	if (obj.hasClass('is_clicked')) {
+		obj.removeClass('is_clicked');
+		obj.parent('li').find('ul').remove();
+		obj.parent('li').find('font').remove();
+		return false;
+	}
+	
+	var uid = obj.attr('uid');
+	var level = obj.attr('level');
+	
+	$.ajax({
+		url: "{:U('__CONTROLLER__/getTreeByAsyn')}",
+		data: {uid:uid,level:level},
+		type: 'POST',
+		success: function(data){
+			if(data==''){
+				obj.parent('li').append('<font style="color:red;">已无下级</font>');
+			}else if(data=='111'){
+				obj.parent('li').append('<font style="color:red;">无权访问同级别的下级</font>');
+			}else{
+				obj.parent('li').append(data);
+			}
+			obj.addClass('is_clicked');
+		}
+	});
+}
+
+$('.search_submit').click(function(){
+	var account = $('#search_account').val();
+	if(account==''){
+		alert('请输入手机号或姓名');
+		return false;
+	}
+	$.ajax({
+		url: "{:U('__CONTROLLER__/searchAccountByAsyn')}",
+		data: {account:account},
+		type: 'POST',
+		success: function(data){
+			if(data==''){
+				alert('未找到相关记录或无权查看');
+				return false;
+			}else{
+				$('#tree').html(data);
+			}
+		},
+	});
+});
+</script>

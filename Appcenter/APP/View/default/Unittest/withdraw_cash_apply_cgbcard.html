@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 测试接口：提现到银行卡申请</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="/Public/Api/js/css.css" rel="stylesheet">
+	</head>
+<body>
+
+<div  class="testdiv">
+	<h3>测试接口：提现到银行卡申请</h3>
+	<div class="testform">
+	<form name="theform" enctype="multipart/form-data" method="post">
+		<table>
+			<tr>
+				<td class="label">uid</td>
+				<td><input type="text" name="uid" value="9536"> </td>
+			</tr>
+			<tr>
+				<td class="label">amount</td>
+				<td><input type="text" name="amount" value="1"> </td>
+			</tr>
+			<tr>
+				<td class="label">content</td>
+				<td><input type="text" name="content" value="银行卡提现测试"> </td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input type="button" class="commit" value="测试4版"  onclick="test('http://local.zcsh4.com/APP/Member/withdraw_cash_apply_cgbcard')" />
+					<input type="button" class="commit" value="测试3版"  onclick="test('http://cs.b.zcsh123.com/Member/withdraw_cash_apply_cgbcard')"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+</div>
+<script>
+	function test(url) {
+		document.forms['theform'].action=url;
+		document.forms['theform'].submit();
+    }
+</script>
+</body>
+</html>

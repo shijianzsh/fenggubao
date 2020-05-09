@@ -1,0 +1,28 @@
+<div class="zc_anwia">
+	<h2>业绩分配规则编辑</h2>
+</div>
+<div class="zc_message">
+	<form name="save" method="post" action="{:U('__CONTROLLER__/save')}">
+		<div class="zc_shop">
+			<span>等级：</span>
+			{$info.level}
+		</div>
+		<div class="zc_shop">
+			<span>消费指标：</span>
+			<input type="text" name="amount" value="{$info.amount}">
+		</div>
+		<div class="zc_shop">
+			<span>管理津贴比例：</span>
+			<input type="text" name="subsidy_bai" value="{$info.subsidy_bai}">%
+		</div>
+		<div class="zc_shop">
+			<span>出局倍数：</span>
+			<input type="text" name="out_bei" value="{$info.out_bei}">倍
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>
+</div>

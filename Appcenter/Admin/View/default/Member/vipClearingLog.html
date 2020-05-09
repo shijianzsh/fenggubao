@@ -1,0 +1,39 @@
+<div class="zc_anwia">
+	<h2>金卡代理回本记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="vipClearingLogSearch" method="get" action="__ACTION__">
+		<assign name="search_user_hide" value="1"/>
+		<assign name="search_date_title" value="回本日期"/>
+		<assign name="search_date_min_value" value="$Think.get.time_min"/>
+		<assign name="search_date_max_value" value="$Think.get.time_max"/>
+		<include file="./Appcenter/Public/public/common.search.html"/>
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search">搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>回本金额</th>
+				<th>回本时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.log_id}</td>
+				<td>{$item.log_amount}</td>
+				<td>{$item.log_addtime|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

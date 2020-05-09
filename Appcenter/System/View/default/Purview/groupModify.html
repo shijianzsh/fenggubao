@@ -1,0 +1,54 @@
+<div class="zc_anwia"><h2>角色修改</h2></div>
+<div class="zc_message">
+	<form name="group_modify" method="post" action="{:U('__CONTROLLER__/groupSave')}">
+	<p><span>角色名称：</span><input type="text" name="title" id="title" value="{$group_info.title}" class="zc_if_empty" /></p>
+	<p>
+	拥有规则：
+		<dl>
+	        <dt style="margin-bottom:10px;"><a href="javascript:;" class="shuoming checkall all">[全选]</a></dt>
+			<foreach name="rule_list" item="rule">
+			<div class="zc_marin">
+			<dt><strong style="font-size:16px;">{$key}</strong> <a href="javascript:;" class="shuoming checkall">[全选]</a></dt>
+			<dd>
+			    <foreach name="rule" item="list">
+			   <span style="display:inline-block;width:155px;">
+			   	 <label>
+			   	 	<input type="checkbox" name="rules[]" value="{$list.list.id}" <php>if(in_array($list['list']['id'], explode(',', $group_info['rules']))){echo 'checked';}</php> />{$list.title}
+			   	 </label>
+			   </span>&nbsp;&nbsp;
+			    </foreach>
+			</dd>
+			</div>
+			</foreach>
+		</dl>
+	</p>
+	<p><input type="submit" name="submit" id="submit" value="保存"/></p>
+	<input type="hidden" name="id" value="{$group_info.id}"/>
+	</form>
+</div>
+<script>
+$(function(){
+	
+	$('.shuoming').css('fontSize', '12px');
+	$('.checkall').click(function(){
+		if($(this).hasClass('all')){
+			if($(this).hasClass('ischecked')){
+				$(this).removeClass('ischecked');
+				$(this).parent('dt').parent('dl').find("input[type='checkbox']").prop("checked", false);
+			}else {
+				$(this).addClass('ischecked');
+				$(this).parent('dt').parent('dl').find("input[type='checkbox']").prop("checked", true);
+			}
+		}else{
+			if($(this).hasClass('ischecked')){
+				$(this).removeClass('ischecked');
+				$(this).parent('dt').next('dd').find("input[type='checkbox']").prop("checked", false);
+			}else{
+				$(this).addClass('ischecked');
+				$(this).parent('dt').next('dd').find("input[type='checkbox']").prop("checked", true);
+			}
+		}
+	});
+	
+});
+</script>

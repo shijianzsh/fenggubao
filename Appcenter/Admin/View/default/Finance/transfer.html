@@ -1,0 +1,69 @@
+<div class="zc_anwia">
+	<h2>用户转账记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [notice] -->
+	<div class="shuoming_warning">默认只显示当月记录，查看历史记录，请通过日期搜索</div>
+	<!-- [/notice] -->
+	<!-- [search] -->
+	<div>
+		<form name="form" method="get" action="">
+			<div class="form-group left">
+				<label for="loginname" class="control-label">转出账号</label>
+				<input name="out_loginname" class="form-control" size="20" type="text" value="{$Think.get.out_loginname}" placeholder="用户账号">	        
+			</div>
+			<div class="form-group left">
+				<label for="loginname" class="control-label">转入账号</label>
+				<input name="in_loginname" class="form-control" size="20" type="text" value="{$Think.get.in_loginname}" placeholder="用户账号">	                                    
+			</div>
+	
+			<assign name="search_user_hide" value="1"/>
+			<assign name="search_date_title" value="转账操作日期"/>
+			<assign name="search_date_min_value" value="$Think.get.time_min"/>
+			<assign name="search_date_max_value" value="$Think.get.time_max"/>
+			<include file="./Appcenter/Public/public/common.search.html"/> 
+			
+			<div class="form-group left">
+				<label for="loginname" class="control-label">转帐类型</label>
+				<select name="transfer_type">
+					<option value="cash" <if condition="$Think.get.transfer_type eq '' or $Think.get.transfer_type eq 'cash'">selected</if> >现金币</option>
+					<option value="goldcoin" <if condition="$Think.get.transfer_type eq 'goldcoin'">selected</if> >丰谷宝</option>
+					<option value="bonus" <if condition="$Think.get.transfer_type eq 'bonus'">selected</if> >锁定通证</option>
+				</select>
+			</div>
+			
+			<button type="submit" class="btn">
+				<span> 搜 索</span>
+			</button>
+			
+			<div style="clear:both;"></div>
+		</form>
+	</div>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>转账金额</th>
+				<th>转出账户</th>
+				<th>接收账户</th>
+				<th>转账时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.record_amount}</td>
+				<td>{$item.out_loginname}<span style="color:red;padding-left:3px;">[{$item.out_nickname}]</span></td>
+				<td>{$item.in_loginname}<span style="color:red;padding-left:3px;">[{$item.in_nickname}]</span></td>
+				<td>{$item.record_addtime|date="Y-m-d H:i:s",###}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+	<div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+	
+</div>

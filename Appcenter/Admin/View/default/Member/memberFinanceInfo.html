@@ -1,0 +1,85 @@
+<div class="zc_anwia">
+	<h2>{$account['nickname']}[{$account['loginname']}]-资金变动明细</h2>
+</div>
+<div class="zc_message">
+	<div class="shuoming">
+		资金变动明细数据只保留并显示近30天数据！
+	</div>
+	<!-- [count] -->
+	<h2 style="margin-bottom:20px;">
+		<small>
+           丰谷宝：<span style="color:red">{$account['goldcoin']|default='0'}</span>&nbsp;&nbsp;
+           商超券：<span style="color:red">{$account['colorcoin']|default='0'}</span>&nbsp;&nbsp;
+           现金币：<span style="color:red">{$account['cash']|default='0'}</span>&nbsp;&nbsp;
+           积分：<span style="color:red">{$account['points']|default='0'}</span>&nbsp;&nbsp;
+          丰收点：<span style="color:red">{$account['bonus']|default='0'}</span>
+		</small>
+    </h2>
+	<!-- [/count] -->
+	
+	<!-- [form] -->
+	<form role="form" action="__ACTION__" method="get">
+		<assign name="search_date_hide" value="1"/>
+		<div>
+			<label for="member_cash" class="col-sm-2 control-label left">日期范围</label>
+        	<div class="form-group left">
+				<input name="start_time" id="LAY_demorange_s" class="form-control" size="8" type="text" value='{$Think.get.start_time}' readonly>
+				--&nbsp;
+			</div>
+			<div class="form-group left">
+				<input name="end_time" class="form-control" id="LAY_demorange_e" size="8" type="text" value='{$Think.get.end_time}' readonly>
+			</div>
+        </div>
+		 
+		<div>
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-success zc_submit">确认</button>
+			</div>
+		</div>
+		<input type="hidden" name="uid" value="{$Think.get.uid}">
+	</form>
+	<!-- [/form] -->
+ 
+ 	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>丰谷宝</th>
+				<th>商超券</th>
+				<th>现金币</th>
+				<th>积分</th>
+				<th>丰收点</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>
+					<span <if condition="$item['goldcoin']['value'] neq 0">style="color:red;"</if> >{$item['goldcoin']['value']}</span>
+					<if condition="$item['goldcoin']['value'] neq 0">【{$item['goldcoin']['old']} | {$item['goldcoin']['new']}】</if>
+				</td>
+				<td>
+					<span <if condition="$item['colorcoin']['value'] neq 0">style="color:red;"</if> >{$item['colorcoin']['value']}</span>
+					<if condition="$item['colorcoin']['value'] neq 0">【{$item['colorcoin']['old']} | {$item['colorcoin']['new']}】</if>
+				</td>
+				<td>
+					<span <if condition="$item['cash']['value'] neq 0">style="color:red;"</if> >{$item['cash']['value']}</span>
+					<if condition="$item['cash']['value'] neq 0"> 【{$item['cash']['old']} | {$item['cash']['new']}】</if>
+				 </td>
+				<td>
+					<span <if condition="$item['points']['value'] neq 0">style="color:red;"</if> >{$item['points']['value']}</span>
+					<if condition="$item['points']['value'] neq 0">【{$item['points']['old']} | {$item['points']['new']}】</if>
+				</td>
+				<td>
+					<span <if condition="$item['bonus']['value'] neq 0">style="color:red;"</if> >{$item['bonus']['value']}</span>
+					<if condition="$item['bonus']['value'] neq 0">【{$item['bonus']['old']} | {$item['bonus']['new']}】</if>
+				</td>
+				<td>{$item.time|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+</div>

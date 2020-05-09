@@ -1,0 +1,817 @@
+<!doctype>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<title>在线客服</title>
+<link rel="stylesheet" href="__CSS__/base.css">
+<script src='__JS__/jmessage-sdk-web.2.5.0.min.js'></script>
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/touche.js"></script>
+<script src="__JS__/p-pull-refresh.js"></script>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: Verdana,Microsoft yahei;
+}
+body {
+	overflow-x: hidden;
+}
+.topbar {
+	height: 4em;
+	line-height: 4em;
+	text-align: left;
+	background: #ED8E34;
+	color: #fff;
+	width:100%;
+}
+.topbar img {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 20%;
+	margin-left: 0.5em;
+}
+.topbar a {
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 4em;
+	line-height: 4em;
+	width: 4em;
+	background: url('__PUBLIC_ADMIN__/images/zc_airiwnfsxd.png') no-repeat 50% 50%;
+}
+.topbar em {
+	padding: 0.2em 0.4em;
+	background: #ff7f21;
+	margin-left: 0.5em;
+	border-radius: 10%;
+}
+.content {
+	background: #F5F5F5;
+	height: calc(100% - 8em);
+	width: 100%;
+	overflow-y: auto;
+	position: relative;
+}
+.content .product_top {
+	position: fixed;
+	left: 0;
+	top: 4em;
+	width: 100%;
+}
+.content #product i {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+	background: url('__PUBLIC_ADMIN__/images/action_delete.png') no-repeat 50% 50%;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.content #product div {
+	margin: 0 0.5em;
+	padding: 0.5em;
+	width: calc(100% - 2.2em);
+	background: #fff;
+	border: 0.1em #ccc solid;
+}
+.content #product div img {
+	display: inline-block;
+	width: 5em;
+	height: 5em;
+	border-radius: 0.2em;
+}
+.content #product div span {
+	display: inline-block;
+	padding-left: 0.5em;
+	font-size: 1.3em;
+	vertical-align: top;
+	width: calc(100% - 5.5em);
+}
+.content #product div span em {
+	display: inline-block;
+	background: #ff7f21;
+	color: #fff;
+	padding: 0.2em 0.2em;
+	border-radius: 10%;
+	font-size: 0.5em;
+	margin-right: 0.5em;
+}
+.content #product div span a {
+	display: block;
+	font-size: 1em;
+	margin-top: 0.5em;
+	color: red;
+	text-align: center;
+}
+.content dl {
+	padding: 0.5em;
+}
+.content dl dt {
+	font-size: 0.75em;
+	width: 100%;
+	text-align: left;
+	margin-bottom: 0.5em;
+}
+.content dl dt img {
+	width: 3em;
+	height: 3em;
+	border-radius: 20%;
+}
+.content dl dt.target,
+.content dl dd.target {
+	text-align: right;
+}
+.content dl dd {
+	margin-bottom: 0.5em;
+}
+/* .msg_content */
+.content dl dd .msg_content {
+	display: inline-block;
+	background: #9EEA6A;
+	border-radius: 0.5em;
+	padding: 0.75em;
+	text-align: left;
+}
+.content dl dd.current .msg_content {
+	background: #fff;
+}
+.content dl dd .msg_content img {
+	width: 20%;
+	height: auto;
+}
+/* .img */
+.content dl dd .img {
+	width: 20%;
+	padding: 0;
+	border-radius: 0;
+	background: none;
+}
+.content dl dd .img img {
+	width: 100%;
+}
+/* .product_id */
+.content dl dd .product_id {
+	padding: 0;
+	border-rdaius: 0;
+	background: none;
+}
+/* emoji_id */
+.content dl dd .emoji_id {
+	padding: 0;
+	border-radius: 0;
+	background: none;
+}
+.content dl dd .emoji_id img {
+	width: 100%;
+}
+.content dl dd .islook {
+	width: 80%;
+}
+.content dl dd .islook img {
+	width: 100%;
+}
+.input {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 4em;
+	line-height: 4em;
+	width: 100%;
+}
+.input .msg {
+	height: 100%;
+	line-height: 100%;
+	width: 60%;
+	background: #fff;
+	padding: 0.5em;
+}
+.input .send {
+	display: inline-block;
+	width: 20%;
+	text-align: center;
+	background: #ED8E34;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+/* .emoji */
+.input .emoji {
+	background: url(__PUBLIC__/images/happy_face.png) no-repeat 50% 50%;
+	background-size: 80%;
+	width: 10%;
+	height: 100%;
+	cursor: pointer;
+	overflow: hidden;
+}
+/* .picture */
+.input .picture {
+	background: url(__PUBLIC__/images/picture.png) no-repeat 50% 50%;
+	background-size: 80%;
+	width: 10%;
+	height: 100%;
+	cursor: pointer;
+	overflow: hidden;
+}
+.input .picture input {
+	opacity: 0;
+	cursor: pointer;
+}
+.loading {
+	font-size: 1em;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #ddd;
+	text-align: center;
+	/*dline-height: 3em;*/
+	z-index: 2;
+	color: #000;
+}
+.loading a {
+	color: #000;
+}
+.loading .reload {
+	position: absolute;
+	left: 10%;
+	top: 50%;
+	margin-top: -1.5em;
+	width: 80%;
+	height: 3em;
+	line-height: 3em;
+	background: #fff;
+	text-align: center;
+}
+.loadingWaiting {
+	opacity: 0.9;
+	z-index: 99;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #333 url(__PUBLIC_ADMIN__/images/loading4.gif) no-repeat 50% 50%;
+}
+.loadingWaiting span {
+	display: none;
+}
+#emoji {
+	position: absolute;
+	left: 0;
+	bottom: 4em;
+	width: 100%;
+	background: #fff;
+	border: 1px #ccc solid;
+}
+#emoji img {
+	display: inline-block;
+	margin: 0.1em;
+}
+/* robot */
+.robot_list {
+	line-height: 1.5em;
+}
+.robot_list .robot {
+	display: block;
+	cursor: pointer;
+}
+.robot_detail {
+	
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar"><a href=""></a></div>
+<div class="content"><dl id="content"></dl></div>
+<div class="input clearfix" id="input">
+	<input type="text" placeholder="请输入聊天信息" class="msg f_l">
+	<span class="emoji f_l"></span>
+	<span class="picture f_l"><input type="file" name="file_box" id="file_box"></span>
+	<span class="send f_r" id="send">发送</span>
+</div>
+<div class="loading">加载中...</div>
+<div id="emoji"></div>
+
+</body>
+
+<script>
+//全局初始化
+var User = {$user};
+var status_login = true;
+var status_register = true;
+var msg_id = 0;
+var dialog_url = "{:U('__CONTROLLER__/dialog/current_id/', '', '', true)}";
+var emoji_url = "__PUBLIC__/images/emoji/";
+var chat_model = "{$chat_model}";
+window.JIM = new JMessage({
+   	debug : true
+});
+
+//异常断线监听
+JIM.onDisconnect(function(){
+	$('.loading').html('<a href="javascript:location.reload();" class="reload">连接已断开，请点击重试</a>').show();
+}); 
+
+//监听当前用户离开页面，则自动断开连接并设置状态为下线
+$(window).bind('beforeunload',function(){
+	JIM.loginOut();
+}); 
+
+//----------------------------
+$(function(){
+	
+	init();
+	
+	//聚焦输入框
+	$('.msg').focus();
+	
+	//机器人模式
+	if(chat_model=='robot'){
+		//target用户头像昵称自适应
+		User.target.nickname = '机器人客服';
+		User.target.avatar = '__PUBLIC__/images/robot.png';
+	}
+	
+	//顶部条
+	var store_name = User.target.storename==null ? User.target.nickname : User.target.storename+'<em>店铺</em>';
+	var store_img = User.target.storename==null ? User.target.avatar : User.target.storeimg;
+	$('.topbar').append(' <img src="'+store_img+'" align="absmiddle"> '+store_name);
+	$('.topbar a').attr('href', dialog_url+'/'+User.current.user_id);
+	
+	//监听文件输入框事件
+	var inputElement = document.getElementById("file_box");
+	inputElement.addEventListener("change", handleFiles, false);
+	
+	//监听发送按钮事件
+	var sendElement = document.getElementById("send");
+	sendElement.addEventListener("click", sendMsg, false);
+	
+	//显示目标用户浏览商品信息
+	<if condition="$product_info neq '' and $product_info neq 'null'">
+	var product_info = {$product_info};
+	$('.content').append('<div id="product" class="product_top">\
+							<div>\
+								<img src="'+product_info.img+'" align="absmiddle">\
+								<span><em>'+product_info.block_name+'</em>'+product_info.name+'<a href="javascript:;" class="send_product">发送此商品链接</a></span>\
+							</div>\
+							<i></i>\
+						</div>');
+	$('.content .product_top>i').click(function(){
+		$('.content .product_top').remove();
+	});
+	//发送商品信息
+	$('.send_product').click(function(){
+		send('[[[PRODUCT_ID:'+product_info.id+']]]');
+		$('.product_top').remove();
+	});
+	</if>
+	
+	//emoji
+	$('#emoji').hide();
+	$('.emoji').click(function(){
+		if($('#emoji').find('img').length){
+			if($('#emoji').hasClass('isClick')){
+				$('#emoji').hide().removeClass('isClick');
+			}else{
+				$('#emoji').show().addClass('isClick');
+			}
+		}else{
+			for(var i=1; i<=63; i++){
+				$('#emoji').append('<img onclick="emoji('+i+')" src="'+emoji_url+i+'.png" align="absimiddle">');
+			}
+			$('#emoji').show().addClass('isClick');
+		}
+	});
+	
+});
+//----------------------------
+
+//emoji发送
+function emoji(id){
+	send('[[[EMOJI_ID:'+id+']]]');
+	$('.emoji').click();
+}
+
+//Enter键发送消息
+$(document).keyup(function(event){
+	if(event.keyCode == 13 || event.which == 13){
+		sendMsg();
+	}
+});
+
+//监听文本输入框事件:自浮动显示输入框
+window.addEventListener('resize', function(){
+	document.getElementById("input").scrollIntoView(true);
+});
+
+//自动显示最后一条聊天记录
+function showLastMsg(){
+	var dlElement = document.getElementById("content");
+	var last = dlElement.lastChild;
+	last.scrollIntoView(true);
+}
+
+//发送消息
+function sendMsg(){
+	var msg = $('.msg').val();
+	
+	if(msg!=''){
+		send(msg);
+	}
+}
+
+//发送消息
+function send(msg){
+	if(msg==''){
+		return false;
+	}
+	$('.send').css('background','#ED6868').text('发送中');
+	
+	//敏感词检测
+	$.ajax({
+		'url': "{:U('__CONTROLLER__/checkWord')}",
+		'type': 'post',
+		'data': {content:msg},
+		'success': function(re){
+			re = $.parseJSON(re);
+			if(re.count>0){
+				$('.loading').html('<p style="color:red;">检测到'+re.count+'处敏感词 (3秒后自动关闭)</p><p>'+re.content+'</p>').slideDown();
+				$('.send').css('background','#ED8E34').text('发送');
+				setTimeout("$('.loading').slideUp()", 3000);
+			}else{
+				$('.loading').hide();
+				sendAction(msg);
+			}
+		},
+		'error': function(e,m){
+			alert('发送异常，请重试！Error:01');
+			return false;
+		},
+		'timeout': 5000
+	});
+}
+
+//发送消息本体
+function sendAction(msg){
+	if(chat_model=='robot'){
+		sendSingleMsgToRobot(msg);
+	}else{
+		sendSingleMsg(msg);
+	}
+}
+
+//插入实时会话
+//target_id:接收者账号
+//from_id:发送者账号
+//msg：消息体
+//msg_id: 消息ID
+function appendMsg(target_id, from_id, msg, msg_id){
+	if (from_id == User.current.username) {
+		ct = 'target';
+		nickname = '自己';
+		avatar = User.current.avatar;
+	}else{
+		ct = 'current';
+		nickname = User.target.nickname;
+		avatar = User.target.avatar;
+	}
+	
+	var span_class = 'text';
+	
+	//判断msg是否为图片
+	if(msg.indexOf('<img') != -1){
+		span_class = 'img';
+	}
+	
+	//判断msg是否为参数体(标记为[[[]]])
+	if(msg.indexOf('[[[') != -1){
+		var data = msgTransf(msg);
+		msg = data.msg;
+		span_class = data.tag;
+	}
+	
+	$('.content dl').append('<dt class="'+ct+'" id="'+msg_id+'"><img src="'+avatar+'" align="absmiddle" alt="'+nickname+'"></dt><dd class="'+ct+'"><div class="msg_content '+span_class+'">'+msg+'</div></dd>');
+}
+
+//消息参数体转换
+function msgTransf(msg){
+	var result = {tag:'',msg:''};
+	$.ajax({
+		url: "{:U('__CONTROLLER__/msgTransf')}",
+		type: 'post',
+		data: {msg:msg},
+		async: false,
+		success: function(re){
+			re = $.parseJSON(re);
+			
+			result.tag = re.tag;
+			if(re.tag == 'product_id'){
+				result.msg = '<div id="product">\
+									<div>\
+										<img src="'+re.data.img+'" align="absmiddle">\
+										<span><em>'+re.data.block_name+'</em>'+re.data.name+'</span>\
+									</div>\
+								</div>';
+			}else if(re.tag == 'emoji_id'){
+				result.msg = '<img src="'+emoji_url+re.data+'.png" align="absmiddle">';
+			}
+		},
+		error: function(e,m){
+			result.tag = 'text';
+			result.msg = m;
+		},
+		timeout: 10000
+	});
+	return result;
+}
+
+//获取当前初始化状态
+function isInit(){
+	return JIM.isInit();
+}
+
+//初始化
+function init(){
+	JIM.init({
+        "appkey":"{$config.appkey}",
+        "random_str": "{$config.random_str}",
+        "signature": "{$config.signature}",
+        "timestamp": "{$config.timestamp}",
+        "flag": "{$config.flag}"
+    }).onSuccess(function(data) {
+    	loginAction();
+    	register('target');
+    	$('.loading').hide();
+
+    	return data;
+	}).onFail(function(data) {
+		$('.loading').html('<a href="javascript:location.reload();" class="reload">加载失败，请点击重试</a>').slideDown();
+	});
+}
+
+//获取登录状态
+function isLogin(){
+	return JIM.isLogin();
+}
+
+//获取用户个人信息
+function getSelfInfo(){
+	JIM.getUserInfo({
+        'username' : User.current.username
+    }).onSuccess(function(data) {
+    	return data;
+    }).onFail(function(data) {
+		return false;
+    });
+}
+
+//登录用户
+function loginAction(){
+	JIM.login({
+		'username' : User.current.username,
+		'password': User.current.password,
+		'is_md5': true
+	}).onSuccess(function(data) {
+		//加载历史聊天记录
+		var history = {$history};
+		$.each(history, function(key,val){
+			appendMsg(val.target_username, val.current_username, val.msg, val.msgid);
+		});
+		showLastMsg();
+		
+		//机器人模式
+		if(chat_model=='robot'){
+			//首次进入寒暄语
+			appendMsg(User.target.username, User.current.username, '主银，很高兴为您服务，请问有什么能帮助您的？', 0);
+			$('.msg').val('');
+			showLastMsg();
+		}
+		
+		//重置会话未读数
+		resetUnreadCount();
+		
+		//聊天消息实时监听
+		JIM.onMsgReceive(function(data) {
+			$.each(data.messages, function(key,val){
+				msg_id = val.msg_id;
+				if($('#content #'+msg_id).length){
+				}else{
+					appendMsg(val.content.target_id, val.content.from_id, val.content.msg_body.text, msg_id);
+					addSingleReceiptReport(msg_id);
+				}
+			});
+        });
+	}).onFail(function(data) {
+		register('current');
+	}).onTimeout(function(data) {
+		$('.loading').html('<a href="javascript:location.reload();" class="reload">登录失败，请点击重试</a>').slideDown();
+	});
+}
+
+//登出用户
+function loginOut(){
+	return JIM.loginOut();
+}
+
+//注册用户
+//type 注册用户类型: current|target
+function register(type){
+	var username='',nickname='',password='';
+	if(type == 'target'){
+		username = User.target.username;
+		nickname = User.target.nickname;
+		password = User.target.password;
+	}else{
+		username = User.current.username;
+		nickname = User.current.nickname;
+		password = User.current.password;
+	}
+	JIM.register({
+		'username' : username,
+		'nickname' : nickname,
+		'password': password,
+		'is_md5' : true
+	}).onSuccess(function(data) {
+		if(type == 'current'){
+			loginAction();
+		}
+	}).onFail(function(data) {
+		
+	});
+}
+
+//给智能机器人发送消息
+function sendSingleMsgToRobot(msg) {
+	appendMsg(User.target.username, User.current.username, msg, 0);
+	$('.msg').val('');
+	showLastMsg();
+	
+	$.ajax({
+		url: "{:U('__CONTROLLER__/getRobotResponseMsg')}",
+		type: 'post',
+		data: {msg:msg},
+		success: function(re){
+			appendMsg(User.current.username, User.target.username, re.trim(), 0);
+			showLastMsg();
+		},
+		error: function(e,m){
+			alert('智能机器人充电中...');
+		},
+		timeout: 5000
+	});
+	$('.send').css('background','#ED8E34').text('发送');
+}
+
+//发送单聊消息
+function sendSingleMsg(msg) {
+	JIM.sendSingleMsg({
+		'target_username' : User.target.username,
+		'appkey' :  "{$config.appkey}",
+		'content' : msg,
+		'no_offline' : false,
+		'no_notification' : false,
+		'need_receipt': true
+	}).onSuccess(function(data,m) {
+		//推送提醒消息给目标用户
+		$.ajax({
+			'url': "{:U('__CONTROLLER__/pushAlertToTarget')}",
+			'type': 'post',
+			'data': {receiver_user_id:User.target.user_id,msg:msg,sender_user_id:User.current.user_id},
+			'success': function(re){
+				appendMsg(User.target.username, User.current.username, msg, data.msg_id);
+				$('.msg').val('');
+				
+				showLastMsg();
+			},
+			'error': function(e,m){
+				alert('发送失败，请重试！Error:02');
+			},
+			'timeout': 5000
+		});
+		$('.send').css('background','#ED8E34').text('发送');
+	}).onFail(function(data) {
+		alert('发送失败，请重试！Error:03');
+	});
+}
+
+//重置会话未读数
+function resetUnreadCount(){
+	JIM.resetUnreadCount({
+        'username' : User.target.username
+    });
+}
+
+//单聊消息已读回执
+//msg_id 消息ID
+function addSingleReceiptReport(msg_id){
+	JIM.addSingleReceiptReport({
+		'username' : User.current.username,
+		'msg_id' : msg_id
+	}).onSuccess(function(data,msg_ids){
+        return data;
+	}).onFail(function(data,msg_ids){
+		return false;
+	});
+}
+
+//获取图片选择信息
+function handleFiles() {
+	loadingWaiting();
+	
+	var fileList = this.files;
+	for (var i = 0, numFiles = fileList.length; i < numFiles; i++) {
+		var file = fileList[i];
+		sendSinglePic(file);
+	}
+}
+
+//上传图片
+//file 单文件file对象
+function getFile(file) {
+    var fd = new FormData();
+    fd.append(file.name, file);
+    return fd;
+}
+
+//单聊发送图片
+//file 单文件file对象
+function sendSinglePic(file) {
+	JIM.sendSinglePic({
+		'target_username' : User.target.username,
+		'target_nickname' : User.target.nickname,
+		'appkey' : "{$config.appkey}",
+        'image' : getFile(file),
+		'nead_receipt':true
+	}).onSuccess(function(data,msg) {
+        getResource(msg.content.msg_body.media_id, msg.msg_id);
+        loadingWaiting(1);
+     }).onFail(function(data) {
+    	 loadingWaiting(1);
+	});
+}
+
+//获取资源访问路径
+//media_id 资源访问标识
+function getResource(media_id, msg_id){
+	JIM.getResource({
+		'media_id' : media_id,
+	}).onSuccess(function(data) {
+		appendMsg(data.target_username, User.current.username, '<img onclick="look(this)" src="'+data.url+'">', msg_id);
+	}).onFail(function(data) {
+		$('.loading').html('发送失败').slideDown();
+		setTimeout("$('.loading').slideUp()", 1000);
+	});
+}
+
+//图片点击放大或缩小
+function look(obj){
+	var T = $(obj).parent('.msg_content');
+	if(T.hasClass('islook')) {
+		T.removeClass('islook');
+	}else{
+		T.addClass('islook');
+	}
+}
+
+//加载中提示
+function loadingWaiting(){
+	var is_close = arguments[0] ? arguments[0] : false;
+	var msg = arguments[1] ? arguments[1] : '加载中...';
+	if(is_close){
+		$('.loadingWaiting').remove();
+	}else{
+		$('body').append('<div class="loadingWaiting"><span>'+msg+'</span></div>');
+	}
+}
+
+//智能回复消息中的带超链接的标题信息点击自动触发回复其内容
+function getRobotResponseDetail(msg, flash_id){
+	appendMsg(User.target.username, User.current.username, msg, 0);
+	$('.msg').val('');
+	showLastMsg();
+	
+	$.ajax({
+		url: "{:U('__CONTROLLER__/getRobotResponseMsgDetail')}",
+		type: 'post',
+		data: {flash_id:flash_id},
+		success: function(re){
+			appendMsg(User.current.username, User.target.username, re, 0);
+			showLastMsg();
+		},
+		error: function(e,m){
+			alert('智能机器人充电中...');
+		},
+		timeout: 5000
+	});
+}
+
+</script>
+
+</html>

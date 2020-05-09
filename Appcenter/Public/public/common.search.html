@@ -1,0 +1,47 @@
+<!-- [通用用户账号和日期搜索]
+---- search_user_hide: 只要有值即认为隐藏user输入框,不隐藏时无需定义此变量
+---- search_user_title: user输入框对应的label标签的标题文字
+---- search_user_value: user的默认值
+---- search_date_hide: 只要有值即认为隐藏日期选择框,不隐藏时无需定义此变量
+---- search_date_title: date选择框对应的label标签的标题文字
+---- search_date_min_value: 开始日期的默认值
+---- search_date_max_value: 结束日期的默认值
+-->
+
+<if condition="$search_user_hide eq ''">
+	<div class="form-group left">
+		<label for="userid">用户账号</label>
+		<input type="text" id="userid" name="userid" value='<if condition="$search_user_value neq ''">{$search_user_value}<else/>{$Think.get.userid}</if>' class="form-control" placeholder='<if condition="$search_user_title neq ''">{$search_user_title}<else/>手机号/姓名/用户名</if>'>
+	</div>
+</if>
+
+<if condition="$search_date_hide eq ''">
+	<div class="form-group left">
+		<label for="dtp_input1" class="control-label left">
+			<if condition="$search_date_title neq ''">{$search_date_title}<else/>注册日期</if>
+		</label>
+		<input type="text" class="layui-input" id="time_min" name="time_min" readonly value='<if condition="$search_date_min_value neq ''">{$search_date_min_value}<else/>{$Think.get.time_min}</if>'>
+	</div>
+	<div class="form-group left">
+		<label for="dtp_input2" class="control-label left zc_shugang">--</label>
+		<input type="text" class="layui-input" id="time_max" name="time_max" readonly value='<if condition="$search_date_max_value neq ''">{$search_date_max_value}<else/>{$Think.get.time_max}</if>'>
+	</div>
+</if>
+
+<!-- [/通用用户账号和日期搜索] -->
+<script>
+//common-search-date
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	laydate.render({
+		elem: '#time_min',
+		type: 'date'
+	});
+	
+	laydate.render({
+		elem: '#time_max',
+		type: 'date'
+	});
+});
+</script>

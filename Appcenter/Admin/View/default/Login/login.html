@@ -1,0 +1,83 @@
+{__NOLAYOUT__}
+<include file="./Appcenter/Public/public/head.html"/>
+<body>
+	<div class="zc_header">
+        <div class="between zc_inner">
+             <div class="zc_firm left">
+                <h3 class="left">{:C('APP_TITLE')}管理系统</h3>
+             </div>
+            <div class="English left">
+                <span> Management system</span>
+            </div>
+            <div class="zc_state right">
+                <span>未登录</span>
+            </div>
+        </div>
+    </div>
+    <div class="zc_mein">
+        <div style="width:65%;margin:0 auto;">
+            <div class="zc_ling right">
+                <div class="zc_t">
+                    <h2>用户登陆</h2>
+                </div>
+                <form action="" id="zc_log">
+                    <div class="zc_item">
+                        <div class="zc_title">
+                            <span>用户名</span>
+                            <em></em>
+                        </div>
+                        <div class="zc_inpt">
+                            <span class="loc1"></span>
+                            <input type="text" value="" id="zc_name" class="input"/>
+                        </div>
+                    </div>
+                    <div class="zc_item">
+                        <div class="zc_title">
+                            <span>密码</span>
+                            <em></em>
+                        </div>
+                        <div class="zc_inpt">
+                            <span class="ioc2"></span>
+                            <input type="password" value="" id="zc_password"  class="input"/>
+                        </div>
+                    </div>
+                    <div class="zc_item">
+                        <div class="zc_title">
+                            <span>验证码</span>
+                            <em></em>
+                        </div>
+                        <div class="zc_inpt">
+                            <span class="ioc3"></span>
+                            <input type="text" value="" id="zc_verification"   class="input"/>
+                            <img src="{:U('__MODULE__/Verify/Index/');}" id="verify_img" onclick="this.src=this.src+'?'+Math.random();" style="cursor:pointer;" align="absmiddle"/>
+                        </div>
+                    </div>
+                    <div class="zc_item">
+                        <input type="button" value="登陆" id="zc_take">
+                    </div>
+                    <div class="zc_item" style="padding-top:10px;">
+                        <label><input type="checkbox" value="1" name="zc_remember" id="zc_remember" style="vertical-align:middle;"><span>记住密码</span></label>
+                        <label ><span style="cursor:pointer;" id="forget">忘记密码</span></label>
+                    </div>
+                    <input type="hidden" name="wcd" id="wcd" value="{$Think.get.wcd}"/>
+                </form>
+            </div>
+        </div>
+    </div>
+	<div class="footer between">
+		<p>Copyright &copy; 2016-2018 All Rights Reserved {:C('APP_TITLE')} 版权所有</p>
+	</div>
+</body>
+
+<script>
+var login_fail_count = "{$login_fail_count}";
+var login_fail_count_max = "{$login_fail_count_max}";
+</script>
+
+<include file="./Appcenter/Public/public/foot.html"/>
+
+<script>
+if (login_fail_count>=login_fail_count_max) {
+	verify_code_init(true);
+}
+</script>

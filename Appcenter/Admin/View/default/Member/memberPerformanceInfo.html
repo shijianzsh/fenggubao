@@ -1,0 +1,46 @@
+<style>
+    .zc_message .big_title {
+        font-size: 14px;
+        padding: 10px 0;
+        font-weight: bold;
+        color: #027908;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>{$member_info['nickname']}[{$member_info['loginname']}]-业绩</h2>
+</div>
+<div class="zc_message">
+
+    <h2 style="margin-bottom:20px;">
+        <small>
+            总业绩：<span style="color:red">{$performance_score}</span>
+        </small>
+    </h2>
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th align="center" width="300">月份</th>
+            <th align="center" width="300">业绩</th>
+            <th align="center">更新时间</th>
+            <th align="center">明细</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="center">
+                   {$item.performance_tag}
+                </td>
+                <td align="right">{$item.performance_amount}</td>
+                <td align="center">{$item.performance_uptime|date="Y-m-d H:i:s",###}</td>
+                <td align="center"><a href="{:U('__CONTROLLER__/memberPerformanceDetails/id/'.$item[performance_id])}">查看</a></td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+</div>

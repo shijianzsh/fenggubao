@@ -1,0 +1,14 @@
+/*重置样式*/
+ul,li,ol,body,dl,dt,dd,p,h1,h2,h3,h4,h5,h6,div,img,span,i,a,b,strong{margin:0;padding:0;font-weight: inherit;}
+img,input,textarea,a{border:none;outline:none;}
+a{text-decoration: none;color:#404040;}
+li{list-style:none;}
+img{display: block}
+i,em{font-style: normal;}
+textarea{resize:none;}
+/*公用样式*/
+body{position: relative;font-size:12px;color:#404040;background:#f47a4b;}
+.between{width:1200px;margin:0 auto;height:100%;position: relative;}
+.clear:after{content:"";display: block;height:0;clear:both;font-size:0;}
+.left{float:left;_display:inline;}
+.right{float:right;_display:inline;}

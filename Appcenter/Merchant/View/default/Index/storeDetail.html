@@ -1,0 +1,158 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia"><h2>店铺信息</h2></div>
+<div class="zc_message">
+	<form name="goodsSave" method="post" action="{:U('__CONTROLLER__/saveDetail')}" enctype="multipart/form-data">
+		<div class="zc_shop">
+        	<span>店铺名称:</span>
+        	<input type="text" name="store_name" value="{$info.store_name}" class="zc_if_empty"/>
+        </div>
+        <div class="zc_shop">
+    		<span>所属分类:</span>
+    		<assign name="select_category_fid_value" value="$info['fid']"/>
+    		<assign name="select_category_sid_value" value="$info['sid']"/>
+    		<include file="./Appcenter/Public/public/common.category.html"/> 
+    	</div>
+        <div class="zc_shop">
+        	<span>营业电话:</span>
+        	<input type="text" name="phone" value="{$info.phone}" class="inputWidth200 zc_if_fixed zc_if_empty">
+            <span class="zc_if_alt"></span>
+        </div>
+        <div class="zc_shop">
+        	<span>人均消费:</span>
+        	<input type="text" name="person_consumption" value="{$info.person_consumption}" class="inputWidth200 zc_if_price zc_if_empty">
+        </div>
+        <div class="zc_shop">
+        	<span>所属市区:</span>
+    		<input type="text" name="province" id="province" value="{$info.province}" readonly/>
+    		<input type="text" name="city" id="city" value="{$info.city}" readonly/>
+    		<input type="text" name="country" id="country" value="{$info.country}" readonly/>
+    		<span class="shuoming">此处值无需修改,系统会自动调整</span>
+    	</div>
+        <div class="zc_shop">
+        	<span>店铺地址:</span>
+        	<input type="text" name="address" id="address" value="{$info.address}" class="inputWidth200 zc_if_empty">
+        	<button type="button" class="btn" name="submit" value="定位" onclick="bmap.searchMapByAddress($('#address').val())">定位</button>
+        	<span class="shuoming inputWidth600">如果新地址的省/市/区与老地址的省/市/区对比有变动，则必须要在点击【保存】按钮之前点击一次【定位】按钮</span>
+        </div>
+        <div class="zc_shop">
+        	<span>定位坐标:</span>
+        	<input type="text" name="longitude" id="lng" value="{$info.longitude}" readonly/> - <input type="text" id="lat" name="latitude" value="{$info.latitude}" readonly/>
+        	<div id="baidumap" style="width:600px; height:370px; margin-top:5px; border:1px #ccc solid;"></div>
+        </div>
+        <div class="zc_shop">
+        	<span>店内服务:</span>
+        	<label><input type="checkbox" name="services[]" value="1" <if condition="$info.service eq '1' OR $info.service eq '3'"> checked="checked"</if> >WIFI</label>
+        	<label><input type="checkbox" name="services[]" value="2" <if condition="$info.service eq '2' OR $info.service eq '3'"> checked="checked"</if>>停车场</label>
+        </div>
+        <div class="zc_shop">
+        	<span>活动折扣:</span>
+        	<php>
+        		if (date('H')>='09' && date('H')<='10') {
+        	</php>
+        	<select name="discount">
+        		<for start="5" end="10" step="0.5">
+        		<option value="{$i}" <if condition="$info.discount eq $i">selected</if> >{$i}</option>
+        		</for>
+        	</select>
+        	<php>
+        		} else {
+        			echo '(每天09:00-10:00可修改)';
+        		}
+        	</php>
+        	当前折扣:{$info.discount}
+        </div>
+        <div class="zc_shop">
+        	<span>折扣标题:</span>
+        	<input type="text" name="pname" value="{$zk.pname}" class="inputWidth400" placeholder="活动标题"/>
+        </div>
+        <div class="zc_shop">
+        	<span style="display:inline-block;float:left;margin-right:5px;">营业时间:</span>
+        	<div class="form-group left">
+				<input type="text" name="start_time" value="{$info.start_time|date='H:i',###}" onfocus="WdatePicker({ isShowClear: false, readOnly: true,  dateFmt: 'HH:mm' })" readonly="readonly">
+				--&nbsp;
+			</div>
+			<div class="form-group left">
+				<input type="text" name="end_time" value="{$info.end_time|date='H:i',###}"  onfocus="WdatePicker({ isShowClear: false, readOnly: true,  dateFmt: 'HH:mm' })" readonly="readonly">
+			</div>
+        </div>
+        <div style="clear:both"></div>
+		<div class="zc_shop">
+			<span>店铺Logo:</span>
+			<ul id="warp2" >
+          	 	 <li>
+                 <div class="warp_pic">
+                     <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.store_img}" class="zc_shop_img" />
+                 </div>
+                 <div class="zc_imgStum">上传文件</div>
+                 <input type="file" id="up_img_WU_FILE_0" name="store_img" class="zc_np_pic" />
+      		     </li>
+       		</ul>
+		</div>
+		<div class="clear1"></div>
+		<div class="zc_shop">
+        	<span style="display:block;margin-bottom:5px;">环境图片:</span>
+        	<ul id="warp" class="clear">
+            <div class="zc_addition">添加图片</div>
+        		<foreach name="info['carousel1']" key="key" item="item1">
+                    <li class="zc_details_item_{$key}">
+                     <div class="warp_pic">
+                         <img id="imgBlock_{$key}" src="{:U('/', '','', true)}{$item1}" class="zc_shop_img"  />
+                        <a href="javascript:" class="zc_sc_btn"></a>
+                     </div>
+                     <div class="zc_imgStum">上传文件</div>
+                     <input type="file" id="img_Upd_btn{$key}" name="carousel1_{$key}" class="zc_np_pic"/>
+                 </li> 
+                 </foreach>
+             </ul>
+        </div>
+        <div class="clear1"></div>
+		<div class="zc_shop">
+        	<span style="display:block;margin-bottom:5px;">商户简介:</span>
+            <textarea id="content1" name="content" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.content|htmlspecialchars_decode}</textarea>
+        </div>
+		
+		<div class="col-sm-2"></div>
+		<div>
+        	<span></span>
+        	<input type="submit" name="submit" value="保存">
+        </div>
+        
+		<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+
+<!-- [map] -->
+<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=eCWdmc7BHYxtodg6gTc0TldaMgdFrBGP&services=&t=20171206111455"></script>    
+<script type="text/javascript" src="__JS__/map.baidu.init.js"></script>
+<script>
+$(function(){
+	//地图定位
+	var option = {
+		point : {lng : "{$info.longitude}", lat : "{$info.latitude}"},
+		point_id : {lng_id : "lng", lat_id : "lat"},
+		area_id : {province_id : "province", city_id : "city", district_id : "country"},
+		address_id : "address",
+	};
+	bmap.init(option);
+});
+</script>
+<!-- [/map] -->
+
+<script type="text/javascript">
+	new uploadPreview({ UpBtn: "up_img_WU_FILE_0", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_0",Width:210,Height:210});
+
+</script>
+<script type="text/javascript">
+$(function(){
+	
+    //图片上传
+    var image_count = 0;
+	<foreach name="info['carousel1']" key="key" item="item2">
+        new uploadPreview({ UpBtn: "img_Upd_btn{$key}", DivShow: "warp_pic", ImgShow: "imgBlock_{$key}",Width:210,Height:210});
+	image_count++;
+	<php>echo PHP_EOL;</php>
+	</foreach>
+	
+});
+</script>

@@ -1,0 +1,34 @@
+<style>
+    .zc_message .big_title {
+        font-size: 14px;
+        padding: 10px 0;
+        font-weight: bold;
+        color: #027908;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>{$performance_tag}-业绩明细</h2>
+</div>
+<div class="zc_message">
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th align="center" width="300">业绩</th>
+            <th align="center">时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="right">{$item.performance_amount}</td>
+                <td align="center">{$item.performance_uptime|date="Y-m-d H:i:s",###}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+</div>

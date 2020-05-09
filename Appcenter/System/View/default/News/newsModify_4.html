@@ -1,0 +1,38 @@
+<div class="zc_anwia">
+	<h2>APP弹窗消息编辑</h2>
+</div>
+<div class="zc_message">
+	<form name="newsSave" method="post" action="{:U('__CONTROLLER__/newsSave')}">
+		<div class="zc_shop">
+			<span>标题</span>
+			<input type="text" name="flash_content" value="{$info.flash_content}" class="inputWidth400 zc_if_empty">
+		</div>
+		<div class="zc_shop">
+			<span>内容</span>
+		    <textarea name="flash_link" id="flash_link">{$info.flash_link|htmlspecialchars_decode}</textarea>
+		    <p class="len_notice" style="font-size:12px;">你还可以输入<span>140</span>个字</p>
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="flash_id" value="{$info.flash_id}">
+	</form>
+</div>
+
+<script>
+var max_length = 140;
+$(function(){
+	$('.len_notice').css('marginLeft', $('#flash_link').width()-70);
+	$('.len_notice span').text(max_length-$('#flash_link').val().length);
+	$('#flash_link').keyup(function(){
+		var val = $(this).val();
+		var len = parseInt($('.len_notice span').text());
+		if(val.length > max_length){
+			$(this).val(val.substring(0,max_length));
+		}else{
+			$('.len_notice span').text(max_length-val.length);
+		}
+	});
+});
+</script>

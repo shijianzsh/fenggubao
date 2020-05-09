@@ -1,0 +1,68 @@
+<div class="zc_anwia">
+	<h2>快讯编辑</h2>
+</div>
+<div class="zc_message">
+	<form name="newsSave" method="post" action="{:U('__CONTROLLER__/newsSave')}">
+		<div class="zc_shop">
+			<span>标题</span>
+			<input type="text" name="flash_content" value="{$info.flash_content}" class="inputWidth100 zc_if_empty">
+			<input type="text" name="flash_content_en" value="{$info.flash_content_en}" placeholder="标题-英文" class="inputWidth100">
+			<input type="text" name="flash_content_ko" value="{$info.flash_content_ko}" placeholder="标题-韩文" class="inputWidth100">
+		</div>
+		<div class="zc_shop">
+			<span>排序</span>
+			<input type="text" name="cid" value="{$info.cid}">
+		</div>
+		<div class="zc_shop">
+			<span>类型</span>
+			<select name="type" id="type">
+				<option value="1" <if condition="$info.type eq '1'">selected="selected" </if> >快讯</option>
+				<option value="2" <if condition="$info.type eq '2'">selected="selected" </if> >公告</option>
+				<option value="3" <if condition="$info.type eq '3'">selected="selected" </if> >帮助中心</option>
+			</select>
+		</div>
+		<div class="zc_shop" id="select_area">
+			<span>城市</span>
+			<assign name="select_area_province_value" value="$info[province]"/>
+    		<assign name="select_area_city_value" value="$info[city]"/>
+    		<assign name="select_area_country_hide" value="1"/>
+    		<assign name="select_area_option_type" value="chs"/>
+    		<assign name="select_area_select_init" value="全部"/>
+    		<include file="./Appcenter/Public/public/common.area.html"/> 
+		</div>
+		<div class="zc_shop">
+			<span>内容</span>
+		    <textarea id="content1" name="flash_link" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.flash_link|htmlspecialchars_decode}</textarea>
+		    <span>内容-英文</span>
+		    <textarea id="content2" name="flash_link_en" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.flash_link_en|htmlspecialchars_decode}</textarea>
+		    <span>内容-韩文</span>
+		    <textarea id="content3" name="flash_link_ko" style="width:100%;height:300px;visibility:hidden;resize:none">{$info.flash_link_ko|htmlspecialchars_decode}</textarea>
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="flash_id" value="{$info.flash_id}">
+	</form>
+</div>
+
+<script>
+var type = "{$info.type}";
+$(function(){
+	if(type=='3'){
+		if(type=='3'){
+			$('#select_area').hide();
+		}
+	}
+	
+	$('#type').change(function(){
+		var type = $(this).val();
+		if(type=='3'){
+			$('#select_area').hide();
+		}else{
+			$('#select_area').show();
+		}
+	});
+	
+});
+</script>

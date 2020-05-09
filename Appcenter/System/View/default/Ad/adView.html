@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+	<h2>广告[{$ad_info.ad_title}]浏览记录</h2>
+</div>
+<div class="zc_message zc_message_feedback">
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>编号ID</th>
+				<th>用户</th>
+				<th>获得现金币金额</th>
+				<th>获得公让宝金额</th>
+				<th>浏览时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.view_id}</td>
+				<td>{$item.username}[姓名:{$item.truename}][昵称:{$item.nickname}]</td>
+				<td>{$item.view_cash}</td>
+				<td>{$item.view_goldcoin}</td>
+				<td>{$item.view_addtime|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

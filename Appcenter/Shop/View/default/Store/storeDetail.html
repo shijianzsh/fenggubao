@@ -1,0 +1,57 @@
+<div class="zc_anwia"><h2>店铺详情</h2></div>
+<div class="zc_message">
+    <div class="zc_shop">
+    	<span>店铺名称:</span>
+    	{$info.store_name}
+    </div>
+    
+    <div class="zc_shop">
+    	<span>推荐人账号:</span>
+    	{$info.retel}
+    </div>
+    <div class="zc_shop">
+    	<span>店铺公告:</span>
+    	{$zk.pname}
+    </div>
+    <div class="zc_shop">
+    	<span>活动折扣:</span>
+    	{$zk.discount}折
+    </div>
+    
+    
+    <div class="zc_shop">
+    	<span>营业电话:</span>
+    	{$info.phone}
+    </div>
+    <div class="zc_shop">
+    	<span>人均消费:</span>
+    	{$info.person_consumption}
+    </div>
+    <div class="zc_shop">
+    	<span>月均消费:</span>
+    	{$info.month_consumption}
+    </div>
+    <div class="zc_shop">
+    	<span>店铺评分:</span>
+    	{$info.score}
+    </div>
+    <div class="zc_shop">
+    	<span>关注度:</span>
+    	{$info.attention}
+    </div>
+    <div class="zc_shop">
+    	<span>赠币比例:</span>
+    	{$info.coin_proportion}
+    </div>
+    <div class="zc_shop">
+    	<span>店铺logo:</span>
+    	<img src="{:U('/','','',true)}{$info.store_img}" class="zc_shop_img">
+    </div>
+    <div class="zc_shop">
+    	<span>环境图片:</span>
+    	<php>$evn_img = json_decode($info['evn_img'], true);</php>
+    	<foreach name="evn_img" key="key" item="item">
+    	<img src="{:U('/','','',true)}{$item}" class="zc_shop_img">
+    	</foreach>
+    </div>
+</div>

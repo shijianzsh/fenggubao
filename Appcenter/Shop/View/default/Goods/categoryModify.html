@@ -1,0 +1,93 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia"><h2>商品分类编辑</h2></div>
+<div class="zc_message">
+    <form name="categorySave" method="post" action="{:U('__CONTROLLER__/categorySave')}" enctype="multipart/form-data">
+    	<if condition="$info['first'] neq ''">
+    	
+	    	<div class="zc_shop">
+	    		<span>分类名称</span>
+	    		<input type="text" name="fm_name" value="{$info.first.fm_name}" class="zc_if_empty">
+	    		<input type="text" name="fm_name_en" value="{$info.first.fm_name_en}" placeholder="分类名称-英文">
+	    		<input type="text" name="fm_name_ko" value="{$info.first.fm_name_ko}" placeholder="分类名称-韩文">
+	    		<span></span>
+	    	</div>
+	    	<div  class="zc_shop">
+	    		<span>分类排序</span>
+	    		<input type="text" name="fm_order" value="{$info.first.fm_order}" class="zc_if_number">
+	    		<span></span>
+	    	</div>
+	    	<div  class="zc_shop">
+	    		<span></span>
+	    		<input type="submit" name="submit" value="保存">
+	    	</div>
+	    	<input type="hidden" name="fm_id" value="{$info.first.fm_id}">
+	    	<input type="hidden" name="category_type" value="first_menu">
+	    	
+    	<elseif condition="$info['second'] neq ''"/>
+    		<div class="zc_shop">
+    			<span>所属分类</span>
+    			<select name="fm_id">
+    				<foreach name="first_menu_list" item="first_menu">
+    				<option value="{$first_menu.fm_id}" <if condition="$info['second']['fm_id'] eq $first_menu['fm_id']">selected</if> >{$first_menu.fm_name}</option>
+    				</foreach>
+    			</select>
+    		</div>
+    		<div class="zc_shop">
+    			<span>所属属性</span>
+    			<select name="attr_id">
+    				<option value="">无</option>
+    				<foreach name="attr_list" item="attr">
+    				<option value="{$attr.id}" <if condition="$info['second']['attr_id'] eq $attr['id']">selected</if> >{$attr.name}</option>
+    				</foreach>
+    			</select>
+    		</div>
+	    	<div class="zc_shop">
+	    		<span>分类名称</span>
+	    		<input type="text" name="sm_name" value="{$info.second.sm_name}" class="zc_if_empty zc_if_name">
+	    		<input type="text" name="sm_name_en" value="{$info.second.sm_name_en}" placeholder="分类名称-英文">
+	    		<input type="text" name="sm_name_ko" value="{$info.second.sm_name_ko}" placeholder="分类名称-韩文">
+	    	</div>
+	    	<div class="zc_shop">
+	    		<span>分类排序</span>
+	    		<input type="text" name="fm_order" value="{$info.second.fm_order}" class="zc_if_number">
+	    	</div>
+	    	<div class="clear zc_shop">
+	    		<span style="padding:5px 0px;display:block">菜单图标（圆形）</span>
+	    		<ul id="warp">
+	                <li>
+	                    <div class="warp_pic">
+	                        <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.second.sm_image}" class="zc_shop_img" />
+	                    </div>
+	                    <div class="zc_imgStum">上传文件</div>
+	                    <input type="file" id="up_img_WU_FILE_0" name="sm_image" class="zc_np_pic" />
+	                </li>
+	            </ul>
+	    	</div>
+	    	<div class="clear zc_shop">
+	    		<span style="padding:5px 0px;display:block">分类图片（方形）</span>
+	    		<ul id="warp2">
+	                <li>
+	                    <div class="warp_pic">
+	                        <img id="imgShow_WU_FILE_1" src="{:U('/', '','', true)}{$info.second.sm_image2}" class="zc_shop_img" />
+	                    </div>
+	                    <div class="zc_imgStum">上传文件</div>
+	                    <input type="file" id="up_img_WU_FILE_1" name="sm_image2" class="zc_np_pic" />
+	                </li>
+	            </ul>
+	    	</div>
+	    	<div>
+	    		<span></span>
+	    		<input type="submit" name="submit" value="保存">
+	    	</div>
+	    	<input type="hidden" name="sm_id" value="{$info.second.sm_id}">
+	    	<input type="hidden" name="category_type" value="second_menu">
+	    	
+    	</if>
+    </form>
+</div>
+
+<script type="text/javascript">
+	new uploadPreview({ UpBtn: "up_img_WU_FILE_0", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_0",Width:210,Height:210});
+	new uploadPreview({ UpBtn: "up_img_WU_FILE_1", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_1",Width:210,Height:210});
+</script>

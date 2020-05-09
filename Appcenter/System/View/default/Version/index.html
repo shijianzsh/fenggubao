@@ -1,0 +1,57 @@
+<div class="zc_anwia">
+	<h2>APP版本管理</h2>
+	<span>
+		<a href="{:U('__CONTROLLER__/appAddUi')}">添加</a>
+	</span>
+</div>
+<div class="zc_message">
+	<!-- [form] -->
+	<form name="appSearch" method="get" action="{:U('__ACTION__')}">
+		<div>
+			<span>版本号</span>
+			<input type="text" name="version_num">&nbsp;&nbsp;
+			<span>终端类型</span>
+			<select name="platform">
+				<option value="1" <if condition="$Think.get.platform eq '1'">selected</if> >安卓</option>
+				<option value="2" <if condition="$Think.get.platform eq '2'">selected</if> >苹果</option>
+			</select>
+			<button type="submit" class="btn btn-primary">搜索</button>
+		</div>
+	</form>
+	<!-- [/form] -->
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>版本号</th>
+				<th>版本编号</th>
+				<th>终端类型</th>
+				<th>强制更新</th>
+				<th>创建日期</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.version_num}</td>
+				<td>{$item.number}</td>
+				<td>
+					<if condition="$item['platform'] eq '1'">
+					安卓
+					<elseif condition="$item['platform'] eq '2'"/>
+					苹果
+					</if>
+				</td>
+				<td><if condition="$item['is_need'] eq '1'">是<else/>否</if></td>
+				<td>{$item.add_time|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a href="{:U('__CONTROLLER__/appModify/id/'.$item['id'])}">编辑</a>
+					<a href="{:U('__CONTROLLER__/appDelete/id/'.$item['id'])}">删除</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

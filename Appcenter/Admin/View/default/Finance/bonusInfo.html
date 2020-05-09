@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+	<h2>个人奖金记录列表</h2>
+</div>
+<div class="zc_message">
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>日期</th>
+				<th>来自用户账号</th>
+				<th>奖项名称</th>
+				<th>奖金金额</th>
+				<th>奖金来源</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.post_time|format_date=###,1}</td>
+				<td>{$item.from_uid|getzUser='loginname'}[{$item.from_uid|getzUser='nickname'}]</td>
+				<td>{$item.type|bonusname}</td>
+				<td>{$item.money}</td>
+				<td>{$item.about}{$item.from_uid|getzUser='loginname'}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

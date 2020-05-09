@@ -1,0 +1,13 @@
+<div id="ajax_block">
+
+<div class="title">申请取消详情</div>
+<table>
+	<tr><td><label>取消理由：</label>{$info.cancel_reason}</td></tr>
+</table>
+
+<div style="text-align:center;">
+	<a href="{:U('Merchant/Order/orderCancel/type/1/order_id/'.$info[order_id])}" class="submit" style="background:#A50158;">驳回申请</a>
+	<a href="{:U('Merchant/Order/orderCancel/type/2/order_id/'.$info[order_id])}" class="submit">确认取消订单</a>
+</div>
+
+</div>

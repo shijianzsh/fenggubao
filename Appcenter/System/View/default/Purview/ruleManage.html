@@ -1,0 +1,32 @@
+<div class="zc_anwia">
+	<h2>规则管理</h2>
+	<a href="{:U('__CONTROLLER__/ruleAddUi')}">规则添加</a>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>规则名称</th>
+				<!-- <th>规则标识</th> -->
+				<th>规则状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		    <foreach name="rule_list" item="rule">
+		    <tr><td colspan="4" class="shuoming">{$key}</td></tr>
+			    <foreach name="rule" item="list">
+				<tr>
+					<td>{$list.title}</td>
+					<!-- <td>{$list.list.name}</td> -->
+					<td><if condition="$list['list']['status'] eq 0">已禁用<else />已启用</if></td>
+					<td>
+					    <a href="{:U('__CONTROLLER__/ruleModify/id/'.$list['list']['id'])}">编辑</a> 
+					    <!--<a href="{:U('__CONTROLLER__/ruleDelete/id/'.$list['list']['id'])}">删除</a>-->
+					</td>
+				</tr>
+				</foreach>
+		    </foreach>
+		</tbody>
+	</table>
+</div>

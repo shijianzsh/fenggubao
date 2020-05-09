@@ -1,0 +1,17 @@
+<?php
+//$file = str_replace(str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT']), '', $e[file]);
+//$trace = str_replace(str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT']), '', $e[trace]);
+//$trace = str_replace('#', '<br>#', $trace);
+$file = preg_replace('/\//', '\\', $e[file]);
+$file = explode('\\', $file);
+$file = $file[count($file)-1];
+$file = str_replace('.class.php', '', $file);
+echo <<<EXCEPTION
+<h4>FILE:</h4>
+<p>{$file}</p>
+<h4>LINE:</h4>
+<p>{$e['line']}</p>
+<h4>MESSAGE:</h4>
+<p>{$e['message']}</p>
+EXCEPTION;
+?>

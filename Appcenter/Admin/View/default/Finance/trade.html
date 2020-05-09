@@ -1,0 +1,122 @@
+<div class="zc_anwia">
+	<h2><if condition="$Think.get.type eq '' or $Think.get.type eq 'WX'">微信<else/>支付宝</if>兑换记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [notice] -->
+	<div class="shuoming_warning">默认只显示当前月的记录，可通过日期搜索查看历史记录</div>
+	<!--  [/notice] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="" class="clear">
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		
+		<span>兑换类型：</span>
+		<select name="amount_type">
+			<php>$amount_type_config = C('FIELD_CONFIG')['orders']['amount_type'];</php>
+			<option value="">全部</option>
+			<foreach name="amount_type_config" item="item" key="key">
+			<if condition="$key neq '1' and $key neq '6'">
+			<option value="{$key}" <if condition="$Think.get.amount_type eq $key">selected</if> >{$item}</option>
+			</if>
+			</foreach>
+		</select>
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+	</form>
+	<!-- [/search] -->
+	<div style=" margin:0px 0px 12px 0px; font-size: 16px;">
+		总兑换额：<span style=" color:#a00; font-weight: bold;">{$total.amount|default='0.00'}</span>
+		<if condition="$Think.get.type eq '' or $Think.get.type eq 'WX'">微信<elseif condition="$Think.get.type eq 'ALI'"/>支付宝<elseif condition="$Think.get.type eq 'BANK'"/>银行卡</if>
+		总兑换额：<span style=" color:#a00; font-weight: bold;">{$total[amount]-$total[amount_other]}</span>
+		总毛利润：<span style=" color:#a00; font-weight: bold;">{$total_profits|default='0.00'}</span>	
+	</div>
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>用户账户</th>
+				<th>商家信息</th>
+				<th>订单号</th>
+				<th>总金额</th>
+				<th>支付类型</th>
+				<th>支付金额</th>
+				<th>创建时间</th>										
+				<th>付款时间</th>										
+				<th>毛利润</th>													
+			</tr>
+		</thead>
+		
+		<tbody id="list">
+			<volist name="datalist" id="item" key="k" mod="2">
+			<tr>
+				<td><label>{$item.loginname}<span style="color:red;padding-left:3px;">[{$item.username}]</span></label></td>
+				<td>{$item.store_name}<if condition="$item[productname] neq ''">[{$item.productname}]</if></td>
+				<td>
+					<if condition="$Think.get.type eq '' or $Think.get.type eq 'WX'">
+					<a href="javascript:;" class="wx_detail" serial_num="{$item.order_number}" style="cursor:pointer;" title="点击查看支付明细">{$item.order_number}</a>
+					<else/>
+					{$item.order_number}
+					</if>
+				</td>
+				<td style="font-weight: bold;">{$item.amount_type_cn}</td>
+				<td style="font-weight: bold;">{$item.amount}</td>
+				<td style="font-weight: bold;"><if condition="$item[affiliate_pay] gt 0">{$item.affiliate_pay}<else/>{$item.amount}</if></td>
+				<td>{$item.time|date='Y-m-d H:i:s',###}</td>
+				<td>{$item.pay_time|date='Y-m-d H:i:s',###}</td>
+				<td style="font-weight: bold;">{$item.profits|default='0.00'}</td>
+			</tr>
+			</volist>							
+		</tbody>
+
+	</table>
+	<!-- [/list] -->
+	
+	<div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+	
+</div>
+<script>
+$(function(){
+	
+	//wx_detail 微信订单兑换明细查询
+	$('.wx_detail').click(function(){
+		var serial_num = $(this).attr('serial_num');
+		if(serial_num==''){
+			alert('参数有误');
+			return false;
+		}
+		waitingWin('正在查询中，请稍后...');
+		$.ajax({
+			url: "{:U('__MODULE__/Ajax/getWxBuyDetail')}",
+			type: "post",
+			data: {serial_num:serial_num},
+			success: function(re){
+				layer.closeAll();
+				if(re.error!=''){
+					alert(re.error);
+				}else{
+					if(re.data.return_code=='SUCCESS'){
+						if(re.data.result_code=='SUCCESS'){
+							var html = '\
+								微信流水号：'+re.data.transaction_id+'\n\
+								系统订单号:'+re.data.out_trade_no+'\n\
+								兑换状态：'+re.data.trade_state+'\n\
+								兑换金额：'+re.data.total_fee+'\n\
+								兑换时间：'+re.data.time_end+'\n';
+							alert(html);
+						}else{
+							alert(re.data.err_code+':'+re.data.err_code_des);
+						}
+					}else{
+						alert(re.data.return_msg);
+					}
+				}
+			},
+		});
+		return true;
+	});
+	
+});
+</script>

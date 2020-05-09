@@ -1,0 +1,63 @@
+<div class="zc_anwia">
+	<h2>平台管理费管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [notice] -->
+	<div class="shuoming_warning">默认只显示当前月的记录，可通过日期搜索查看历史记录</div>
+	<!--  [/notice] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="" class="clear">
+		<assign name="search_user_title" value="手机号"/>
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		
+		<!--<span>类型：</span>-->
+		<!--<select name="type">-->
+			<!--<option value="cash" <if condition="$Think.get.type eq 'cash'"> selected="selected"</if>>现金币</option>-->
+			<!--<option value="goldcoin" <if condition="$Think.get.type eq 'goldcoin'"> selected="selected"</if> >丰谷宝</option>-->
+		<!--</select>-->
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+			<button type="button" onclick="exporta()" class="btn btn-success zc_submit">导出</button>
+		</button>
+		
+	</form>
+	<!-- [/search] -->
+	<div style="margin:0px 0px 12px 0px; font-size: 16px;">
+		当前币种个人所得税总金额：<span style="color:#a00; font-weight: bold;">{$total|default='0.00'}</span>
+	</div>
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>用户账号</th>
+				<th>类型</th>
+				<th>金额</th>
+				<th>操作时间</th>														
+			</tr>
+		</thead>
+		
+		<tbody id="list">
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.record_id}</td>
+				<td>{$item.username}[姓名:{$item.truename}][昵称:{$item.nickname}]</td>
+				<td>{$item.record_remark}</td>
+				<td>{$item.record_amount}</td>
+				<td>{$item.record_addtime|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>				
+		</tbody>
+
+	</table>
+	<!-- [/list] -->
+	
+</div>
+
+<script>
+function exporta(){
+	window.open("__ACTION__/?action=export&userid={$Think.get.userid}&time_min={$Think.get.time_min}&time_max={$Think.get.time_max}&type={$Think.get.type}");
+};
+</script>

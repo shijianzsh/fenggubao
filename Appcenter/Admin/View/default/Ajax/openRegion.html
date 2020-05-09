@@ -1,0 +1,105 @@
+<div id="ajax_block">
+
+<form name="openRegion" method="post" action="{:U('Admin/Partner/openRegion')}">
+<table>
+
+<if condition="$error neq ''">
+	 <tr>
+	 	<td>{$error}</td>
+	 </tr>
+<else/>
+	<tr id="region">
+		<td>大中华区</td>
+		<td>
+			<select name="name" id="region_name">
+				<foreach name="regions_name" item="item">
+				<option value="{$item.name}">{$item.name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr id="province"><td colspan="2"></td></tr>
+	<tr id="country">
+		<td></td>
+		<td><a href="javascript:;" class="queding" style="display:none;">确定</a></td>
+	</tr>
+	<tr id="hidden_data" style="display:none;">
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+		<input type="hidden" name="uid" value="{$uid}">
+	</tr>
+</if>
+</table>
+</form>
+
+</div>
+
+<script>
+var regions_id = 0;
+$(function(){
+	
+	//默认大区
+	var regions_name_default = $('#region_name').find('option:eq(0)').val();
+	getRegionsProvince(regions_name_default);
+	
+	//大区选择项控制
+	$('#region_name').change(function(){
+		var regions_name = $(this).val();
+		getRegionsProvince(regions_name);
+		
+		$('#hidden_data').html('');
+	});
+	
+	//区县选择按钮控制
+	$('.queding').click(function(){
+		if($('#hidden_data').find('.regions_input_'+regions_id)){
+			$('.regions_input_'+regions_id).remove();
+		}
+		
+		var province_value = $('#select_area_province').val();
+		var city_value = $('#select_area_city').val();
+		var country_value = $('#select_area_country').val();
+		var input_html = '<input type="hidden" class="regions_input_'+regions_id+'" name="province['+regions_id+']" value="'+province_value+'">\
+						  <input type="hidden" class="regions_input_'+regions_id+'" name="city['+regions_id+']" value="'+city_value+'">\
+						  <input type="hidden" class="regions_input_'+regions_id+'" name="country['+regions_id+']" value="'+country_value+'">';
+		$('#hidden_data').append(input_html);
+		$('#country td:eq(0)').html('');
+		$('#country td:eq(1) a').hide();
+		
+		$('#province #province_'+regions_id+' span').html('&nbsp;&nbsp:&nbsp;&nbsp'+province_value+'-&nbsp;&nbsp;'+city_value+'-&nbsp;&nbsp;'+country_value);
+	});
+});
+
+function getRegionsProvince(name) {
+	$.ajax({
+		url: "{:U('Admin/Ajax/getRegionsProvince')}",
+		type: "POST",
+		data: {name:name},
+		success: function(re){
+			$('#province td').html(re);
+			$('#province').find('ul li').click(function(){
+				var province = $(this).find('strong').text();
+				regions_id = $(this).attr('regions_id');
+				$.ajax({
+					url: "{:U('Admin/Ajax/getRegionsCountry')}",
+					type: "POST",
+					data: {province:province, regions_id:regions_id},
+					success: function(re1){
+						$('#country td:eq(0)').html(re1);
+						$('#country td:eq(1) a').show();
+					},
+					error: function(e, msg){
+						alert(msg);
+					},
+					timeout: 10000
+				});
+			});
+		},
+		'error': function (e, msg) {
+            alert(msg);
+        },
+        'timeout': 10000
+	});
+}
+</script>

@@ -1,0 +1,254 @@
+.zcrniwl_dr{
+	height:.97rem;
+	background:#0CA7F3;
+	text-align:center;
+	color:#fff;
+	line-height:.97rem;
+	font-size:.35rem;
+}
+.hidden{display: none;}
+.zcbanner{
+	height:4.4rem;
+}
+.zcbanner img{
+	height:100%;
+	width:100%;
+}
+.zcsubject{
+	margin-top:.2rem;
+	padding:0 .2rem;
+}
+.zcinput_list{
+	border-bottom:1px solid #000;
+}
+.zcinput_list span{
+	display:inline-block;
+	height:1rem;
+	width:1rem;
+	vertical-align:middle;
+}
+.zc_input_ico1{
+	background:url(../images/i4.png) no-repeat center; 
+}
+.zc_input_ico2{
+    background:url(../images/i4.png) no-repeat center;
+}
+.zc_input_ico3{
+    background:url(../images/i6.png) no-repeat center;
+}
+.zc_input_ico4{
+    background:url(../images/i2.png) no-repeat center;
+}
+.zc_input_ico5{
+    background:url(../images/i3.png) no-repeat center;
+}
+.zc_input_ico6{
+    background:url(../images/i1.png) no-repeat center;
+}
+.zc_input_ico7{
+    background:url(../images/i5.png) no-repeat center;
+}
+
+.zcinput_list input{
+	vertical-align:middle;
+	padding:.15rem 0px;
+	width:50%;
+	border:none;
+	padding-left:5%;
+}
+.zcinput_all{
+	border-bottom:1px solid #000;
+	width:60%;
+	position:relative;
+}
+.zcinput_all span{
+	display:inline-block;
+	height:1rem;
+	width:1rem;
+	vertical-align:middle;
+	
+}
+.zcinput_all input{
+	border:none;
+	width:60%;
+	padding:.15rem 0px;
+	padding-left:1px;
+}
+.zcinput_all button{
+	position:absolute;
+	right:-2.3rem;
+	top:.2rem;
+	height:.6rem;
+	width:2.3rem;
+	opacity:.6;
+	background:#0CA7F3;
+	color:#fff;
+	border:none;
+	border-radius:.1rem;
+	cursor:pointer;
+}
+.zcinput_all_loing{
+	margin-top:.2rem;
+	text-align:center;
+}
+.zcinput_all_loing button{
+	width:90%;
+	height:.7rem;
+	background:#0CA7F3;
+	border:none;
+	color:#fff;
+	border-radius:.1rem;
+	cursor:pointer;
+	margin-bottom:.2rem;
+	opacity:.6;
+}
+.zcinput_all_loing p{
+	text-align:left;
+	width:90%;
+	display:inline-block;
+	font-size:.23rem;
+}
+.zcinput_all_loing p a{
+	color:#0CA7F3;
+}
+.zcbutton{
+	text-align:center;
+	height:.6rem;
+	padding-top:.3rem;
+	margin-bottom:.4rem;
+}
+.zcbutton img{
+	width:.6rem;
+	-webkit-animation-name: skyset;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-iteration-count: infinite; 
+    -webkit-animation-timing-function: linear;
+}
+@-webkit-keyframes skyset {
+    0% {margin-top:-0.15rem}
+    50%{margin-top:0rem;}
+    100% {margin-top:.2rem}
+}
+.zcmobaimg img{
+	width:100%;
+}
+.zcdownload{
+	margin-bottom:.5rem;
+}
+.zcdownload a{
+	display:block;	
+	width:90%;
+	height:.7rem;
+	text-align:center;
+	line-height:.7rem;
+	background:#0CA7F3;
+	border:none;
+	color:#fff;
+	border-radius:.1rem;
+	cursor:pointer;
+	margin:0 auto;
+}
+/*第二种样式*/
+.recommend{
+	text-align:center;
+	font-size:.25rem;
+	margin-top:-1rem;
+}
+.recommend img{
+	width:1.4rem;
+	height:1.4rem;
+}
+.recommend .recho_name{
+	margin:.1rem;
+	color:#999;
+	
+}
+.recommend .des{
+	color:#4c4c4c;
+}
+.recommend .des.des_big{
+	color:#0290d6;
+	font-size:.25rem;
+	margin-top:.1rem;
+	line-height: 0.42rem;
+    padding: 0 .1rem;
+    font-weight: bold;
+}
+/*提示框*/
+.zc_layer{
+	padding:.2rem .3rem;
+	background:rgba(0,0,0,0.5);
+	border-radius:.1rem;
+	position:fixed;
+	left:50%;
+	margin-left:-15%;
+	top:50%;
+	z-index:99;
+	-webkit-animation-name: bounceIn;
+    animation-name: bounceIn;
+	-webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    color:#fff;
+}
+/*填写资料*/
+.zcdcutona_input{
+	padding:.2rem ;
+}
+.zctatrun_list{
+	border-bottom:1px solid #000;
+}
+.zctatrun_list span{
+	display:inline-block;
+	height:1rem;
+	width:1rem;
+	vertical-align:middle;
+	background-size:.4rem;
+}
+
+.zctatrun_list input{
+	vertical-align:middle;
+	padding:.15rem 0px;
+	width:50%;
+	border:none;
+	padding-left:1px;
+}
+.zcinput_all_loing{
+	margin-top:.2rem;
+	text-align:center;
+}
+.zcinput_all_loing button{
+	width:90%;
+	height:.7rem;
+	background:#0CA7F3;
+	border:none;
+	color:#fff;
+	border-radius:.1rem;
+	cursor:pointer;
+	margin-bottom:.2rem;
+	opacity:.6;
+}
+/*下载APP*/
+.app_pic{
+	text-align:center;
+	margin:.2rem 0px;
+}
+.app_pic img{
+	width:2rem;
+	height:2rem;
+}
+
+
+input::-webkit-input-placeholder{
+    color:#b2b2b2;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#b2b2b2;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#b2b2b2;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+    color:#b2b2b2;
+}

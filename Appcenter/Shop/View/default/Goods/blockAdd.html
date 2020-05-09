@@ -1,0 +1,59 @@
+<div class="zc_anwia">
+	<h2>添加板块</h2>
+</div>
+
+<div class="zc_message">
+    <form name="blockAdd" method="post" action="{:U('__CONTROLLER__/blockAddAction')}">
+   		<div class="zc_shop">
+    		<span>板块名称:</span>
+    		<input type="text" name="block_name" class="zc_if_empty">
+    	</div>
+    	<div class="zc_shop">
+    		<span>公让宝比例:</span>
+    		<input type="text" name="block_goldcoin_percent" class="zc_if_price">%
+    	</div>
+    	<!--  
+    	<div class="zc_shop">
+    		<span>商超券比例:</span>
+    		<input type="text" name="block_colorcoin_percent" class="zc_if_price ">%
+    	</div>
+    	-->
+    	<div class="zc_shop">
+    		<span>特供券比例:</span>
+    		<input type="text" name="block_supply_percent" class="zc_if_price">%
+    	</div>
+    	<!--
+    	<div class="zc_shop">
+    		<span>积分比例:</span>
+    		<input type="text" name="block_credits_percent" class="zc_if_price">%
+    	</div>
+    	-->
+    	<div class="zc_shop">
+    		<span>基础运费:</span>
+    		<input type="text" name="block_freight" class="zc_if_price">
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>是否只允许会员购买:</span>
+    		<input type="radio" name="block_only_member" value="0">否
+    		<input type="radio" name="block_only_member" value="1">是
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>运费规则:</span>
+    		订单不满<input type="text" name="block_freight_order_amount">元
+    		自动增加<input type="text" name="block_freight_increase_amount">元运费
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>赠送澳洲SKN股数:</span>
+    		订单每满<input type="text" name="block_enjoy_order_amount">元
+    		赠送<input type="text" name="block_enjoy_give_amount">澳洲SKN股数
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span></span>
+    		<input type="submit" name="submit" value="保存">
+    	</div>
+    </form>
+</div>

@@ -1,0 +1,43 @@
+<div class="zc_anwia">
+	<h2>微信充值记录</h2>
+</div>
+<div class="zc_message">
+	<!-- [notice] -->
+	<div class="shuoming_warning">只显示当月记录，可通过日期选择查看历史记录</div>
+	<!-- [/notice] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="" class="clear">
+		<assign name="search_user_hide" value="1"/>
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	<div style=" margin:0px 0px 12px 0px; font-size: 16px;">
+	充值金额：<span style=" color:#a00; font-weight: bold;">{$total_recharge}</span>	
+	</div>
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>统计时间</th>
+				<th>充值金额</th>								
+			</tr>
+		</thead>
+		
+		<tbody id="list">
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.finance_tag}</td>
+				<td>{$item.finance_recharge}</td>							
+			</tr>
+			</volist>							
+		</tbody>
+
+	</table>
+	<!-- [/list] -->
+	
+</div>

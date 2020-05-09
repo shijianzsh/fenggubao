@@ -1,0 +1,50 @@
+<div class="zc_anwia">
+	<h2>
+		<if condition="$type eq '1'">
+		商城
+		<elseif condition="$type eq '2'"/>
+		资讯
+		<else/>
+		首页
+		</if>
+		轮播广告管理
+	</h2>
+	<a href="{:U('__CONTROLLER__/advAddUi/type/'.$type)}">添加</a>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>ID编号</th>
+				<th>名称</th>
+				<th>商家ID</th>
+				<th>商品ID</th>
+				<th>外链地址</th>
+				<th>链接资讯</th>
+				<th>图片</th>
+				<th>排序</th>
+				<th>关闭</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="zc_banner_list">
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.car_id}</td>
+				<td>{$item.car_title}</td>
+				<td>{$item.uid}</td>
+				<td>{$item.cid}</td>
+				<td>{$item.h5_path}</td>
+				<td><if condition="$item[car_link] gt 0">{$item.car_link_cn}</if></td>
+				<td class="zc_banner_img"><img src="{:U('/','','',true)}{$item.car_image}" width="100" height="100" class="zc_banner_pic" title="点击查看大图"></td>
+				<td>{$item.sort}</td>
+				<td><if condition="$item[is_hidden]">是<else/>否</if></td>
+				<td>
+					<a href="{:U('__CONTROLLER__/advModify/id/'.$item['car_id'])}">修改</a>
+					<a href="{:U('__CONTROLLER__/advDelete/id/'.$item['car_id'])}" class="zccolor">删除</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

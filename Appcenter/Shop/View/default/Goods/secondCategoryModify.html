@@ -1,0 +1,38 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+<style>
+.zc_message .zc_shop {border-bottom: 1px #ccc solid;}
+.zc_message .zc_shop:hover {background: #fff;}
+.zc_message .zc_shop span {font-weight:bold; font-size:14px;}
+.zc_message .zc_shop input {margin-right:20px;}
+</style>
+
+<div class="zc_anwia"><h2>商品二级分类批量编辑</h2></div>
+<div class="zc_message">
+	<div class="shuoming_warning">图标不修改则无需上传</div>
+    <form name="secondCategorySave" method="post" action="{:U('__CONTROLLER__/secondCategorySave')}" enctype="multipart/form-data">
+    	<foreach name="list" item="item">
+    	<div class="zc_shop">
+    		<span>分类名称</span>
+    		<input type="text" name="sm_name[]" value="{$item.sm_name}" class="zc_if_empty zc_if_name">
+    		<input type="text" name="sm_name_en[]" value="{$item.sm_name_en}" placeholder="分类名称-英文">
+    		<input type="text" name="sm_name_ko[]" value="{$item.sm_name_ko}" placeholder="分类名称-韩文">
+			
+			<span>分类排序</span>
+    		<input type="text" name="fm_order[]" value="{$item.fm_order}" class="zc_if_number">
+    		
+    		<span>菜单图标 （圆形）</span>
+    		<input type="file" name="sm_image[]"/>
+    		
+    		<span>菜单图标 （方形）</span>
+    		<input type="file" name="sm_image2[]"/>
+    		
+    		<input type="hidden" name="sm_id[]" value="{$item.sm_id}">
+    	</div>
+    	</foreach>
+    	
+    	<div>
+    		<span></span>
+    		<input type="submit" name="submit" value="保存">
+    	</div>
+    </form>
+</div>

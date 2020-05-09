@@ -1,0 +1,242 @@
+<style>
+    #yhx_index ul li span,
+    #yhx_index ul li span i {
+        display: block;
+        width: 100%;
+    }
+
+    #yhx_index li {
+        width: 200px;
+    }
+
+    #yhx_zc_mes_tt {
+        height: 450px;
+    }
+
+    .shuoming span {
+        background: #fff;
+        padding: 2px 5px;
+        border-radius: 2px;
+        margin-right: 10px;
+    }
+    
+    .user_tongji {
+    	font-size: 14px;
+    	margin-top: 20px;
+    }
+    .user_tongji .shuoming {
+    	font-size: 16px;
+    }
+    .user_tongji p {
+		line-height: 150%;
+    	margin-bottom: 5px;
+    }
+    .user_tongji p i {
+		font-weight: bold;
+    }
+    .user_tongji p span {
+		display: inline-block;
+    	padding: 5px 10px;
+    	background: #fff;
+    	border-radius: 5px;
+    	margin-right: 5px;
+    }
+    .user_tongji p span em {
+		color: red;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>后台首页</h2>
+</div>
+<div class="zc_message">
+    <div class="zc_item_min">
+        <div class="zc_mes_tt" id="yhx_zc_mes_tt">
+            <div class="zc_user right" style="margin-right:10px;">
+                <p>账号:<em>{$sess_auth['admin_loginname']}</em></p>
+                <p>身份:<em>{$sess_auth['admin_group']}</em></p>
+            </div>
+            <div class="zc_portrait right">
+                <a href="javascript:"><img src="<if condition=" !preg_match('/^http/',$sess_auth['admin_img'])">{:U('/',
+                    '','', true)}</if>{$sess_auth['admin_img']}" alt="{$sess_auth['admin_nickname']}"></a>
+            </div>
+            <div class="zc_ayBUSbnf left clear" id="yhx_index">
+                <ul class="clear">
+                    <li class="zc_abuqIal3">
+                        <span>
+                            <i>总份数(丰谷宝)</i>
+                            <em>{$total_account['total']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    <li class="zc_abuqIal1">
+                        <span>
+                           <i>流通资产</i>
+                            <em>{$total_account['goldcoin']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    <li class="zc_abuqIal1">
+                        <span>
+                           <i>锁定通证</i>
+                            <em>{$total_account['bonus']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    
+<!--                    <li class="zc_abuqIal1">-->
+<!--                        <span>-->
+<!--                           <i>原始锁定通证</i>-->
+<!--                            <em>{$total_account['lock']|default='0'|sprintf='%.4f',###}</em>-->
+<!--                        </span>-->
+<!--                    </li>-->
+                  <li class="zc_abuqIal1">
+                        <span>
+                            <i>报单币</i>
+                            <em>{$total_account['supply']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                  </li>
+					<if condition="$is_small_super_manager">
+                    <li class="zc_abuqIal1">
+                        <span>
+                        	<i>澳洲SKN股数</i>
+                            <em>{$total_account['enjoy']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    </if>
+                </ul>
+                
+                <ul class="clear">  
+                    <li class="zc_abuqIal1">
+                    	<a href="{:U('__MODULE__/Member/memberPerformanceInfo/uid/'.$total_account[performance_uid])}">
+                        <span>
+                            <i>总业绩</i>
+                            <em>{$total_account['performance']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                        </a>
+                    </li>
+                    
+                    <li class="zc_abuqIal1">
+                        <span>
+                            <i>昨日业绩</i>
+                            <em>{$total_account['performance_yesterday']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    
+                    <if condition="$is_small_super_manager">
+                    <li class="zc_abuqIal1">
+                        <span>
+                            <i>矿池余额</i>
+                            <em>{$total_account['points']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    </if>
+                    
+                    <li class="zc_abuqIal1">
+                        <span>
+                            <i>总农场数</i>
+                            <em>{$total_account['portion']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    
+                    <li class="zc_abuqIal1">
+                        <span>
+                           <i>流通兑换总额</i>
+                            <em>{$total_account['liutong']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                 </ul>
+                 
+                 <ul class="clear">
+                 	<li class="zc_abuqIal1">
+                        <span>
+                           <i>昨日挖丰谷宝</i>
+                            <em>{$total_account['mining_yesterday']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    <li class="zc_abuqIal1">
+                        <span>
+                           <i title="昨日动态收益包括：代理商销售奖、管理津贴（业绩结算）、关爱奖、感恩奖">昨日动态收益</i>
+                            <em>{$total_account['dynamic_income_yesterday']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+
+                    <li class="zc_abuqIal1">
+                        <span>
+                            <i>GRC购物积分</i>
+                            <em>{$total_account['credits']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    <!--  
+                    <li class="zc_abuqIal1">
+                        <span>
+                            <i>现金币</i>
+                            <em>{$total_account['cash']|default='0'|sprintf='%.4f',###}</em>
+                        </span>
+                    </li>
+                    -->
+                </ul>
+            </div>
+        </div>
+        
+     	<if condition="$sess_auth['admin_level'] eq '99' or $is_small_super_manager">
+     	<div class="user_tongji">
+     		<h2 class="shuoming">用户统计</h2>
+     		<p>
+     			<i>身份用户：</i>
+     			<span>体验用户: <em>{$member_count['level1']}</em> 人</span>
+				<span>个人代理: <em>{$member_count['level2']}</em> 人</span>
+				<span>区域合伙人：<em>{$member_count['role3']}</em>人</span>
+			    <span>省级合伙人: <em>{$member_count['role4']}</em> 人</span>
+     		</p>
+     		<p>
+     			<i>荣耀用户：</i>
+     			<foreach name="member_count[star]" item="item">
+     			<if condition="$item[star] gt 0">
+     			<span>V{$item.star}：<em>{$item.star_count}</em>人</span>
+     			</if>
+     			</foreach>
+			</p>
+			<p>
+				<i>星级用户：</i>
+				<foreach name="member_count[role_star]" item="item">
+				<if condition="$item[level] gt 0">
+				<span>L{$item.level}：<em>{$item.level_count}</em>人</span>
+				</if>
+				</foreach>
+			</p>
+     	</div>
+     	</if>
+
+<!-- 
+        <div class="zc_detail">
+            <ul class="clear">
+                <if condition="$sess_auth['admin_level'] eq '99' or $is_small_super_manager">
+                    <li class="left">
+                        <div class="zc_ff zc_iia1">
+                            <div class="zc_await">商家待提现</div>
+                            <div class="zc_pirc">{$total['no_money']|default='0'}</div>
+                        </div>
+                    </li>
+                    <li class="left mafai">
+                        <div class="zc_ff zc_iia2">
+                            <div class="zc_await">自动退回</div>
+                            <div class="zc_pirc">{$total['f_money']|default='0'}</div>
+                        </div>
+                    </li>
+                    <li class="right">
+                        <div class="zc_ff zc_iia3">
+                            <div class="zc_await">商家已提现</div>
+                            <div class="zc_pirc">{$total['s_money']|default='0'}</div>
+                        </div>
+                    </li>
+                    <li class="left">
+                        <div class="zc_ff zc_iia4">
+                            <div class="zc_await">后台退回</div>
+                            <div class="zc_pirc">{$total['ts_money']|default='0'}</div>
+                        </div>
+                    </li>
+                </if>
+            </ul>
+        </div>
+-->
+          
+    </div>
+</div>

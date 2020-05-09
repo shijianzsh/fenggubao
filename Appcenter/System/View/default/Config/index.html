@@ -1,0 +1,256 @@
+<style>
+    .zc_message input,
+    .zc_message textarea {
+        box-shadow: 1px 1px 3px #ccc inset;
+        color: #676a6c !important;
+        font-weight: bold;
+    }
+
+    .zc_message input:focus,
+    .zc_message textarea:focus {
+        background: #FFC2C2;
+        box-shadow: -3px 0px 0px #D20000 inset;
+        color: #D20000 !important;
+    }
+
+    .zc_message input {
+        font-weight: bold;
+    }
+
+    .zc_message textarea {
+        padding: 10px;
+    }
+
+    .zc_message input[type='radio'] {
+        width: 30px !important;
+        border: none;
+        box-shadow: none;
+    }
+
+    #ad_click_enable_week input {
+        box-shadow: none;
+    }
+
+    .config_title {
+        font-weight: bold;
+        color: blue;
+        line-height: 30px;
+    }
+
+    .shuoming_big td {
+        padding: 0;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        background: #027908;
+        color: #fff;
+        border: none !important;
+    }
+
+    .setting_button {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url(__PUBLIC_ADMIN__/images/zc_shezhi.png) no-repeat 50% 50%;
+    }
+
+    .disabled {
+        text-decoration: line-through;
+        background: #EAEAEA;
+    }
+
+    .disabled .partxt em {
+        background: red;
+        display: inline-block;
+        margin-left: 5px;
+        padding: 2px 5px;
+        color: #fff;
+    }
+
+    .disabled input,
+    .disabled textarea {
+        text-decoration: line-through;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>参数设置</h2>
+    <a href="javascript:createSettingsGroup();">创建配置组</a>
+    <a href="javascript:createSettings();">创建配置项</a>
+</div>
+<div class="zc_message clear">
+    <div class="shuoming_warning">以下参数涉及兑换资金等重要信息，请谨慎操作！</div>
+    <form name="form" method="post" action="__CONTROLLER__/parameterSave/" class="form-inline clear">
+        <table id="zc_Sasnfisd">
+            <tbody>
+
+            <foreach name="list" key="key" item="item">
+                <tr class="shuoming_big">
+                    <td colspan="3">{$item.group_name}</td>
+                    <td width="50"><a href="javascript:modifySettingsGroup({$item.group_id});"
+                                      class="setting_button"></a></td>
+                </tr>
+                <foreach name="item['list']" key="key1" item="item1">
+                    <?php $disabled = $item1[settings_status] == 0 ? 'disabled' : ''; ?>
+                    <tr class="{$disabled}" >
+                    <td width="30" align="center" style="color:#cccccc">{$item1.settings_order}</td>
+                    <td class="partxt zc_ldaia" width="35%">
+                        {$item1.settings_title}
+                        <if condition="$item1[settings_status] eq '0'"><em>已停用</em></if>
+                    </td>
+                    <td>
+                        <?php $readonly = $item1[settings_status] == 0 ? 'readonly' : ''; ?>
+                        <if condition="$item1[settings_type] eq 'text'">
+                            <input type="text" name="{$item1.settings_code}" value="{$item1.settings_value}" class="form-control w2 zc_if_empty" {$readonly} />
+                        <elseif condition="$item1[settings_type] eq 'textarea'" />
+                            <textarea name="{$item1.settings_code}" cols="30" rows="3" class="form-control" {$readonly}>{$item1.settings_value}</textarea>
+                        <elseif condition="$item1[settings_type] eq 'options'" />
+                            <?php $options = explode(',',$item1['settings_summary']);?>
+                            <select name="{$item1.settings_code}" {$disabled} class="form-control w2 zc_if_empty">
+                                <option value="">请选择</option>
+                                <foreach name="options" key="option_index" item="option_text">
+                                    <?php $selected = $item1[settings_value] == $option_text ? 'selected' : '';?>
+                                    <option value="{$option_text}" {$selected}>{$option_text}</option>
+                                </foreach>
+                            </select>
+                        </if>
+                        <if condition="$item1[settings_type] neq 'options'">
+                            <span>{$item1.settings_summary}</span>
+                        </if>
+                    </td>
+                    <td width="50">
+                        <a href="javascript:modifySettings({$item1.settings_id});" class="setting_button"></a>
+                    </td>
+                    </tr>
+                </foreach>
+            </foreach>
+
+            <tr>
+                <td colspan="4" align="center">
+                    <input type="submit" name="submit" class="submit" value="保存">
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+    //创建配置组
+    function createSettingsGroup() {
+        var index = waitingWin('加载中，请稍后...');
+        $.ajax({
+            'url': "{:U('Admin/Ajax/createSettingsGroup')}",
+            'type': 'get',
+            'data': {},
+            'success': function (re) {
+                layer.open({
+                    'id': 'A',
+                    'title': '创建配置组',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                    success: function (o, i) {
+                        layer.close(index);
+                    }
+                });
+            },
+            'error': function (e, msg) {
+                layer.close(index);
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+
+    //创建配置项
+    function createSettings() {
+        var index = waitingWin('加载中，请稍后...');
+        $.ajax({
+            'url': "{:U('Admin/Ajax/createSettings')}",
+            'type': 'get',
+            'data': {},
+            'success': function (re) {
+                layer.open({
+                    'id': 'A',
+                    'title': '创建配置项',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                    success: function (o, i) {
+                        layer.close(index);
+                    }
+                });
+            },
+            'error': function (e, msg) {
+                layer.close(index);
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+
+    //修改配置项
+    function modifySettings(settings_id) {
+        var index = waitingWin('加载中，请稍后...');
+        $.ajax({
+            'url': "{:U('Admin/Ajax/modifySettings')}",
+            'type': 'post',
+            'data': {settings_id: settings_id},
+            'success': function (re) {
+                layer.open({
+                    'id': 'A',
+                    'title': '修改配置项',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                    success: function (o, i) {
+                        layer.close(index);
+                    }
+                });
+            },
+            'error': function (e, msg) {
+                layer.close(index);
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+
+    //修改配置组
+    function modifySettingsGroup(group_id) {
+        var index = waitingWin('加载中，请稍后...');
+        $.ajax({
+            'url': "{:U('Admin/Ajax/modifySettingsGroup')}",
+            'type': 'post',
+            'data': {group_id: group_id},
+            'success': function (re) {
+                layer.open({
+                    'id': 'A',
+                    'title': '修改配置组',
+                    'content': re,
+                    'area': 'auto',
+                    'maxWidth': CW - 200,
+                    'maxHeight': CH - 200,
+                    'btn': false,
+                    success: function (o, i) {
+                        layer.close(index);
+                    }
+                });
+            },
+            'error': function (e, msg) {
+                layer.close(index);
+                alert(msg);
+            },
+            'timeout': 10000
+        });
+    }
+</script>

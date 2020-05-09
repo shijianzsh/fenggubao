@@ -1,0 +1,235 @@
+<div class="zc_anwia">
+    <h2>体验用户</h2>
+</div>
+<div class="zc_message">
+    <div class="shuoming">
+        <p>锁定：被锁定的用户将不能正常登录使用APP功能,并且将不再享有相关奖项的收益</p>
+        <p>黑名单：被加入黑名单的用户将在特殊场景中进行限制性操作或提示</p>
+    </div>
+    <!-- [search] -->
+    <form name="form" method="get" action="__ACTION__" class="form-inline">
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+        <div class="form-group left">
+            <label class="control-label left">类型</label>
+            <select name="search_level">
+                <option value="">全部</option>
+                <?php $selected = $search_level=='blacklist' ? 'selected' : ''; ?>
+                <option value="blacklist" {$selected}>黑名单</option>
+                <?php $selected = $search_level=='lock' ? 'selected' : ''; ?>
+                <option value="lock" {$selected}>锁定</option>
+            </select>
+        </div>
+        
+        <div class="form-group left">
+        	<label class="control-label left">钱包类型</label>
+
+            <select name="wallet_type">
+                <option value="ZWY" <if condition="$Think.get.wallet_type eq 'ZWY' or $Think.get.wallet_type eq ''">selected</if> >中网云</option>
+                <option value="AJS" <if condition="$Think.get.wallet_type eq 'AJS'">selected</if> >澳交所</option>
+                <option value="SLU" <if condition="$Think.get.wallet_type eq 'SLU'">selected</if> >SLU</option>
+            </select>
+        </div>
+        
+        <div class="form-group left">
+        	<input type="text" class="layui-input" name="wallet_address" value="{$Think.get.wallet_address}" placeholder="钱包地址">
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+        <if condition="$Think.get.is_pass neq ''">
+            <input type="hidden" name="is_pass" value="{$Think.get.is_pass}"/>
+        </if>
+        <if condition="$Think.get.app_jl neq ''">
+            <input type="hidden" name="app_jl" value="{$Think.get.app_jl}"/>
+        </if>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>用户编号</th>
+            <th>手机</th>
+            <th>姓名</th>
+            <th>用户级别</th>
+            <th>注册时间</th>
+            <th>丰谷宝</th>
+            <th>丰谷宝总收支</th>
+            <th>业绩明细</th>
+            <th>账户明细</th>
+            <th>钱包地址</th>
+            <if condition="$admin_level egt 3 || $is_small_super">
+                <th>操作</th>
+            </if>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="info" id="item" key="k" mod="2">
+            <tr>
+                <td>
+                    <label><input type="checkbox" name="id[]" value="{$item.id}"></label>
+                    {$item.id}
+                </td>
+                <td>
+                    {$item.loginname}
+                    <if condition="$item['is_blacklist'] gt '0'">
+                        <i style="color:#fff;background:#000;">
+                            [
+                            <php>echo C('FIELD_CONFIG.member')['is_blacklist'][$item['is_blacklist']]</php>
+                            黑名单]
+                        </i>&nbsp;
+                    </if>
+                </td>
+                <td>{$item.truename}</td>
+                <td>
+                    <if condition="$item.level eq '1'">体验用户</if>
+                    <if condition="$item[store_flag] eq 1">
+                        <span style="color:red" onmouseover="getStoreInfo(this,'{$item.loginname}')">[商]</span>
+                    </if>
+                </td>
+                <td align="center">
+                    <if condition="!empty($item[reg_time])">{$item.reg_time|date="Y-m-d H:i:s",###}</if>
+                </td>
+                <td align="right"><span style="color:red">{$item.account_goldcoin_balance|default='0.0000'}</span></td>
+                <td align="right">{$item.account_goldcoin_income|default='0.0000'} / {$item.account_goldcoin_expenditure|default='0.0000'}
+                </td>
+                <td><a href="{:U('__CONTROLLER__/memberPerformanceInfo/uid/'.$item[id])}">查看</a></td>
+                <td align="center"><a href="{:U('__CONTROLLER__/memberBonusInfo/mtype/0/uid/'.$item[id])}">查看</a></td>
+                <td>
+                	中网云:{$item.wallet_address.zhongwy_wallet_address}<br>
+                	澳交所:{$item.wallet_address.wallet_address}<br>
+                	AOGEX:{$item.wallet_address.wallet_address_2}<br>
+                	SLU:{$item.wallet_address.slu_wallet_address}
+                </td>
+                <if condition="$admin_level egt 3  || $is_small_super">
+                    <td align="center">
+                        <if condition="$item[is_pass] eq 0">
+                            <a href="__CONTROLLER__/memberModify/id/{$item.id}" class="glyphicon glyphicon-edit">编辑</a>
+                            <if condition="$admin_level eq 99  || $is_small_super">
+                                <if condition="$item.is_lock eq 1">
+                                    <a href="__CONTROLLER__/memberLock/id/{$item.id}/"
+                                       class="glyphicon glyphicon-ban-circle" onclick="return confirmWin();"><i
+                                            style="color: #F00">解锁</i></a> &nbsp;
+                                    <else/>
+                                    <a href="__CONTROLLER__/memberLock/id/{$item.id}/"
+                                       class="glyphicon glyphicon-ok-circle " onclick="return confirmWin();">锁定</a>
+                                    &nbsp;
+                                </if>
+                                <a href="__CONTROLLER__/memberDelete/id/{$item.id}"
+                                   class="del glyphicon glyphicon-remove zccolor">删除</a>
+                            </if>
+                        </if>
+                    </td>
+                </if>
+            </tr>
+        </volist>
+        <tr id="zc_all_list">
+            <td colspan="15" style="text-align:left;padding-left:10px;">
+                <span>选择：</span>
+                <input type="button" value="全选" class="btn zc_selesce" id="selectAll">
+                <input type="button" value="全不选" class="btn zc_selesce" id="unSelect">
+                <span>操作：</span>
+                <select id="checkbox_action">
+                    <php>$blacklist = C('FIELD_CONFIG.member')['is_blacklist'];</php>
+                    <foreach name="blacklist" key="key" item="item">
+                        <option value="{$key}">{$item}黑名单</option>
+                    </foreach>
+                </select>
+                <input type="button" value="执行" class="btn zc_selesce" id="checkbox_do">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>
+
+<script>
+    $(function () {
+
+        //多选执行
+        $('#checkbox_do').click(function () {
+            obj = document.getElementsByName("id[]");
+            check_val = [];
+            for (k in obj) {
+                if (obj[k].checked) {
+                    check_val.push(obj[k].value);
+                }
+            }
+            if (check_val.length == 0) {
+                alert('请选择后再执行确认操作');
+                return false;
+            }
+
+            var checkbox_action = $('#checkbox_action').val();
+            if (checkbox_action == '') {
+                alert('请选择要执行的操作');
+                return false;
+            }
+
+            if (confirm("确定执行操作？")) {
+                var url = "{:U('__CONTROLLER__/memberBlackList')}";
+                $.post(url, {id: check_val, blacklist_type: checkbox_action}, function (data) {
+                    if (data == '') {
+                        alert('执行成功');
+                        document.location.reload();
+                    } else {
+                        alert(data);
+                        return false;
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+        //现金币总收支
+        $('.account_cash_balance').click(function () {
+            if (confirm('确认要执行该操作吗?')) {
+                waitingWin('正在查询中，请稍后...');
+                var uid = parseInt($(this).attr('uid'));
+                $.ajax({
+                    url: "{:U('Admin/Ajax/getMemberCashBalance')}",
+                    type: "post",
+                    data: {uid: uid},
+                    timeout: 30000,
+                    success: function (re) {
+                        alert(re);
+                        layer.closeAll();
+                        return true;
+                    },
+                    error: function (re) {
+                        alert('查询超时');
+                        layer.closeAll();
+                        return false;
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+    });
+
+    //多选
+    var qxuan = document.getElementsByName("id[]");
+    var selectAll = document.getElementById("selectAll");
+    var unSelect = document.getElementById("unSelect");
+    selectAll.onclick = function () {
+        allSelectChange(true);
+    };
+    unSelect.onclick = function () {
+        allSelectChange(false);
+    };
+
+    function allSelectChange(status) {
+        for (var i = 0; i < qxuan.length; i++) {
+            qxuan[i].checked = status;
+        }
+    }
+
+</script>

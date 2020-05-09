@@ -1,0 +1,66 @@
+<style>
+    #yhx_index ul li span,
+    #yhx_index ul li span i {
+        display: block;
+        width: 100%;
+    }
+
+    #yhx_index li {
+        width: 200px;
+    }
+
+    #yhx_zc_mes_tt {
+        height: 450px;
+    }
+
+    .shuoming span {
+        background: #fff;
+        padding: 2px 5px;
+        border-radius: 2px;
+        margin-right: 10px;
+    }
+    
+    .user_tongji {
+    	font-size: 14px;
+    	margin-top: 20px;
+    }
+    .user_tongji .shuoming {
+    	font-size: 16px;
+    }
+    .user_tongji p {
+		line-height: 150%;
+    	margin-bottom: 5px;
+    }
+    .user_tongji p i {
+		font-weight: bold;
+    }
+    .user_tongji p span {
+		display: inline-block;
+    	padding: 5px 10px;
+    	background: #fff;
+    	border-radius: 5px;
+    	margin-right: 5px;
+    }
+    .user_tongji p span em {
+		color: red;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>后台首页</h2>
+</div>
+<div class="zc_message">
+    <div class="zc_item_min">
+        <div class="zc_mes_tt" id="yhx_zc_mes_tt">
+            <div class="zc_portrait left">
+                <a href="javascript:"><img src="<if condition=" !preg_match('/^http/',$sess_auth['admin_img'])">{:U('/',
+                    '','', true)}</if>{$sess_auth['admin_img']}" alt="{$sess_auth['admin_nickname']}"></a>
+            </div>
+            <div class="zc_user left" style="margin-left:10px;">
+                <p>账号:<em>{$sess_auth['admin_loginname']}</em></p>
+                <p>身份:<em>{$sess_auth['admin_group']}</em></p>
+            </div>
+        </div>
+          
+    </div>
+</div>

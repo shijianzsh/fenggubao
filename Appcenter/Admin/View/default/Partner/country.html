@@ -1,0 +1,185 @@
+<div class="zc_anwia">
+    <h2><if condition="$_GET['type'] eq 0">未审核<else/>已审核</if>区县代理合伙人</h2>
+</div>
+<div class="zc_message">
+    <!-- [search] -->
+    <form name="form" method="get" action="">
+        <assign name="search_date_title" value="申请日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+		<if condition="$Think.get.type neq '0'">
+	
+        <div class="form-group left">
+            <label class="control-label left">审核状态</label>
+            <select name="status">
+            	<option value="">全部</option>
+            	<php>$audit_status_config = C('GJJ_FIELD_CONFIG')['gjj_roles']['audit_status'];</php>
+            	<foreach name="audit_status_config" item="item" key="key">
+            	<option value="{$key}" <if condition="$Think.get.status eq $key and $think.get.status neq ''">selected</if> >{$item}</option>
+            	</foreach>
+            </select>
+        </div>
+        
+        <div class="form-group left">
+            <label class="control-label left">激活状态</label>
+            <select name="enabled">
+            	<option value="">全部</option>
+            	<php>$enabled_config = C('GJJ_FIELD_CONFIG')['gjj_roles']['enabled'];</php>
+            	<foreach name="enabled_config" item="item" key="key">
+            	<option value="{$key}" <if condition="$Think.get.enabled eq $key and $think.get.enabled neq ''">selected</if> >{$item}</option>
+            	</foreach>
+            </select>
+        </div>
+        
+        </if>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>账号</th>
+            <th>姓名</th>
+            <th>申请地区</th>
+            <th>打款凭据</th>
+            <th>申请时间</th>
+            <th>审核状态</th>
+            <th>审核时间</th>
+            <th>激活状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="item" key="k" mod="2">
+            <tr>
+                <td>{$item.loginname}</td>
+                <td>{$item.truename}</td>
+                <td>{$item.province}{$item.city}{$item.country}</td>
+                <td>
+                	<img src="{:U('/', '','', true)}{$item.image}" class="img-thumbnail" alt="此处显示图片" width="100" height="100">
+                	<a class="text-danger" data-toggle="modal" data-target="#myModal{$item.image|substr=17,13}">点击看大图</a>
+                </td>
+                <td>{$item.created_at|date='Y-m-d H:i:s',###}</td>
+                <td>{$item.audit_status_cn}</td>
+                <td><if condition="$item[updated_at] neq ''">{$item.updated_at|date='Y-m-d H:i:s',###}</if></td>
+                <td>{$item.enabled_cn}</td>
+                <td>
+                    <if condition="$item.audit_status eq '0' ">
+                        <a href="{:U('__CONTROLLER__/review/status/1/id/'.$item[id])}" class="btn btn-success" onclick="return confirmWin();">审核通过</a>
+                        | 
+                        <a href="javascript:;" url="__CONTROLLER__/review/status/2/id/{$item.id}" class="btn btn-success zc_Bxoani_if zccolor">驳回</a>
+                    <elseif condition="$item.audit_status eq 1 "/>
+                      	  审核状态：通过&nbsp;&nbsp;
+                      	<if condition="!$item[enabled]">
+                        <a href="javascript:;" url="__CONTROLLER__/review/status/2/id/{$item.id}" class="btn btn-success zc_Bxoani_if zccolor">驳回</a>
+                        |
+                        <a href="{:U('__CONTROLLER__/review/enabled/1/id/'.$item[id])}" class="btn btn-success" onclick="return confirmWin();">激活</a>
+                        </if>
+                    <elseif condition="$item.audit_status eq 2 "/>
+                       	 审核状态：不通过
+                       	 |
+                       	 <a href="{:U('__CONTROLLER__/review/status/1/id/'.$item[id])}" class="btn btn-success" onclick="return confirmWin();">审核通过</a>
+                        <br>驳回理由:{$item.remark}
+                    </if>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+    <div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+
+    <style type="text/css">
+        .zc_kepadmie {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            left: 0px;
+            top: 0px;
+            z-index: 1197;
+            display: none;
+        }
+
+        .zc_dnsai {
+            width: 500px;
+            height: 300px;
+            background: #fff;
+            border: 1px solid #ddd;
+            position: fixed;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -150px;
+            top: 50%;
+            z-index: 1198;
+            display: none;
+        }
+
+        .zc_dnsai h3 {
+            height: 40px;
+            border-bottom: 1px solid #ddd;
+            line-height: 40px;
+            text-indent: 20px;
+        }
+
+        .zc_liyou {
+            width: 99%;
+            height: 180px;
+            color: #999;
+            border: 1px red solid;
+        }
+
+        .zc_affirm {
+            display: block;
+            width: 70%;
+            height: 40px;
+            margin: 0 auto;
+            background: #00a0e9;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 16px;
+        }
+    </style>
+    <div class="zc_kepadmie"></div>
+    <div class="zc_dnsai">
+        <h3>驳回理由</h3>
+        <textarea class="zc_liyou"></textarea>
+        <a href="javascript:;" class="zc_affirm">确认驳回</a>
+    </div>
+</div>
+<script>
+    var bohui_href = '';
+    $(function () {
+
+        $(".zc_Bxoani_if").on("click", function () {
+            $(".zc_dnsai,.zc_kepadmie").show();
+            bohui_href = $(this).attr('url');
+            return false;
+        });
+        $(".zc_kepadmie").on("click", function () {
+            $(".zc_dnsai,.zc_kepadmie").hide();
+        });
+        $(".zc_affirm").on("click", function () {
+            var reason = $(".zc_liyou").val();
+            reason = $.trim(reason);
+            if (reason == '') {
+                layer.msg('请填写驳回理由', {
+                    time: 1000
+                });
+                return false;
+            } else {
+                location.href = bohui_href + '/reason/' + encodeURI(encodeURI(reason));
+            }
+        });
+
+    });
+</script>

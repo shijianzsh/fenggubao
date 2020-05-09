@@ -1,0 +1,69 @@
+<div class="zc_anwia">
+	<h2>快讯管理</h2>
+	<a href="{:U('__CONTROLLER__/newsAddUi')}">添加</a>
+	<!-- <a href="{:U('__CONTROLLER__/newsAddUi/type/4')}">添加APP弹窗消息</a> -->
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="__ACTION__" class="form-inline">
+		<div class="form-group left">
+			<input type="text" name="flash_content" placeholder="请输入标题关键词">
+		</div>
+		<div class="form-group left">
+			<span>&nbsp;快讯类型</span>
+			<select name="type">
+				<option value="">全部</option>
+				<option value="1" <if condition="$Think.get.type eq '1'">selected</if> >快讯</option>
+				<option value="2" <if condition="$Think.get.type eq '2'">selected</if> >公告</option>
+				<option value="3" <if condition="$Think.get.type eq '3'">selected</if> >帮助中心</option>
+				<!-- <option value="4" <if condition="$Think.get.type eq '4'">selected</if> >APP弹窗消息</option> -->
+			</select>
+		</div>
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search">搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>标题</th>
+				<th>城市</th>
+				<th>排序</th>
+				<th>类型</th>
+				<th>日期</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.flash_id}</td>
+				<td>{$item.flash_content}</td>
+				<td>{$item.city|default="全国"}</td>
+				<td>{$item.cid|default='0'}</td>
+				<td>
+					<if condition="$item.type eq '1'">
+					快讯
+					<elseif condition="$item.type eq '2'"/>
+					公告
+					<elseif condition="$item.type eq '3'"/>
+					帮助中心
+					<elseif condition="$item.type eq '4'"/>
+					APP弹窗消息
+					</if>
+				</td>
+				<td>{$item.post_time|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a href="{:U('__CONTROLLER__/newsModify/id/'.$item['flash_id'])}">编辑</a>
+					<a href="{:U('__CONTROLLER__/newsDelete/id/'.$item['flash_id'])}" class="zccolor">删除</a>
+					<!-- <a href="{:U('__CONTROLLER__/newsPush/id/'.$item['flash_id'])}" onclick="if(confirmWin()){waitingWin();}else{return false;}">推送</a> -->
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>

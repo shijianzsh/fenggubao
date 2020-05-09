@@ -1,0 +1,130 @@
+<div class="zc_anwia">
+	<h2>回购管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="" class="clear">
+		<assign name="search_user_title" value="手机号"/>
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/>
+		
+		<!--  
+		<label>审核状态</label>
+		<select name="status">
+			<foreach name="status_config" key="key" item="item">
+			<option value="{$key}" <if condition="$Think.get.status eq $key">selected</if> >{$item}</option>
+			</foreach>
+		</select>
+		-->
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+	</form>
+	<!-- [/search] -->
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>用户账号</th>
+				<th>回购金额</th>
+				<th>申请时间</th>
+				<th>审核状态</th>										
+			</tr>
+		</thead>
+		
+		<tbody id="list">
+			<foreach name="list" item="item">
+			<tr>
+				<td><!-- <label><input type="checkbox" name="id[]" value="{$item.buyback_id}"></label> -->{$item.buyback_id}</td>
+				<td>{$item.loginname}[{$item.nickname}]</td>
+				<td>{$item.buyback_amount}</td>
+				<td>{$item.buyback_addtime|date='Y-m-d H:i:s',###}</td>
+				<td>{$item.buyback_status_cn}</td>
+			</tr>
+			</foreach>
+			
+			<!-- 
+			<if condition="$Think.get.status eq '' or $Think.get.status eq '0'">
+    		<tr id="zc_all_list">
+				<td colspan="5"  style="text-align:left;padding-left:10px;">
+					<span>选择：</span>
+					<input type="button" value="全选" class="btn zc_selesce" id="selectAll">
+					<input type="button" value="全不选" class="btn zc_selesce" id="unSelect">
+					<span>操作：</span>
+					<select id="checkbox_action">
+						<option value="2">审核通过</option>
+						<option value="1">驳回申请</option>
+					</select>
+					<input type="button" value="执行" class="btn zc_selesce" id="checkbox_do">
+				</td>
+			</tr>
+			</if>	
+			-->
+		</tbody>
+
+	</table>
+	<!-- [/list] -->
+	
+</div>
+
+<script>
+$(function(){
+	
+	//多选执行
+	$('#checkbox_do').click(function(){
+		obj = document.getElementsByName("id[]");
+		check_val = [];
+		for(k in obj){
+			if(obj[k].checked){
+				check_val.push(obj[k].value);
+			}
+		}
+		if(check_val.length==0){
+			alert('请选择后再执行确认操作');
+			return false;
+		}
+		
+		var checkbox_action = $('#checkbox_action').val();
+		if(checkbox_action==''){
+			alert('请选择要执行的操作');
+			return false;
+		}
+		
+		if(confirm("确定执行操作？")){
+			var url = "{:U('__CONTROLLER__/review')}";
+			$.post(url,{id:check_val,status:checkbox_action},function(data){
+				if(data==''){
+					alert('执行成功');
+					document.location.reload();
+				}else{
+					alert(data);
+					return false;
+				}
+			});
+		}else{
+			return false;
+		}
+	});
+
+});
+	
+
+var qxuan= document.getElementsByName("id[]");
+var selectAll=document.getElementById("selectAll");
+var unSelect=document.getElementById("unSelect");
+selectAll.onclick=function(){
+	allSelectChange(true);
+};
+unSelect.onclick=function(){
+	allSelectChange(false);
+};
+
+function allSelectChange(status){
+	for(var i=0;i<qxuan.length;i++){
+		qxuan[i].checked=status;
+	}
+}
+</script>

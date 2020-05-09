@@ -1,0 +1,120 @@
+<!-- [通用地区联动]
+---- 可传参数:
+---- select_area_province_hide: 只要有值即认为隐藏province选择框,不隐藏时无需定义此变量
+---- select_area_province_name: province的输入框名
+---- select_area_province_value: province的默认值
+---- select_area_city_hide:  只要有值即认为隐藏city选择框,不隐藏时无需定义此变量
+---- select_area_city_name: city的输入框名
+---- select_area_city_value: city的默认值
+---- select_area_country_hide: 只要有值即认为隐藏country选择框,不隐藏时无需定义此变量
+---- select_area_country_name: country的输入框名
+---- select_area_country_value: country的默认值
+---- select_area_option_type: option选择框显示的值类型(number:对应数字/chs:对应中文),默认number
+---- select_area_select_init: 是否在每个要显示的选择框增加初始值,此变量有值则显示初始值,且初始值为该变量值,未定义或为空则不显示初始值
+-->
+<if condition="$select_area_province_hide eq ''">
+<select name="<if condition="$select_area_province_name eq ''">province<else/>{$select_area_province_name}</if>" id="select_area_province"></select>
+</if>
+
+<if condition="$select_area_city_hide eq ''">
+<select name="<if condition="$select_area_city_name eq ''">city<else/>{$select_area_city_name}</if>" id="select_area_city"></select>
+</if>
+
+<if condition="$select_area_country_hide eq ''">
+<select name="<if condition="$select_area_country_name eq ''">country<else/>{$select_area_country_name}</if>" id="select_area_country"></select>
+</if>
+
+<script>
+var area_ajax_url = "{:U('Admin/Ajax/areaSelect')}";
+var select_area_province_value = "{$select_area_province_value}";
+var select_area_city_value = "{$select_area_city_value}";
+var select_area_country_value = "{$select_area_country_value}";
+var select_area_option_type = "{$select_area_option_type}";
+select_area_option_type = select_area_option_type=='' ? 'number' : 'chs'; //option值是显示对应数字或者中文名
+var select_area_select_init = "{$select_area_select_init}";
+$(function(){
+	
+	//默认加载省
+	if ($('#select_area_province').length){
+		areaLoad($('#select_area_province'), {type:0});
+	}
+
+	//监测是否传入有city和country的值,有则自动加载市/区
+	if(select_area_city_value!=''){
+		areaLoad($('#select_area_city'), {pid:select_area_province_value,type:1});
+	}
+	if(select_area_country_value!=''){
+		areaLoad($('#select_area_country'), {cid:select_area_city_value,type:2});
+	}
+	
+	//动态加载市
+	$('#select_area_province').change(function(){
+		if($('#select_area_city').length){
+			var pid = $(this).val();
+			areaLoad($('#select_area_city'), {pid:pid,type:1});
+		}
+	});
+	
+	//动态加载区
+	$('#select_area_city').change(function(){
+		if($('#select_area_country').length){
+			var cid = $(this).val();
+			areaLoad($('#select_area_country'), {cid:cid,type:2});
+		}
+	});
+	
+});
+//动态加载核心函数
+function areaLoad(obj,data) {
+	$.ajax({
+		url: area_ajax_url,
+		type: 'POST',
+		data: data,
+		success: function(re){
+			//if(re.data==''){
+				//alert(re.error);
+				//return false;
+			//}else{
+				var option = select_area_select_init=='' ? '' : '<option value="">'+select_area_select_init+'</option>';;
+				var type = data.type;
+				$.each(re.data, function(k,v){
+					var selected = '';
+					var option_value = '';
+					switch (type) {
+					case 0: //省
+						selected = select_area_province_value!='' ? (select_area_province_value==v.province ? ' selected ' : '') : selected;
+						option_value = select_area_option_type=='number' ? v.pid : v.province;
+						option += '<option value="'+option_value+'"'+selected+'>'+v.province+'</option>';
+						break;
+					case 1: //市
+						selected = select_area_city_value!='' ? (select_area_city_value==v.city ? ' selected ' : '') : selected;
+						option_value = select_area_option_type=='number' ? v.cid : v.city;
+						option += '<option value="'+option_value+'"'+selected+'>'+v.city+'</option>';
+						break;
+					case 2: //区
+						selected = select_area_country_value!='' ? (select_area_country_value==v.district ? ' selected ' : '') : selected;
+						option_value = select_area_option_type=='number' ? v.did : v.district;
+						option += '<option value="'+option_value+'"'+selected+'>'+v.district+'</option>';
+						break;
+					}
+				});
+				obj.html(option);
+				
+				switch (type){
+				case 0:
+					$('#select_area_province').change();
+					break;
+				case 1:
+					$('#select_area_city').change();
+					break;
+				case 2:
+					$('#select_country_city').change();
+					break;
+				}
+				
+			//}
+		},
+	});
+}
+</script>
+<!-- [/通用地区联动] -->

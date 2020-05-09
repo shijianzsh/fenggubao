@@ -1,0 +1,26 @@
+<div class="zc_anwia">
+	<h2>客服平台管理</h2>
+	<a href="{:U('__CONTROLLER__/customerServiceAddUi')}">添加</a>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>平台名称</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="zc_banner_list">
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.platform_id}</td>
+				<td>{$item.platform_name}</td>
+				<td>
+					<a href="{:U('__CONTROLLER__/customerServiceModify/platform_id/'.$item['platform_id'])}">修改</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

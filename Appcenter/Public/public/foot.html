@@ -1,0 +1,109 @@
+<script>
+$_G = {};
+$_G.login_url = "{:U('Admin/Login/loginAsyn')}";
+$_G.login_success_url = "{:U('Admin/Login/index')}";
+$_G.ie_url = "{:U('Admin/Login/ie')}";
+$_G.Uploads = "{:U('/', '','', true)}{:C('UPLOAD_PATH')}/";
+$_G.Public = "__PUBLIC__";
+$_G.get_store_info_url = "{:U('Admin/Ajax/getMemberStoreInfo')}";
+$_G.logout_auto_time = '<if condition="$sess_auth[admin_id] eq 1">300<else/>1800</if>';
+$_G.exportParam = "<php>echo http_build_query($_GET);</php>";
+</script>
+
+<if condition="CONTROLLER_NAME eq 'Login'">
+<script type="text/javascript" src="__JS_ADMIN__/zc_load.js"></script>
+</if>
+<script src="__JS_ADMIN__/public.js"></script>
+<style>@import url('__PUBLIC__/inputMsg/inputMsg.css');</style>
+<script src="__PUBLIC__/inputMsg/inputMsg.js"></script>
+<link rel="stylesheet" href="__JS_ADMIN__/kindeditor-4.1.6/themes/default/default.css">
+<!-- <script type="text/javascript" src="__JS_ADMIN__/kindeditor-4.1.6/kindeditor-min.js"></script> -->
+<script type="text/javascript" src="__JS_ADMIN__/kindeditor-4.1.6/kindeditor.js"></script>
+<script type="text/javascript" src="__JS_ADMIN__/kindeditor-4.1.6/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__JS_ADMIN__/ifvisible.js"></script>
+<script type="text/javascript">
+//导出功能
+function exportData() {
+	window.open("{:U('__ACTION__/')}"+'?action=exportData&'+$_G.exportParam);
+}
+
+$(function(){
+	$("body").append('<div id="seconds" style="display:none"></div>');
+	  //在规定的时间退出登陆
+	 function d(el){
+                return document.getElementById(el);
+            }
+           ifvisible.setIdleDuration($_G.logout_auto_time);
+                ifvisible.onEvery(0.5, function(){
+                    var h = (new Date()).getHours();
+                    var m = (new Date()).getMinutes();
+                    var s = (new Date()).getSeconds();
+                    h = h < 10? "0"+h : h;
+                    m = m < 10? "0"+m : m;
+                    s = s < 10? "0"+s : s;
+                });
+
+                setInterval(function(){
+                    var info = ifvisible.getIdleInfo();
+                    if(info.timeLeftPer < 3){
+                        info.timeLeftPer = 0;
+                        info.timeLeft = ifvisible.getIdleDuration();
+                    }
+                    d("seconds").innerHTML = parseInt(info.timeLeft / 1000), 10;
+                    //if(d("seconds").innerHTML=="0"){
+                   //         alert('您已经很长时间没操作啦,请重新登陆');
+                   //         window.location.href='/Admin/Login/logout.html'
+                   // };
+                }, 100);
+
+
+
+
+
+
+
+
+	$("td.status").each(function(){
+		var status=$(this).text();
+		if(status=="未完成"){
+			$(this).css("color","#00a0e9");
+		};
+	});
+	// KindEditor富文本编辑器
+	KindEditor.ready(function(K) {
+		K.create('#content1', {
+			themeType : 'default',
+			resizeType:1,
+			urlType: 'domain'
+		});
+		var editor=K.create('#content18', {
+			themeType : 'default',
+			resizeType:1 ,
+			urlType: 'domain',
+			afterBlur : function() { 
+				var html=editor.html();
+				if(html==""){
+					layer.msg('内容不能为空', {
+						  icon: 5,
+						  skin: 'layer-ext-moon' 
+					});
+				}
+			}
+		})
+		<php>for ($i=2; $i<=20; $i++) {</php>
+		K.create('#content{$i}', {
+			themeType : 'default',
+			resizeType:1,
+			urlType: 'domain'
+		});
+		<php>}</php>
+	});
+});
+</script>
+
+<!-- ajax上传文件 -->
+<form class="tempajaxform" action="{:U('Shop/UploadCom/upload')}" enctype="multipart/form-data">
+	<input type="file" name="ajaxfile" style="display:none;" class="ajaxfile" onchange="uploadthis()"/>
+</form>
+
+</html>

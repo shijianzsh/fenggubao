@@ -1,0 +1,1 @@
+insert into zc_apk_manage value (null, 1.0.2, 'https://gongrangbao.oss-cn-shenzhen.aliyuncs.com/Uploads/apk/GRB1.0.2.apk', );

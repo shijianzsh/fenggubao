@@ -1,0 +1,98 @@
+<div class="zc_anwia">
+	<h2>APP版本添加</h2>
+</div>
+<div class="zc_message">
+	<form name="appAdd" method="post" action="{:U('__CONTROLLER__/appAdd')}" enctype="multipart/form-data" onsubmit="return check();">
+		<div class="zc_shop">
+			<span>版本号：</span><input type="text" name="version_num" id="version_num" class="zc_if_empty">
+		</div>
+		<div class="zc_shop">
+			<span>版本编号：</span><input type="text" name="number" id="number" class="zc_if_empty">
+		</div>
+		<div class="zc_shop">
+			<span>终端类型：</span>
+			<select name="platform" id="platform">
+				<option value="1" selected>安卓</option>
+				<option value="2">苹果</option>
+			</select>
+		</div>
+		<div class="zc_shop zc_src">
+			<span>APP文件：</span>
+			<input type="hidden" name="src" id="src" value="{:C('APP_IOS_URL')}">
+			
+			<input type="text" name="src" id="src_android" class="inputWidth300"/>
+            <input type="file" name="src" id="file_src">
+		</div>
+		<div class="shuoming_warning inputWidth500">上面的APP文件数据会优先选择输入框中的值；若要上传文件，请务必保持输入框中值为空！</div>
+		<div class="zc_shop">
+			<span>强制更新：</span>
+			<select name="is_need">
+				<option value="0" selected>否</option>
+				<option value="1">是</option>
+			</select>
+		</div>
+		
+		<div class="zc_shop">
+			<div><span>更新描述：</span></div>
+			<textarea name="content"></textarea>
+		</div>
+		<div class="zc_shop">
+			<div><span>更新描述-英文：</span></div>
+			<textarea name="content_en"></textarea>
+		</div>
+		<div class="zc_shop">
+			<div><span>更新描述-韩文：</span></div>
+			<textarea name="content_ko"></textarea>
+		</div>
+		
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="添加">
+		</div>
+	</form>
+</div>
+<script>
+$(function(){
+	
+	$('#platform').change(function(){
+		var platform = $(this).val();
+		if(platform=='1'){
+			$('.zc_src').show();
+			$('.shuoming_warning').show();
+		}else if(platform=='2'){
+			$('.zc_src').hide();
+			$('.shuoming_warning').hide();
+		}
+	});
+	
+});
+
+function check(){
+	var platform = $('#platform').val();
+	var version_num = $('#version_num').val();
+	var number = $('#number').val();
+	
+	if(version_num==''){
+		alert('请填写正确的版本号');
+		return false;
+	}
+	if(number==''){
+		alert('请填写正确的版本编号');
+		return false;
+	}
+	
+	if(platform=='1'){
+		if ($('#src_android').val()!=''){
+			$('#file_src').remove();
+		} else {
+			$('#src_android').remove();
+		}
+		$('#src').remove();
+	}else if(platform=='2'){
+		$('#file_src').remove();
+		$('#src_android').remove();
+	}
+	
+	return true;
+}
+</script>

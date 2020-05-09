@@ -1,0 +1,617 @@
+<style type="text/css">
+    .member_balance label {
+        display: block;
+        line-height: normal;
+        height: auto;
+        padding: 5px 0;
+    }
+
+    .member_balance label span {
+        display: inline-block;
+        width: 45%;
+    }
+
+    .member_balance label span i {
+        color: red;
+    }
+    <!--
+    *{margin:0;padding:0;}
+    /*#top{background:#dcdcdc;height:30px;}*/
+    #main{overflow:hidden;}
+    .releft{float:left;width:750px;}
+    .reright{overflow:hidden;_float:left;float: right;width:750px;/*兼容IE6*/
+
+    }
+    /*.block{width: 740px;height: auto;border: 1px solid #DDDDDD;margin: 5px 5px;}*/
+    .block{width: 740px;height: auto;margin: 5px 5px;}
+    /*.row{margin-bottom:-10000px;padding-bottom:10000px;!*内外补丁是关键*!}*/
+    .lastTable{padding: 3px;}
+    -->
+</style>
+</head>
+<body>
+<div class="zc_anwia">
+    <h2>高级查询</h2>
+</div>
+<div class="zc_message">
+
+    <div id="top">
+        <form name="form" method="get" action="__ACTION__" class="form-inline">
+            <div class="form-group left">
+                <label for="userid">用户账号</label>
+                <input type="text"  id="userid" name="userid"  value='<if condition="$search_user_value neq ''">{$search_user_value}<else/>{$Think.get.userid|getzUser='loginname'}</if>' class="form-control" placeholder='<if condition="$search_user_title neq ''">{$search_user_title}<else/>请输入手机号</if>'>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search">搜 索</span>
+            </button>
+            <!--</div>-->
+
+            <input type="hidden" name="p" value="1">
+        </form>
+    </div>
+
+    <div id="main">
+
+        <div class="releft">
+            <!--用户身份信息-->
+            <if condition="$info.shenfen neq ''">
+                <div class="block" style="">
+                    <span><h2>用户身份信息:</h2></span>
+                    <div class="lastTable">
+                    <table>
+                        <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th>用户编号</th>-->
+                            <!--<th align="center">手机</th>-->
+                            <!--<th align="center">姓名</th>-->
+                            <!--<th align="center">代理身份</th>-->
+                            <!--<th align="center">合伙人身份</th>-->
+                            <!--<th align="center">注册时间/激活时间</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <tbody>
+                        <tr>
+                            <td>用户编号</td>
+                            <td>{$info.shenfen.id}</td>
+                        </tr>
+                        <tr>
+                            <td>手机</td>
+                            <td>{$info.shenfen.loginname}<br>
+                                <if condition="$info['shenfen']['is_blacklist'] gt '0'">
+                                    <i style="color:#fff;background:#000;">[
+                                        <php>echo C('FIELD_CONFIG.member')['is_blacklist'][$info['shenfen']['is_blacklist']]</php>
+                                        黑名单]</i>&nbsp;
+                                </if></td>
+                        </tr>
+                        <tr>
+                            <td>姓名</td>
+                            <td>{$info.shenfen.truename}</td>
+                        </tr>
+                        <tr>
+                            <td>代理身份</td>
+                            <td><if condition="$info['shenfen']['level'] eq '1'">体验用户</if>
+                                <if condition="$info['shenfen']['level'] eq '2'">个人代理</if>
+                                <if condition="$info['shenfen']['star']">【荣耀指数：{$info.shenfen.star}星】</if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>合伙人身份</td>
+                            <td>
+
+                                <if condition="$info['shenfen']['role'] eq '3'">区域合伙人 【{$info['shenfen']['region']}】</if>
+                                <if condition="$info['shenfen']['role'] eq '4'">省级合伙人 【{$info['shenfen']['region']}】</if>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>激活时间</td>
+
+                            <td>{$info.shenfen.open_time|date="Y-m-d H:i:s",###}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </if>
+
+            <!--用户账户信息-->
+            <if condition="$info['account']">
+                <div class="block" style="">
+                    <span><h2>用户账户信息:</h2></span>
+                    <div class="lastTable">
+                        <table>
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th>通证汇总</th>-->
+                            <!--<th align="center">流通资产</th>-->
+                            <!--<th align="center">挖公让宝锁定通证</th>-->
+                            <!--<th align="center">原始锁定通证</th>-->
+
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <tbody>
+                            <tr>
+                                <td>通证汇总</td>
+                                <td align="right">{$info['account']['income_amount']|default='0'}个</td>
+                            </tr>
+                            <tr>
+                                <td>流通资产</td>
+                                <td align="right">{$info['account']['amount_liutong']|default='0'}个</td>
+                            </tr>
+                            <tr>
+                                <td>挖公让宝锁定通证</td>
+                                <td align="right">{$info['account']['amount_lock']|default='0'}个</td>
+                            </tr>
+                            <tr>
+                                <td>原始锁定通证</td>
+                                <td align="right">{$info['account']['amount_lock_old']|default='0'}个</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </if>
+            <!--业绩信息查询-->
+            <if condition="$info['achievement']">
+                <div class="block">
+                    <span><h2>业绩信息查询</h2></span>
+                    <div class="lastTable">
+                        <span><h2><small>静态收益出局和动态收益出局详情</small></h2></span>
+                        <h4><span style="color: #00c13f">静态收益是否出局(（收益总额-挖公让宝实时总金额）x 公让宝实时价格 >= 消费业绩总额 x 出局倍数 如果出局则（看是否完成直推2个代理， 完成不出局）)
+                        即：静态收益出局收益价值 >= 静态收益出局收益
+                        </span></h4>
+                        <h4><span style="color: #00c13f">动态收益是否出局(挖公让宝实时总金额 x 公让宝实时价格 >= 消费业绩总额 x 出局倍数) 即：动态收益出局收益价值 >= 动态收益出局收益
+                        </span></h4>
+
+                        <table>
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!---->
+                            <!--<th>收益总额</th>-->
+                            <!--<th align="center">挖公让宝实时总金额</th>-->
+                            <!--<th align="center">公让宝实时价格</th>-->
+                            <!--<th align="center">消费业绩总额</th>-->
+                            <!--<th align="center">出局倍数</th>-->
+                            <!--<th align="center">直推代理个数</th>-->
+
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <tbody>
+                            <tr>
+                                <td>收益总额</td>
+                                <td align="right">{$info.achievement.shouyi_total}</td>
+                            </tr>
+                            <tr>
+                                <td>挖公让宝实时总金额</td>
+                                <td align="right">{$info.achievement.wakuang_total}</td>
+                            </tr>
+                            <tr>
+                                <td>公让宝实时价格</td>
+                                <td align="right">{$info.achievement.grb_price}</td>
+                            </tr>
+                            <tr>
+                                <td>消费业绩总额</td>
+                                <td align="right">{$info.achievement.xfyj_total}</td>
+                            </tr>
+                            <tr>
+                                <td>出局倍数</td>
+                                <td align="right">{$info.achievement.out_bei}</td>
+                            </tr>
+                            <tr>
+                                <td>直推代理个数</td>
+                                <td align="right">{$info.achievement.zhitui_total}</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="lastTable">
+
+                        <table>
+                            <!--<thead>-->
+                            <!--<tr>-->
+                            <!--<th align="center">团队总<br />业绩</th>-->
+                            <!--<th align="center">总消费</th>-->
+                            <!--<th align="center">总贡献<br />PV值</th>-->
+                            <!--<th align="center">收益份额</th>-->
+                            <!--<th align="center">静态收<br />益是否<br />出局</th>-->
+                            <!--<th align="center">静态收<br />益出局<br />收益</th>-->
+                            <!--<th align="center">静态收<br />益出局<br />收益价值</th>-->
+                            <!--<th align="center">动态收<br />益是否<br />出局</th>-->
+                            <!--<th align="center">动态收<br />益出局<br />收益</th>-->
+                            <!--<th align="center">动态收<br />益出局<br />收益价值</th>-->
+                            <!--<th align="center">农场数</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <tbody>
+                            <tr>
+                                <td>团队总业绩</td>
+                                <td align="right">{$info.achievement.performance_amount}</td>
+                            </tr>
+                            <tr>
+                                <td>总消费</td>
+                                <td align="right">{$info.achievement.consume_amount_total}</td>
+                            </tr>
+                            <tr>
+                                <td>总贡献PV值</td>
+                                <td align="right">{$info.achievement.consume_pv}</td>
+                            </tr>
+                            <tr>
+                                <td>收益份额</td>
+                                <td align="right">{$info.achievement.income_portion}</td>
+                            </tr>
+                            <tr>
+                                <td>静态收益是否出局</td>
+                                <td align="right"><if condition="$info['achievement']['is_out'] eq '0'">否<else />是</if></td>
+                            </tr>
+                            <tr>
+                                <td>静态收益出局收益</td>
+                                <td align="right">{$info.achievement.is_out_income}</td>
+                            </tr>
+                            <tr>
+                                <td>静态收益出局收益价值</td>
+                                <td align="right">{$info.achievement.is_out_income_jiazhi}</td>
+                            </tr>
+                            <tr>
+                                <td>动态收益是否出局</td>
+                                <td align="right"><if condition="$info['achievement']['dynamic_out'] eq '0'">否<else />是</if></td>
+                            </tr>
+                            <tr>
+                                <td>动态收益出局收益</td>
+                                <td align="right">{$info.achievement.dongtai_out_income}</td>
+                            </tr>
+                            <tr>
+                                <td>动态收益出局收益价值</td>
+                                <td align="right">{$info.achievement.dongtai_out_jiazhi}</td>
+                            </tr>
+                            <tr>
+                                <td>农场数</td>
+                                <td align="right">{$info.achievement.portion}</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </if>
+
+            <!--农场详情-->
+            <if condition="$info['protionDetail']">
+                <div class="block">
+                    <span><h2>农场详情</h2></span>
+                    <div class="lastTable">
+                    <table>
+                        <!--<thead>-->
+                        <!--<tr>-->
+                        <!--<th>内排PV值</th>-->
+                        <!--<th align="center">内排农场数</th>-->
+                        <!--<th align="center">正式PV值</th>-->
+                        <!--<th align="center">正式农场数</th>-->
+                        <!--<th align="center">最终农场数</th>-->
+                        <!--<th align="center">未生成农场PV值</th>-->
+                        <!--<th align="center">农场计算说明</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <tbody>
+                        <tr>
+                            <td>内排PV值</td>
+                            <td align="right">{$info.protionDetail.pv_old}</td>
+                        </tr>
+                        <tr>
+                            <td>内排农场数</td>
+                            <td align="right">{$info.protionDetail.protion_old}</td>
+                        </tr>
+                        <tr>
+                            <td>正式PV值</td>
+                            <td align="right">{$info.protionDetail.pv_release}</td>
+                        </tr>
+                        <tr>
+                            <td>正式农场数</td>
+                            <td align="right">{$info.protionDetail.protion_release}</td>
+                        </tr>
+                        <tr>
+                            <td>最终农场数</td>
+                            <td align="right">{$info.protionDetail.portion}</td>
+                        </tr>
+                        <tr>
+                            <td>未生成农场PV值</td>
+                            <td align="right">{$info.protionDetail.pv_not_generate}</td>
+                        </tr>
+                        <tr>
+                            <td>农场计算说明</td>
+                            <td align="right">{$info.protionDetail.protion_description}</td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </if>
+        </div>
+
+        <div class="reright">
+
+
+            <!--消费查询-->
+            <if condition="$info['list']">
+                <div class="block" style="">
+                    <span><h2>消费查询</h2></span>
+                    <div class="lastTable">
+                    <foreach name="info['list']" item="orderList">
+                        <h2>
+                            <small>
+                                消费金额：<span style="color:red">{$orderList.amount}</span>&nbsp;
+                                贡献PV值：<span style="color:red">{$orderList.pv}</span>&nbsp;&nbsp;
+                                消费时间：<span style="color:red">{$orderList.pay_time|date="Y-m-d H:i:s",###}</span>&nbsp;&nbsp;
+                            </small>
+                        </h2>
+                        <table>
+                            <thead>
+                            <tr>
+
+                                <th align="center" >产品名称</th>
+                                <th align="center">数量</th>
+                                <th align="center">价格</th>
+                                <th align="center">转换pv值比例</th>
+                                <th align="center">pv值</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="orderList['products']" item="item">
+                                <tr>
+                                    <td align="left">{$item.name}</td>
+                                    <td align="right">{$item.product_quantity}</td>
+                                    <td align="right">{$item.price_cash}</td>
+                                    <td align="right">{$item.performance_bai_cash}%</td>
+                                    <td align="right">{$item.product_pv}</td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </foreach>
+                    </div>
+                </div>
+            </if>
+            <!--用户关系-->
+            <if condition="$info['relationNext']">
+                <div class="block" style="">
+                    <span><h2>用户关系身份信息:</h2></span>
+                    <div class="lastTable">
+                        <h3>直推下线身份信息</h3>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th align="center">手机</th>
+                                <th align="center">真实姓名</th>
+                                <th align="center">省市区</th>
+                                <th align="center">身份</th>
+                                <th align="center">激活时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="info['relationNext']" item="next">
+                                <tr>
+                                    <td>
+                                        <label></label>
+                                        {$next.username}
+                                    </td>
+                                    <td align="center">
+                                        {$next.loginname}<br>
+                                    </td>
+
+                                    <td align="center">{$next.truename}</td>
+                                    <td align="center">
+                                        {$next.region}<br>
+                                    </td>
+                                    <td>
+                                        {$next.level_cn}
+                                    </td>
+                                    <td>
+                                        <if condition="$next['open_time'] neq '0'">
+                                            {$next.open_time|date="Y-m-d H:i:s",###}
+                                        </if>
+
+                                    </td>
+
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <if condition="$info['upRelation']">
+                        <div class="lastTable">
+                            <h3>所有上线身份信息</h3>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>用户名</th>
+                                    <th align="center">手机</th>
+                                    <th align="center">真实姓名</th>
+                                    <th align="center">省市区</th>
+                                    <th align="center">身份</th>
+                                    <th align="center">激活时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <foreach name="info.upRelation" item="up">
+                                    <tr>
+                                        <td>
+                                            <label></label>
+                                            {$up.username}
+                                        </td>
+                                        <td align="center">
+                                            {$up.loginname}<br>
+                                        </td>
+                                        <td align="center">{$up.truename}</td>
+                                        <td align="center">{$up.region}</td>
+                                        <td>
+                                            {$up.level_cn}
+                                        </td>
+                                        <td>
+                                            <if condition="$up['open_time'] neq '0'">
+                                                {$up.open_time|date="Y-m-d H:i:s",###}
+                                            </if>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </if>
+                </div>
+
+            </if>
+
+
+        </div>
+
+    </div>
+    <!-- [/list] -->
+</div>
+
+<script>
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+
+	laydate.render({
+		elem: '#jtime_min',
+		type: 'date'
+	});
+
+	laydate.render({
+		elem: '#jtime_max',
+		type: 'date'
+	});
+});
+
+    $(function () {
+
+        //多选执行
+        $('#checkbox_do').click(function () {
+            obj = document.getElementsByName("id[]");
+            check_val = [];
+            for (k in obj) {
+                if (obj[k].checked) {
+                    check_val.push(obj[k].value);
+                }
+            }
+            if (check_val.length == 0) {
+                alert('请选择后再执行确认操作');
+                return false;
+            }
+
+            var checkbox_action = $('#checkbox_action').val();
+            if (checkbox_action == '') {
+                alert('请选择要执行的操作');
+                return false;
+            }
+
+            if (confirm("确定执行操作？")) {
+                var url = "{:U('__CONTROLLER__/memberBlackList')}";
+                $.post(url, {id: check_val, blacklist_type: checkbox_action}, function (data) {
+                    if (data == '') {
+                        alert('执行成功');
+                        document.location.reload();
+                    } else {
+                        alert(data);
+                        return false;
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+        //现金币总收支
+        $('.account_cash_balance').click(function () {
+            if (confirm('确认要执行该操作吗?')) {
+                waitingWin('正在查询中，请稍后...');
+                var uid = parseInt($(this).attr('uid'));
+                $.ajax({
+                    url: "{:U('Admin/Ajax/getMemberCashBalance')}",
+                    type: "post",
+                    data: {uid: uid},
+                    timeout: 30000,
+                    success: function (re) {
+                        alert(re);
+                        layer.closeAll();
+                        return true;
+                    },
+                    error: function (re) {
+                        alert('查询超时');
+                        layer.closeAll();
+                        return false;
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+    });
+
+    //审核通过时提示手动增加积分
+    function getServiceCompanyPointsConfig(obj, type, uid) {
+        $.ajax({
+            url: "{:U('Admin/Ajax/getServiceCompanyPointsConfig')}",
+            type: 'post',
+            data: {uid: uid},
+            success: function (data) {
+                if (data.error != '') {
+                    alert(data.error);
+                } else {
+                    if (confirm('确认执行该操作?')) {
+                        if (type == '1') {
+                            if (data.data.service_company_points == '1') {
+                                if (data.data.bonus > 0) {
+                                    if (!confirm('系统检测到取消服务中心身份后扣除积分方案为手动扣除。\n请取消后手动为该用户减去' + data.data.bonus + '丰收点！')) {
+                                        return false;
+                                    }
+                                }
+                            }
+                        } else if (type == '2') {
+                            if (data.data.service_company_points == '1') {
+                                if (data.data.bonus > 0) {
+                                    if (!confirm('系统检测到取消区域合伙人身份后扣除积分方案为手动扣除。\n请取消后手动为该用户减去' + data.data.bonus + '丰收点！')) {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+
+                        location.href = $(obj).attr('href');
+                    }
+                }
+            },
+        });
+
+        return false;
+    }
+
+    //多选
+    var qxuan = document.getElementsByName("id[]");
+    var selectAll = document.getElementById("selectAll");
+    var unSelect = document.getElementById("unSelect");
+    selectAll.onclick = function () {
+        allSelectChange(true);
+    };
+    unSelect.onclick = function () {
+        allSelectChange(false);
+    };
+
+    function allSelectChange(status) {
+        for (var i = 0; i < qxuan.length; i++) {
+            qxuan[i].checked = status;
+        }
+    }
+</script>

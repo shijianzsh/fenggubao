@@ -1,0 +1,24 @@
+<div class="zc_anwia"><h2>账号添加</h2></div>
+<div class="zc_message">
+	<div class="shuoming_warning">服务商家、区域合伙人、商家角色的 添加 或 删除，请移至对应的 创客/体验用户审核 或 店铺审核 中操作！</div>
+	<form name="member_add" id="member_add" method="post" action="{:U('__CONTROLLER__/memberAdd')}">
+	<p>账户：<input type="text" name="username" class="zc_if_empty"/><span></span></p>
+	<p>
+	角色：
+	<php>$role_must_list = array_values(C('ROLE_MUST_LIST'));</php>
+	<foreach name="group_list" key="key" item="list">
+	<php>
+		$option_hide = in_array($list['id'], $role_must_list) ? "style='display:none;'" : '';
+		$list['title'] = empty($option_hide) ? $list['title'] : '';
+	</php>
+	<input type="checkbox" name="group_id[]" value="{$list.id}" <if condition="$key eq 0">checked</if> {$option_hide}>{$list.title}
+	</foreach>
+	</p>
+	<p>
+	状态：
+	<input type="radio" name="is_lock" value="0" checked>启用 
+	<input type="radio" name="is_lock" value="1">禁用
+	</p>
+	<p><input type="submit" name="submit" id="submit" value="添加"/></p>
+	</form>
+</div>

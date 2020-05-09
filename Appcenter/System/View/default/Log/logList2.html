@@ -1,0 +1,62 @@
+ <div class="zc_anwia">
+	<h2>后台日志列表</h2>
+</div>
+<div class="zc_message">
+	<div class="shuoming">
+		所有类型日志均只保留并显示最近30天的信息！
+	</div>
+	<form name="logList" method="get" action="{:U('__CONTROLLER__/logList')}">
+		<p class="left">
+            <span style="padding-left:10px">类&nbsp;&nbsp;&nbsp;型：</span>
+			<select name="type" class="form-control">
+				<option value="0" <if condition="$Think.get.type eq 0">selected</if> >后台操作日志</option>
+				<option value="1" <if condition="$Think.get.type eq 1">selected</if> >APP登录日志</option>
+				<option value="2" <if condition="$Think.get.type eq 2">selected</if> >APP当前用户</option>
+			</select>
+		</p>
+	    <p class="left">
+	    	<span style="padding-left:10px">登录账号：</span>
+	    	<input type="text" name="keyword" value="{$Think.get.keyword}" class="form-control"/>
+	    </p>
+        <p>
+        	<button type="submit" class="btn btn-primary"><span>{:L('search')}</span></button>
+        </p>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>用户账号</th>
+                <th>使用版本号</th>
+                <th>设备类型</th>
+                <th>唯一标识码</th>
+                <th>创建日期</th>
+                <th>修改日期</th>
+                <!-- <th>操作</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <foreach name="log_list" item="list">
+            <tr>
+                <td>{$list.id}</td>
+                <td>{$list.loginname}[{$list.nickname}]</td>
+                <td>{$list.version}</td>
+                <td>{$list.platform}</td>
+                <td>{$list.sessionid}</td>
+                <td>{$list.date_created|date="Y-m-d H:i:s",###}</td>
+                <td>{$list.last_updated|date="Y-m-d H:i:s",###}</td>
+            </tr>
+            </foreach>
+        </tbody>
+    </table>
+</div>
+
+<script>
+$(function(){
+	
+	$(window).load(function(){
+		getIpLocation();
+	});
+	
+});
+</script>

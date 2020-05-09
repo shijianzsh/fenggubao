@@ -1,0 +1,813 @@
+<style>
+    .bank_balance em {
+        margin-left: 5px;
+        color: #000;
+        cursor: pointer;
+    }
+</style>
+
+<div class="zc_anwia">
+    <h2>提现管理</h2>
+</div>
+<div class="zc_message">
+    <!-- [count] -->
+    <h2 style="margin-bottom:10px;">用户提现管理
+        <small>【未提交金额：<span style="color:red">{$total['no_money']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            成功提现金额：<span style="color:red">{$total['s_money']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            提现自动退回金额：<span style="color:red">{$total['f_money']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            提现手动退回金额：<span style="color:red">{$total['ts_money']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            提现手动退回失败金额：<span style="color:red">{$total['tf_money']|number_format=###, 2, '.', ''}</span>
+            】
+        </small>
+    </h2>
+    <!-- [/count] -->
+
+    <!-- [search] -->
+    <form name="form" method="get" action="">
+        <assign name="search_date_title" value="日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+
+        <div class="form-group left">
+            <label class="left">日期类型</label>
+            <select name="search_date_type">
+                <option value="1"
+                <if condition="$Think.get.search_date_type eq '' or $Think.get.search_date_type eq '1'">selected</if>
+                >用户申请时间</option>
+                <option value="2"
+                <if condition="$Think.get.search_date_type eq '2'">selected</if>
+                >系统处理时间</option>
+                <option value="3"
+                <if condition="$Think.get.search_date_type eq '3'">selected</if>
+                >提现完成时间</option>
+            </select>
+        </div>
+
+        <div class="form-group left">
+            <label class="left">状态</label>
+            <select class="form-control zc_input" name="is_submit">
+                <option value="">全部</option>
+                <option value="S"
+                <if condition="$success_status eq 'S'">selected</if>
+                >成功转账</option>
+                <option value="TS"
+                <if condition="$success_status eq 'TS'">selected</if>
+                >退款成功</option>
+                <!--<option value="N" <if condition="$success_status eq 'N'">selected</if> >还未提交</option>-->
+                <!--<option value="L" <if condition="$success_status eq 'L'">selected</if> >锁定账户</option>-->
+                <!--<option value="S" <if condition="$success_status eq 'S'">selected</if> >成功转账</option>-->
+                <!--<option value="F" <if condition="$success_status eq 'F'">selected</if> >失败处理</option>-->
+                <!--<option value="TS" <if condition="$success_status eq 'TS'">selected</if> >退款成功</option>-->
+                <!--<option value="TF" <if condition="$success_status eq 'TF'">selected</if> >退款失败</option>-->
+                <!--<option value="W" <if condition="$success_status eq 'W'">selected</if> >处理中</option>-->
+            </select>
+        </div>
+        <div class="form-group left" style="display: none;">
+            <label class="left">提现方式</label>
+            <select class="form-control zc_input" name="tiqu_type">
+                <option value="1"
+                <if condition="$Think.get.tiqu_type eq '' or $Think.get.tiqu_type eq '1'">selected</if>
+                >微信</option>
+                <option value="2"
+                <if condition="$Think.get.tiqu_type eq '2'">selected</if>
+                >银行卡</option>
+                <option value="0"
+                <if condition="$Think.get.tiqu_type eq '0'">selected</if>
+                >支付宝</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="height:33px;">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover" id="withdraw_list">
+
+        <div style="margin:0px 0px 12px 0px; font-size: 16px;">
+            累计金额：<span style=" color:#a00; font-weight: bold;">{$total_withdraw.amount}</span>
+            累计手续费：<span style=" color:#a00; font-weight: bold;">{$total_withdraw.commission}</span>
+        </div>
+
+        <!-- [微信] -->
+        <if condition="$tiqu_type eq '' or $tiqu_type eq '1'">
+            <thead>
+            <tr>
+                <th>账号</th>
+                <th>姓名</th>
+                <th>昵称</th>
+                <th>微信流水号</th>
+                <th>申请时间</th>
+                <th>序列号</th>
+                <th>微信昵称</th>
+                <th>真实姓名</th>
+                <th>提现金额</th>
+                <th>手续费</th>
+                <th>停留余额</th>
+                <th>是否通过</th>
+                <th>失败原因</th>
+                <th>完成时间</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <volist name="info" id="item" key="k" mod="2">
+                <tr>
+                    <td align="center">
+                        <label>
+                            <if condition="$item[status] eq '0'">
+                                <input type="checkbox" name="id[]" class="zc_choose" value="{$item.id}"
+                                       is_black="{$item.is_blacklist}">
+                            </if>
+                            {$item.loginname}
+                        </label>
+                        <if condition="$item[store_flag] eq 1"><span style="color:red"
+                                                                     onmouseover="getStoreInfo(this,'{$item.uid}')">[商]</span>
+                        </if>
+                        <if condition="$item['level'] eq 1"><span style="color:red">[体验]</span></if>
+                        <if condition="$item['is_blacklist'] neq '0'"><span style="color:#fff;background:#000;">[<php>echo C('FIELD_CONFIG.member')['is_blacklist'][$item['is_blacklist']];</php>黑名单]</span>
+                        </if>
+                    </td>
+                    <td align="center">{$item.truename}</td>
+                    <td align="center">{$item.nickname}</td>
+                    <td align="center">{$item.ali_inner_serial_num}</td>
+                    <td align="center">
+                        <if condition="$item[add_time] neq '0'">{$item.add_time|date='Y-m-d H:i:s',###}</if>
+                    </td>
+                    <td align="center">
+                        {$item.serial_num}
+                        <!--<a href="javascript:;" class="wx_detail" wcid="{$item.id}" style="cursor:pointer;" title="点击查看支付明细">{$item.serial_num}</a>-->
+                    </td>
+                    <td>{$item.receiver_acount}</td>
+                    <td>{$item.receiver}</td>
+                    <td id="amount_{$k}" class="single_amount">{$item.amount}</td>
+                    <td id="commission_{$k}" class="single_commission">{$item.commission}</td>
+                    <td>{$item.current_account_cash}</td>
+                    <td style="color:red;">
+                        <if condition="$item.status eq 'S'">
+                            微信提现成功
+                            <elseif condition="$item.status eq 'F'"/>
+                            微信提现失败
+                            <elseif condition="$item.status eq 'TS'"/>
+                            已手动退款成功
+                            <elseif condition="empty($item['status']) && $item['submit_flag'] neq 0"/>
+                            <if condition="$item['is_enable'] eq 0">
+                                已锁定，等待微信确认
+                            </if>
+                        </if>
+                    </td>
+                    <td style="color:red;">
+                        <if condition="$item.status eq 'F'">
+                            已退款，失败原因：{$item['failure_code']}
+                            <elseif condition="$item.status eq 'TF'"/>
+                            手动退款失败
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="!empty($item[finish_time])">
+                            <php>echo strlen($item[finish_time])==10 ? date('Y-m-d H:i:s', $item[finish_time]) :
+                                date('Y-m-d H:i:s', strtotime($item[finish_time]));
+                            </php>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            <tr id="amount_show">
+                <td colspan="13" style="text-align:right">
+                    <span class="amount_title">已勾选金额统计：</span><span class="amount_show">0</span>
+                    <span style="display:inline-block; margin-top:5px; margin-bottom:5px;"><button type="button"
+                                                                                                   onclick="exporta()"
+                                                                                                   class="btn btn-success zc_submit">导出</button></span>
+                </td>
+            </tr>
+            <tr id="zc_all_list">
+                <td colspan="14" style="text-align:center">
+                    <if condition="($success_status eq '' || $success_status eq 'N') && $is_small_super">
+                        <input type="button" value="全选" class="btn zc_selesce" id="selectAll">
+                        <input type="button" value="全不选" class="btn zc_selesce" id="unSelect">
+                        <input type="submit" value=" 批量确认" class="btn zc_selesce" id="FinanceByWx"
+                               onclick="return FinanceByWx();">
+                        <input type="button" value=" 批量退款" class="btn zc_selesce" id="getValue"
+                               onclick="return applyinfo('WX');">
+                    </if>
+                </td>
+            </tr>
+            </tbody>
+            <!-- [/微信] -->
+            <!-- [银行卡] -->
+            <elseif condition="$tiqu_type eq '2'"/>
+            <div class="shuoming bank_balance" style="display: none;">平台银行卡账户余额：<span>查询中...</span><em></em></div>
+            <thead>
+            <tr>
+                <th>账号</th>
+                <th>姓名</th>
+                <th>昵称</th>
+                <th>网银流水号</th>
+                <th>申请时间</th>
+                <th>序列号</th>
+                <th>收款人</th>
+                <th>收款帐号</th>
+                <th>收款银行</th>
+                <th>收款银行地址</th>
+                <th>提现金额</th>
+                <th>手续费</th>
+                <th>停留余额</th>
+                <th>是否通过</th>
+                <th>失败原因</th>
+                <th>完成时间</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <volist name="info" id="item" key="k" mod="2">
+                <tr>
+                    <td>
+                        <label>
+                            <if condition="$item[status] eq '0'">
+                                <input type="checkbox" name="id[]" class="zc_choose" value="{$item.id}"
+                                       is_black="{$item.is_blacklist}">
+                            </if>
+                            {$item.loginname}
+                        </label>
+                        <if condition="$item[store_flag] eq 1">
+                            <span style="color:red" onmouseover="getStoreInfo(this,'{$item.uid}')">[商]</span>
+                        </if>
+                        <if condition="$item['level'] eq 1"><span style="color:red">[体验]</span></if>
+                        <if condition="$item['is_blacklist'] neq '0'"><span style="color:#fff;background:#000;">[<php>echo C('FIELD_CONFIG.member')['is_blacklist'][$item['is_blacklist']];</php>黑名单]</span>
+                        </if>
+                    </td>
+                    <td align="center">{$item.truename}</td>
+                    <td align="center">{$item.nickname}</td>
+                    <td align="center">{$item.ali_inner_serial_num}</td>
+                    <td align="center">{$item.add_time|date='Y-m-d H:i:s',###}</td>
+                    <td align="center">{$item.serial_num}</td>
+                    <td align="center">{$item.inaccname}</td>
+                    <td align="center">{$item.inacc}</td>
+                    <td align="center">{$item.inaccbank}</td>
+                    <td align="center">{$item.inaccadd}</td>
+                    <td class="single_amount" align="right">{$item.amount|number_format=###, 2, '.', ''}</td>
+                    <td class="single_commission" align="right">{$item.commission|number_format=###, 2, '.', ''}</td>
+                    <td align="right">{$item.current_account_cash|number_format=###, 2, '.', ''}</td>
+                    <td style="color:red;" align="center">
+                        <if condition="$item.status eq 'S'">
+                            银行卡提现成功
+                            <elseif condition="$item.status eq 'F'"/>
+                            银行卡提现失败
+                            <elseif condition="$item.status eq 'TS'"/>
+                            已手动退款成功
+                            <elseif condition="$item.status eq 'W'"/>
+                            已进入提现队列，等待银行处理中
+                            <elseif condition="empty($item['status']) && $item['submit_flag'] neq 0"/>
+                            已锁定，等待进入提现队列
+                        </if>
+                    </td>
+                    <td style="color:red;">
+                        <if condition="$item.status eq 'F'">
+                            已退款，失败原因：<a href="javascript:;" class="bank_error_code" error_code="{$item.failure_code}">点击查看</a>
+                            <elseif condition="$item.status eq 'TF'"/>
+                            手动退款失败
+                        </if>
+                    </td>
+                    <td align="center">
+                        <if condition="!empty($item[finish_time])">
+                            <php>echo strlen($item[finish_time])==10 ? date('Y-m-d H:i:s', $item[finish_time]) :
+                                date('Y-m-d H:i:s', strtotime($item[finish_time]));
+                            </php>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            <tr id="amount_show">
+                <td colspan="16" style="text-align:right">
+                    <span class="amount_title">已勾选金额统计：</span><span class="amount_show">0</span>
+                    <span style="display:inline-block; margin-top:5px; margin-bottom:5px;">
+                        <button type="button" onclick="exporta()" class="btn btn-success zc_submit">仅导出</button>
+                    </span>
+                    <span style="display:inline-block; margin-top:5px; margin-bottom:5px;">
+                        <button type="button" onclick="exporta2()" class="btn btn-success zc_submit"
+                                style="width: auto;">导出并标记为打款成功</button></span>
+                </td>
+            </tr>
+            <tr id="zc_all_list">
+                <td colspan="20" style="text-align:center">
+                    <if condition="($success_status eq '' || $success_status eq 'N') && $is_small_super">
+                        <input type="button" value="全选" class="btn zc_selesce" id="selectAll">
+                        <input type="button" value="全不选" class="btn zc_selesce" id="unSelect">
+                        <!--<input type="submit" value=" 批量确认" class="btn zc_selesce" style="display: none;" onclick="return FinanceByBank();">-->
+                        <!--<input type="button" value=" 批量退款" class="btn zc_selesce" id="getValue" onclick="return applyinfo('BANK');">-->
+                    </if>
+                </td>
+            </tr>
+            </tbody>
+            <!-- [/银行卡] -->
+            <!-- [支付宝] -->
+            <elseif condition="$tiqu_type eq '0'"/>
+            <thead>
+            <tr>
+                <th>账号</th>
+                <th>姓名</th>
+                <th>昵称</th>
+                <th>网银流水号</th>
+                <th>申请时间</th>
+                <th>序列号</th>
+                <th>收款帐号</th>
+                <th>手续费</th>
+                <th>提现金额</th>
+                <th>停留余额</th>
+                <th>是否通过</th>
+                <th>失败原因</th>
+                <th>完成时间</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <volist name="info" id="item" key="k" mod="2">
+                <tr>
+                    <td>
+                        <label>
+                            <if condition="$item[status] eq '0'">
+                                <input type="checkbox" name="id[]" class="zc_choose" value="{$item.id}"
+                                       is_black="{$item.is_blacklist}">
+                            </if>
+                            {$item.username}
+                        </label>
+                        <if condition="$item[store_flag] eq 1"><span style="color:red"
+                                                                     onmouseover="getStoreInfo(this,'{$item.uid}')">[商]</span>
+                        </if>
+                        <if condition="$item['level'] eq 1"><span style="color:red">[体验]</span></if>
+                        <if condition="$item['is_blacklist'] neq '0'"><span style="color:#fff;background:#000;">[<php>echo C('FIELD_CONFIG.member')['is_blacklist'][$item['is_blacklist']];</php>黑名单]</span>
+                        </if>
+                    </td>
+                    <td>{$item.truename}</td>
+                    <td>{$item.nickname}</td>
+                    <td>{$item.ali_inner_serial_num}</td>
+                    <td>{$item.add_time|date='Y-m-d H:i:s',###}</td>
+                    <td>{$item.serial_num}</td>
+                    <td>{$item.alipay_account}</td>
+                    <td id="commission_{$k}" class="single_commission">{$item.commission}</td>
+                    <td id="amount_{$k}" class="single_amount">{$item.amount}</td>
+                    <td>{$item.current_account_cash}</td>
+                    <td style="color:red;">
+                        <if condition="$item.status eq 'S'">
+                            支付宝提现成功
+                            <elseif condition="$item.status eq 'F'"/>
+                            支付宝提现失败
+                            <elseif condition="$item.status eq 'TS'"/>
+                            已手动退款成功
+                            <elseif condition="$item.status eq 'W'"/>
+                            已进入提现队列，等待支付宝处理中
+                            <elseif condition="empty($item['status']) && $item['submit_flag'] neq 0"/>
+                            已锁定，等待进入提现队列
+                        </if>
+                    </td>
+                    <td style="color:red;">
+                        <if condition="$item.status eq 'F'">
+                            已退款，失败原因：{$item.failure_code}
+                            <elseif condition="$item.status eq 'TF'"/>
+                            手动退款失败
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="!empty($item[finish_time])">
+                            <php>echo strlen($item[finish_time])==10 ? date('Y-m-d H:i:s', $item[finish_time]) :
+                                date('Y-m-d H:i:s', strtotime($item[finish_time]));
+                            </php>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            <tr id="amount_show">
+                <td colspan="15" style="text-align:right">
+                    <span class="amount_title">已勾选金额统计：</span><span class="amount_show">0</span>
+                    <span style="display:inline-block; margin-top:5px; margin-bottom:5px;"><button type="button"
+                                                                                                   onclick="exporta()"
+                                                                                                   class="btn btn-success zc_submit">导出</button></span>
+                </td>
+            </tr>
+            <tr id="zc_all_list">
+                <td colspan="16" style="text-align:center">
+                    <if condition="($success_status eq '' || $success_status eq 'N') && $is_small_super">
+                        <!--<input type="button" value="全选" class="btn zc_selesce" id="selectAll">-->
+                        <!--<input type="button" value="全不选" class="btn zc_selesce" id="unSelect">-->
+                        <!--<input type="submit" value=" 批量确认" class="btn zc_selesce" onclick="return FinanceByAli();">-->
+                        <!--<input type="button" value=" 批量退款" class="btn zc_selesce" id="getValue" onclick="return applyinfo('ALI');">-->
+                    </if>
+                </td>
+            </tr>
+            </tbody>
+            <!-- [/支付宝] -->
+        </if>
+    </table>
+    <!-- [/list] -->
+</div>
+
+<script type="text/javascript">
+    var amount = 0;
+    var commission = 0;
+    var qxuan = document.getElementsByName("id[]");
+    var selectAll = document.getElementById("selectAll");
+    var unSelect = document.getElementById("unSelect");
+    var all = document.getElementById("all");
+    $(function () {
+
+        //wx_detail 微信订单兑换明细查询
+        // $('.wx_detail').click(function () {
+        //     var wcid = $(this).attr('wcid');
+        //     if (isNaN(wcid)) {
+        //         alert('参数有误');
+        //         return false;
+        //     }
+        //     waitingWin('正在查询中，请稍后...');
+        //     $.ajax({
+        //         url: "{:U('__MODULE__/Ajax/getWxPayDetail')}",
+        //         type: "post",
+        //         data: {wcid: wcid},
+        //         success: function (re) {
+        //             layer.closeAll();
+        //             if (re.error != '') {
+        //                 alert(re.error);
+        //             } else {
+        //                 if (re.data.return_code == 'SUCCESS') {
+        //                     if (re.data.result_code == 'SUCCESS') {
+        //                         var html = '\
+        // 					微信内部单号：' + re.data.detail_id + '\n\
+        // 					收款用户姓名：' + re.data.transfer_name + '\n\
+        // 					转账状态：' + re.data.status + '\n\
+        // 					付款金额：' + re.data.payment_amount + '\n\
+        // 					转账时间：' + re.data.transfer_time + '\n\
+        // 					付款描述：' + re.data.desc + '\n';
+        //                         alert(html);
+        //                     } else {
+        //                         alert(re.data.err_code + ':' + re.data.err_code_des);
+        //                     }
+        //                 } else {
+        //                     alert(re.data.return_msg);
+        //                 }
+        //             }
+        //         },
+        //     });
+        //     return true;
+        // });
+
+        //平台银行卡账户余额
+        // if($('.bank_balance').length){
+        // 	<if condition="$is_small_super">
+        // 	//getBankAccountBalance();
+        //
+        // 	$('.bank_balance em').click(function(){
+        // 		//$('.bank_balance span').html('查询中...');
+        // 		//$(this).html('');
+        // 		//getBankAccountBalance();
+        // 	});
+        // 	<else/>
+        // 	$('.bank_balance').remove();
+        // 	</if>
+        // }
+        selectChangeBase();
+        //单选事件
+        $('.zc_choose').change(function () {
+            selectChangeBase();
+        });
+
+        $('#selectAll').click(function () {
+            $('#withdraw_list input:checkbox').prop('checked', true);
+            selectChangeBase();
+        });
+
+        $('#unSelect').click(function () {
+            $('#withdraw_list input:checkbox').prop('checked', false);
+            selectChangeBase();
+        });
+
+        //多选框基础
+        function selectChangeBase() {
+            var amount = 0;
+            var commission = 0;
+            $('#withdraw_list input:checkbox:checked').each(function (index, item) {
+                amount += parseFloat($(this).parents('tr').find('.single_amount').text());
+                commission += parseFloat($(this).parents('tr').find('.single_commission').text());
+            });
+            var show_content = amount.toFixed(2) + '，手续费统计:' + commission.toFixed(2);
+            $('.amount_show').text(show_content);
+        }
+
+        // //点击查看银行卡提现失败原因
+        // $('.bank_error_code').click(function(){
+        // 	var error_code = $(this).attr('error_code');
+        // 	waitingWin('正在查询中，请稍后...');
+        // 	$.ajax({
+        // 		url: "{:U('Admin/Ajax/getBankErrorCodeDescription')}",
+        // 		type: "post",
+        // 		data: {error_code:error_code},
+        // 		timeout: 2000,
+        // 		success: function(re){
+        // 			alert(re);
+        // 			layer.closeAll();
+        // 		},
+        // 		error: function(){
+        // 			alert('查询超时,请稍后重试');
+        // 			layer.closeAll();
+        // 		}
+        // 	});
+        // });
+
+    });
+
+    //微信提现
+    function FinanceByWx() {
+        var is_black_count = 0;
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+                if (obj[k].getAttribute('is_black') != '0') {
+                    is_black_count++;
+                }
+            }
+        }
+
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        if (is_black_count > 0) {
+            if (confirm('已勾选的待处理提现申请中有' + is_black_count + '个黑名单用户，确认要继续提交吗？') == false) {
+                return false;
+            }
+        }
+        if (confirm("确定执行操作？")) {
+            waitingWin('正在处理中，请稍后...');
+            $.ajax({
+                url: "{:U('__CONTROLLER__/wxTixianQueue')}",
+                type: "post",
+                data: {id: check_val},
+                timeout: 2000,
+                success: function (re) {
+                    layer.closeAll();
+                    if (re == '') {
+                        alert('微信提现已成功加入队列,稍后将会依次自动完成[SUCCESS1]');
+                        window.location.reload();
+                    } else {
+                        alert(re);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert('微信提现已成功加入队列,稍后将会依次自动完成[SUCCESS2]');
+                    window.location.reload();
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    //银行卡提现
+    function FinanceByBank() {
+        var is_black_count = 0;
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+                if (obj[k].getAttribute('is_black') != '0') {
+                    is_black_count++;
+                }
+            }
+        }
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        if (is_black_count > 0) {
+            if (confirm('已勾选的待处理提现申请中有' + is_black_count + '个黑名单用户，确认要继续提交吗？') == false) {
+                return false;
+            }
+        }
+        if (confirm("确定执行操作？")) {
+            waitingWin('正在处理中，请稍后...');
+            $.ajax({
+                url: "{:U('__CONTROLLER__/bankcardTixianQueue')}",
+                type: "post",
+                data: {id: check_val},
+                timeout: 2000,
+                success: function (re) {
+                    layer.closeAll();
+                    if (re == '') {
+                        alert('银行卡提现已成功加入队列,稍后将会依次自动完成[SUCCESS1]');
+                        window.location.reload();
+                    } else {
+                        alert(re);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert('银行卡提现已成功加入队列,稍后将会依次自动完成[SUCCESS2]');
+                    window.location.reload();
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    //支付宝提现
+    function FinanceByAli() {
+        var is_black_count = 0;
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+                if (obj[k].getAttribute('is_black') != '0') {
+                    is_black_count++;
+                }
+            }
+        }
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        if (is_black_count > 0) {
+            if (confirm('已勾选的待处理提现申请中有' + is_black_count + '个黑名单用户，确认要继续提交吗？') == false) {
+                return false;
+            }
+        }
+        if (confirm("确定执行操作？")) {
+            waitingWin('正在处理中，请稍后...');
+            $.ajax({
+                url: "{:U('__CONTROLLER__/aliTixianQueue')}",
+                type: "post",
+                data: {id: check_val},
+                timeout: 2000,
+                success: function (re) {
+                    layer.closeAll();
+                    if (re == '') {
+                        alert('支付宝提现已成功加入队列,稍后将会依次自动完成[SUCCESS1]');
+                        window.location.reload();
+                    } else {
+                        alert(re);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert('支付宝提现已成功加入队列,稍后将会依次自动完成[SUCCESS2]');
+                    window.location.reload();
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    //查询平台银行卡账户余额
+    // function getBankAccountBalance() {
+    // 	var bank_balance = '';
+    // 	var bank_em = '查询超时,点击重试';
+    // 	$.ajax({
+    // 		url: "{:U('__CONTROLLER__/getBankAccountBalance')}",
+    // 		type: 'get',
+    // 		timeout: 5000,
+    // 		success: function(re){
+    // 			if(re=='null'){
+    // 				bank_balance += '获取失败';
+    // 			}else{
+    // 				var re = $.parseJSON(re);
+    // 				if(re.retCode=='000'){
+    // 					bank_balance += re.balSign+re.balance;
+    // 					bank_em = '';
+    // 				}else{
+    // 					bank_balance += '出现错误:'+re.retCode;
+    // 				}
+    // 			}
+    // 			if (bank_em==''){
+    // 				$('.bank_balance span').html(bank_balance);
+    // 			}else{
+    // 				$('.bank_balance span').html(bank_balance);
+    // 				$('.bank_balance em').html(bank_em);
+    // 			}
+    // 		},
+    // 		error: function(re){
+    // 			$('.bank_balance span').html(bank_balance);
+    // 			$('.bank_balance em').html(bank_em);
+    // 		}
+    // 	});
+    // }
+
+    function applyinfo(type) {
+        var url = "{:U('__CONTROLLER__/drawback')}";
+        switch (type) {
+            case 'WX':
+                url = "{:U('__CONTROLLER__/drawbackWX')}";
+                break;
+            case 'BANK':
+                url = "{:U('__CONTROLLER__/drawbackBANK')}";
+                break;
+            case 'ALI':
+                url = "{:U('__CONTROLLER__/drawbackALI')}";
+                break;
+        }
+
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+            }
+        }
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        if (confirm("确定执行操作？")) {
+            $.post(url, {
+                id: check_val,
+            }, function (data) {
+                var html = '';
+                $.each(data, function (key, val) {
+                    html += val + "\r\n";
+                });
+                alert(html);
+                document.location.reload();
+                return false;
+            });
+        } else {
+            return false;
+        }
+    }
+
+    //批量解锁
+    // function apply_unlock(){
+    // 	obj = document.getElementsByName("id[]");
+    // 	check_val = [];
+    // 	for(k in obj){
+    // 		if(obj[k].checked){
+    // 			check_val.push(obj[k].value);
+    // 		}
+    // 	}
+    // 	if(check_val.length==0){
+    // 		alert('请选择后再执行确认操作');
+    // 		return false;
+    // 	}
+    // 	if(confirm("确定执行操作？")){
+    // 		var url = "{:U('__CONTROLLER__/applyUnlock')}";
+    // 		$.post(url,{
+    // 		id:check_val,
+    // 		},function(data){
+    // 			alert(data[0]);
+    // 			document.location.reload();
+    // 		});
+    // 	}else{
+    // 		return false;
+    // 	}
+    // }
+
+    //导出
+    function exporta() {
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+            }
+        }
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        var p = "{$Think.get.p}";
+        var userid = "{$Think.get.userid}";
+        var starttime = "{$Think.get.time_min}";
+        var endtime = "{$Think.get.time_max}";
+        var tiqu_type = "{$tiqu_type}";
+        var is_submit = "{$Think.get.is_submit}";
+        window.open('/Admin/Finance/withdrawExportAction?check_val=' + check_val + '&p=' + p + '&userid=' + userid + '&tiqu_type=' + tiqu_type + '&is_submit=' + is_submit + '&time_min=' + starttime + '&time_max=' + endtime);
+    }
+
+
+    function exporta2() {
+
+        var obj = document.getElementsByName("id[]");
+        check_val = [];
+        for (k in obj) {
+            if (obj[k].checked) {
+                check_val.push(obj[k].value);
+            }
+        }
+        if (check_val.length == 0) {
+            alert('请选择后再执行确认操作');
+            return false;
+        }
+        var p = "{$Think.get.p}";
+        var userid = "{$Think.get.userid}";
+        var starttime = "{$Think.get.time_min}";
+        var endtime = "{$Think.get.time_max}";
+        var tiqu_type = "{$tiqu_type}";
+        var is_submit = "{$Think.get.is_submit}";
+        window.open('/Admin/Finance/withdrawExportAction?check_val=' + check_val + '&mark=1&p=' + p + '&userid=' + userid + '&tiqu_type=' + tiqu_type + '&is_submit=' + is_submit + '&time_min=' + starttime + '&time_max=' + endtime);
+    }
+</script>

@@ -1,0 +1,26 @@
+<div class="zc_anwia">
+	<h2>公让宝实时价格管理</h2>
+</div>
+<div class="zc_message">
+	
+	<div id="ajax_block">
+
+	<form name="save" method="post" action="{:U('System/GoldcoinPrice/save')}">
+	<table>
+		<tr>
+			<td>当前价格</td>
+			<td><strong class="shuoming">{$info.amount}</strong>&nbsp;&nbsp;[更新时间:{$info.uptime|date='Y-m-d H:i:s',###}]</td>
+		</tr>
+		<tr>
+			<td>设置最新价格</td>
+			<td><input type="text" name="amount" class="zc_if_empty zc_if_price"></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+		</tr>
+	</table>
+	</form>
+	
+	</div>
+	
+</div>

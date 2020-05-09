@@ -1,0 +1,126 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia">
+    <h2>板块编辑</h2>
+</div>
+
+<div class="zc_message"> 
+    <!--<div class="shuoming_warning"> -->
+        <!--<p>1、公让宝或特供券的设置值：是所有商家发布此板块商品时需使用对应币种的最小值</p>-->
+        <!--<p>2、基础运费的设置金额：是所有商家发布此板块商品时需填写运费的最小金额</p>-->
+        <!--<p>公让宝抵扣抵比例 设置（最大10%）</p>-->
+    <!--</div>-->
+
+    <form name="blockSave" method="post" action="{:U('__CONTROLLER__/blockSave')}" enctype="multipart/form-data">
+    	<div class="zc_shop">
+            <span>板块ID:</span>
+            {$info.block_id}
+        </div>
+        
+        <div class="zc_shop">
+            <span>板块名:</span>
+            <input type="text" name="block_name" class="zc_if_empty" value="{$info.block_name}">
+            <input type="text" name="block_name_en" value="{$info.block_name_en}" placeholder="板块名-英文">
+            <input type="text" name="block_name_ko" value="{$info.block_name_ko}" placeholder="板块名-韩文">
+        </div>
+        
+        <div class="clear zc_shop">
+    		<span style="padding:5px 0px;display:block">图标</span>
+    		<ul id="warp">
+                <li>
+                    <div class="warp_pic">
+                        <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.block_icon}" class="zc_shop_img" />
+                    </div>
+                    <div class="zc_imgStum">上传文件</div>
+                    <input type="file" id="up_img_WU_FILE_0" name=block_icon class="zc_np_pic" />
+                </li>
+            </ul>
+	    </div>
+	    
+	    <div class="clear zc_shop">
+    		<span style="padding:5px 0px;display:block">封面图</span>
+    		<ul id="warp2">
+                <li>
+                    <div class="warp_pic">
+                        <img id="imgShow_WU_FILE_1" src="{:U('/', '','', true)}{$info.block_cover}" class="zc_shop_img" />
+                    </div>
+                    <div class="zc_imgStum">上传文件</div>
+                    <input type="file" id="up_img_WU_FILE_1" name="block_cover" class="zc_np_pic" />
+                </li>
+            </ul>
+	    </div>
+        
+        <div class="zc_shop">
+            <span>丰谷宝抵扣比例:</span>
+            <input type="text" name="block_goldcoin_percent" class="zc_if_price" value="{$info.block_goldcoin_percent}">%
+            <!--<span>最低比例</span>-->
+            <!--<input type="text" name="block_goldcoin_percent" class="zc_if_price" value="{$info.block_goldcoin_percent}">%-->
+            <!--<span>，最高比例</span>-->
+            <!--<input type="text" name="block_goldcoin_percent_max" class="zc_if_price"-->
+                   <!--value="{$info.block_goldcoin_percent_max}">%-->
+        </div>
+        
+        <div class="zc_shop">
+            <span>普通会员折扣:</span>
+            <input type="text" name="block_discount_1" class="zc_if_price" value="{$info.block_discount_1}">折
+            <!--<span>特供券:</span>-->
+            <!--<span>最低比例</span>-->
+            <!--<input type="text" name="block_supply_percent" class="zc_if_price" value="{$info.block_supply_percent}">%-->
+            <!--<span>，最高比例</span>-->
+            <!--<input type="text" name="block_supply_percent_max" class="zc_if_price"-->
+                   <!--value="{$info.block_supply_percent_max}">%-->
+        </div>
+        
+        <div class="zc_shop">
+            <span>5星会员（钻石经销商）折扣:</span>
+            <input type="text" name="block_discount_5" class="zc_if_price" value="{$info.block_discount_5}">折
+
+            <!--<span>基础运费:</span>-->
+            <!--<input type="text" name="block_freight" class="zc_if_price" value="{$info.block_freight}">-->
+            <!--<label>-->
+                <!--<if condition="$info.block_freight_collect eq '1'">-->
+                    <!--<input type="checkbox" name="block_freight_collect" class="zc_if_price" checked/>-->
+                    <!--<else/>-->
+                    <!--<input type="checkbox" name="block_freight_collect" class="zc_if_price"/>-->
+                <!--</if>-->
+                <!--到付-->
+            <!--</label>-->
+        </div>
+        
+        <div class="zc_shop">
+    		<span>是否只允许会员购买:</span>
+    		<input type="radio" name="block_only_member" value="0" <if condition="!$info[block_only_member]">checked</if> >否
+    		<input type="radio" name="block_only_member" value="1" <if condition="$info[block_only_member]">checked</if> >是
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>运费规则:</span>
+    		订单不满<input type="text" name="block_freight_order_amount" value="{$info.block_freight_order_amount}">元
+    		自动增加<input type="text" name="block_freight_increase_amount" value="{$info.block_freight_increase_amount}">元运费
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>赠送澳洲SKN股数:</span>
+    		订单PV业绩每满<input type="text" name="block_enjoy_order_amount" value="{$info.block_enjoy_order_amount}">元
+    		赠送<input type="text" name="block_enjoy_give_amount" value="{$info.block_enjoy_give_amount}">澳洲SKN股数
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>板块排序:</span>
+    		<input type="text" name="block_order" value="{$info.block_order}">
+    		<span class="shuoming">板块将按排序从小到大顺序展示</span>
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span>板块状态:</span>
+    		<input type="radio" name="block_enabled" value="0" <if condition="!$info[block_enabled]">checked</if> >禁用
+    		<input type="radio" name="block_enabled" value="1" <if condition="$info[block_enabled]">checked</if> >激活
+    	</div>
+
+        <div class="zc_shop">
+            <span></span>
+            <input type="submit" name="submit" value="保存">
+            <input type="hidden" name="block_id" value="{$info.block_id}">
+        </div>
+    </form>
+</div>

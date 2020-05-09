@@ -1,0 +1,21 @@
+/*  map   */
+.map_ftab{ text-align:center; width:100%;}
+.map_son_tb{border-collapse:collapse; border-spacing:0;  border:1px solid #6F6F6F; margin-left:10px; margin-right:10px;width:210px;}
+.map_son_tb th{ cursor:pointer; height:35px; line-height:35px; text-align: center;}
+.map_son_tb td{ border:1px solid #6F6F6F; text-align:center; height:35px; line-height:35px; width:70px;}
+.level0{ background:url(../images/tree/0.gif) no-repeat 5px 9px;}
+.level1{ background:url(../images/tree/1.gif) no-repeat 5px 9px;}
+.level2{ background:url(../images/tree/2.gif) no-repeat 5px 9px;}
+.level3{ background:url(../images/tree/3.gif) no-repeat 5px 9px;}
+.level4{ background:url(../images/tree/4.gif) no-repeat 5px 9px;}
+.level5{ background:url(../images/tree/5.gif) no-repeat 5px 9px;}
+.level6{ background:url(../images/tree/6.gif) no-repeat 5px 9px;}
+.level7{ background:url(../images/tree/7.gif) no-repeat 5px 9px;}
+.level8{ background:url(../images/tree/8.gif) no-repeat 5px 9px;}
+.level9{ background:url(../images/tree/9.gif) no-repeat 5px 9px;}
+.manage{ background:url(../images/tree/manager.gif) no-repeat 5px 9px;}
+.agent{ background:url(../images/tree/agent.gif) no-repeat 5px 9px;}
+
+.tree_f{ height:20px; line-height:20px; font-size:12px;}
+.tree_f img{ height:16px; font-size:12px;}
+.ctrimg{cursor:pointer;}

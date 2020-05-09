@@ -1,0 +1,20 @@
+<div id="ajax_block">
+
+<div class="title">修改商品[{$info.name}]库存</div>
+<table>
+	<tr><td><label>当前库存：</label>{$info[totalnum]-$info[exchangenum]}</td></tr>
+	<tr><td>
+		<label>修改运费：</label>
+		<form name="save_exchangenum" method="post" action="{:U('Merchant/Goods/exchangenumModify')}">
+			<select name="type">
+				<option value="1">增加</option>
+				<option value="2">减少</option>
+			</select>
+			<input type="text" name="count" value="1">
+			<input type="submit" name="submit" value="保存">
+			<input type="hidden" name="id" value="{$info.id}">
+		</form>
+	</td></tr>
+</table>
+
+</div>

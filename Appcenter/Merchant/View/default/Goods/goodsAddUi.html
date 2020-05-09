@@ -1,0 +1,368 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+<style>
+
+    .file-box {
+
+        display: inline-block;
+
+        position: relative;
+
+        padding: 3px 5px;
+
+        /*overflow: hidden;*/
+
+        /*color:#00a0e9;*/
+
+        /*background-color: #00a0e9;*/
+        color:#fff;
+        background: #00a0e9;
+        width: 80px;
+        height: 25px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 25px;
+    }
+
+    .file-btn {
+
+        position: absolute;
+
+        width: 100px;
+
+        height: 20px;
+
+        top: 0;
+
+        left: 0;
+
+        outline: none;
+
+        background-color: red;
+
+        filter:alpha(opacity=0);
+
+        -moz-opacity:0;
+
+        -khtml-opacity: 0;
+
+        opacity: 0;
+
+    }
+    .video_select_btn {
+		display: inline-block;
+    	border-bottom: 1px #ccc solid;
+    	margin-bottom: 10px;
+    }
+    .sqie {
+    	display: inline-block;
+        padding: 0 10px;
+        height: 30px;
+        line-height: 30px;
+    	cursor: pointer;
+    }
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #00a0e9;
+        border: 1px solid #99D3F5;
+        border-radius: 5px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        text-align: center;
+        width: 100px;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+
+</style>
+<div class="zc_anwia"><h2>商品管理-发布商品</h2></div>
+<div class="zc_message">
+    <form name="goodsSave" method="post" action="{:U('__CONTROLLER__/goodsAdd')}" enctype="multipart/form-data">
+        <div class="zc_shop">
+            <span>商品名称:</span>
+            <input type="text" name="name" class="inputWidth200 zc_if_empty">
+            <input type="text" name="name_en" class="inputWidth200" placeholder="商品名称-英文">
+            <input type="text" name="name_ko" class="inputWidth200" placeholder="商品名称-韩文">
+        </div>
+        <div class="zc_shop">
+            <span>商品图片:</span>
+            <ul id="warp2">
+                <li>
+                    <div class="warp_pic">
+                        <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}/Public/Public/images/zc_default.jpg"
+                             class="zc_shop_img"/>
+                    </div>
+                    <div class="zc_imgStum">上传文件</div>
+                    <input type="file" id="up_img_WU_FILE_0" name="img" class="zc_np_pic"/>
+                </li>
+            </ul>
+        </div>
+
+        <div class="clear1"></div>
+
+        <div class="zc_shop" style="">
+
+
+        <!--<span>商品视频:</span>-->
+        商品视频: <input type="text" name="video" id="wz" class="inputWidth200" style="margin-bottom: 20px;">
+
+        <div class="file-box">
+            <input type="file" id="vid" name="" class="file-btn"  />上传视频
+        </div>
+        <div class="warp_pic" style="margin-left: 76px;">
+            <video width="320" height="140" src="" controls="controls" class="videoImg">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
+    </div>
+        <div class="zc_shop">
+            <span>所属板块:</span>
+            <select name="affiliate[block_id]" id="block_id">
+                <foreach name="block" key="key" item="item">
+                    <option value="{$item.block_id}"
+                    <if condition="$key eq '0'">selected</if>
+                    >{$item.block_name}</option>
+                </foreach>
+            </select>
+        </div>
+
+        <div class="zc_shop daili_category">
+        	<span>所属分类:</span>
+        	<assign name="select_category_fid_disabled" value="1"/>
+        	<assign name="select_category_fid_value" value="20"/>
+    		<include file="./Appcenter/Public/public/common.category.html"/>
+        </div>
+        <div class="zc_shop">
+            <span>商品数量:</span>
+            <input type="text" name="totalnum" value="{$info.totalnum}" class="zc_if_number zc_if_empty">
+        </div>
+        <div class="zc_shop">
+            <span>已售数量:</span>
+            <input type="text" name="exchangenum" value="{$info.exchangenum}" class="zc_if_number zc_if_empty">
+        </div>
+        <div class="zc_shop">
+            <span>商品原价:</span>
+            <input type="text" name="price" id="price" class="zc_if_price zc_if_empty">
+        </div>
+
+        <div class="zc_shop cl0 jiage">
+            <span>销售价格:</span>
+            <input type="text" name="product_price_1[price_cash]" class="zc_if_price zc_if_empty">
+        </div>
+
+        <div class="zc_shop  cl1 jiage">
+            <span>业绩比例:</span>
+            <input type="text" name="product_price_1[performance_bai_cash]" class="zc_if_price yeji_bili" value="" maxlength="3">%
+        </div>
+
+        <div class="zc_shop">
+            <span>物流运费:</span>
+            <input type="text" name="affiliate[affiliate_freight]" id="affiliate_freight" class="zc_if_price ">
+        </div>
+        <div style="clear:both"></div>
+        <div class="zc_shop">
+            <label style="margin-left:0;">轮播图片:</label>
+            <ul id="warp" class="clear">
+                <div class="zc_addition">添加图片</div>
+            </ul>
+        </div>
+        <div class="clear1"></div>
+        
+        <div class="zc_shop" id="shop_attr">
+        	<label style="margin-left:0;">商品规格: <i>增加规格</i></label>
+        	<ul></ul>
+        </div>
+
+        <div class="zc_shop">
+            <label style="margin-left:0;">商品描述:</label>
+            <textarea id="content1" name="content" style="width:100%;height:300px;visibility:hidden;resize:none"></textarea>
+            <label style="margin-left:0;">商品描述-英文:</label>
+            <textarea id="content2" name="content_en" style="width:100%;height:300px;visibility:hidden;resize:none"></textarea>
+            <label style="margin-left:0;">商品描述-韩文:</label>
+            <textarea id="content3" name="content_ko" style="width:100%;height:300px;visibility:hidden;resize:none"></textarea>
+        </div>
+
+        <div class="col-sm-2"></div>
+        <div>
+            <span></span>
+            <input type="submit" name="submit" value="保存">
+        </div>
+
+    </form>
+</div>
+
+<iframe src=""  width="0" height="0" style="display:none;" name="tarframe"></iframe>
+<script type="text/javascript">
+var grb_exchange_block_id = "{:C('GRB_EXCHANGE_BLOCK_ID')}";
+
+    // ajax上传视频返回路径
+    $("#vid").change(function(){
+
+        var fileObj = document.getElementById("vid").files[0]; // js 获取文件对象
+        if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+            alert("请选择视频");
+            return;
+        }
+        // alert(666);alert(fileObj);return false;
+        var formFile = new FormData();
+        formFile.append("action", "UploadVMKImagePath");
+        formFile.append("video", fileObj); //加入文件对象
+        var data = formFile;
+        $.ajax({
+            // url: "/Merchant/Goods/asyUp",
+            url: "{:U('__CONTROLLER__/ajaxVideo')}",
+            data: data,
+            type: "Post",
+            dataType: "json",
+            cache: false,//上传文件无需缓存
+            processData: false,//用于对data参数进行序列化处理 这里必须false
+            contentType: false, //必须
+            success: function (result) {
+                console.log(result);
+                // alert(result.msg);
+                if(result.status==200){
+                    $("#wz").val(result.video_url);
+                    var videoUrl = "{:U('/', '','', true)}"+result.video_url;
+                    $(".videoImg").attr('src',videoUrl);
+                }else{
+                    alert(result.msg);
+                }
+
+            }
+        })
+    });
+    $("#wz").blur(function(){
+        var str = $('#wz').val();
+        // var str = 'Uploads/product/20190309/df489a92615165756ff5ed21aadd4827.mp4';
+        // var str = 'https://gongrangbao.oss-cn-shenzhen.aliyuncs.com//Uploads/product/20190319/89b047f06d6ea856f1c03ad7beec7f7d.mp4';
+        // var str = 'www.baidu.com';
+        if(str.indexOf("http") >= 0 ) {
+            // alert('str中包含http字符串');
+            $(".videoImg").attr('src',str);
+        }else if(str.indexOf("www") >= 0){
+            // alert('str中包含www字符串');
+            $(".videoImg").attr('src',str);
+        }else{
+            var getUrl = "{:U('/', '','', true)}"+str;
+            $(".videoImg").attr('src',getUrl);
+        }
+
+
+    });
+new uploadPreview({
+    UpBtn: "up_img_WU_FILE_0",
+    DivShow: "warp_pic",
+    ImgShow: "imgShow_WU_FILE_0",
+    Width: 210,
+    Height: 210
+});
+
+$("#shiping").click(function () {
+    $("#shiping").css('background',' #00a0e9');
+    $("#wangzhi").css('background','white');
+    $('#wangxian').hide();
+    $('#warp2s').show();
+    $("#wz").attr('name','');
+    $("#vid").attr('name','video');
+    $("#is_shiping").val(0);
+});
+$("#wangzhi").click(function () {
+    $("#wangzhi").css('background',' #00a0e9');
+    $("#shiping").css('background',' white');
+    $('#warp2s').hide();
+    $('#wangxian').show();
+    $("#vid").attr('name','');
+    $("#wz").attr('name','video');
+    $("#is_shiping").val(1);
+});
+
+//获取当前店铺的默认二级分类
+var current_sid = "{$info.sid}";
+
+$(function(){
+
+	//代理专用可选择分类
+	var opt = $('#block_id').val();
+	daili_category(opt);
+	$('#block_id').change(function(){
+		var opt = $(this).val();
+		daili_category(opt);
+	});
+	
+	//增加商品规格
+	var specification_id = 0;
+	var specification_html_init = specification_html(specification_id);
+	$('#shop_attr').find('ul').html(specification_html_init);
+	$('#shop_attr').find('label i').click(function(){
+		specification_id++;
+		var html = specification_html(specification_id);
+		$('#shop_attr').find('ul').append(html);
+	});
+
+});
+
+//商品规格html
+function specification_html(id){
+	var html = '<li>\
+			<em>规格名称:</em>\
+			<input type="text" name="specification['+id+'][specification_name]">\
+			<input type="text" name="specification['+id+'][specification_name_en]" placeholder="规格名称-英文">\
+			<input type="text" name="specification['+id+'][specification_name_ko]" placeholder="规格名称-韩文">\
+			<em>单价:</em>\
+			<span><input type="text" name="specification['+id+'][specification_price]"></span>\
+			<em>库存:</em>\
+			<span><input type="text" name="specification['+id+'][specification_inventory]"></span>\
+			<em>销量:</em>\
+			<span><input type="text" name="specification['+id+'][specification_sold]"></span>\
+			<em>排序:</em>\
+			<span><input type="text" name="specification['+id+'][specification_sort]"></span>\
+			<i onclick="specification_remove(this);">删除</i>\
+		</li>';
+	return html;
+}
+//商品规格移除
+function specification_remove(obj){
+	$(obj).parent('li').remove();
+}
+
+function daili_category(block_id) {
+	if (block_id != '4' && block_id != '6') {
+		$('.daili_category').hide();
+		$('#select_category_sid').val(current_sid);
+		$('.yeji_bili').attr('disabled', false).val('');
+	} else {
+		$('.yeji_bili').attr('disabled', true);
+
+		if (block_id == '4') {
+			$('.daili_category').show();
+			$('.yeji_bili').val('100');
+		}
+		if (block_id == '6') {
+			$('.daili_category').hide();
+			$('#select_category_sid').val(current_sid);
+			$('.yeji_bili').val('0');
+		}
+	}
+	
+	//公让宝兑换专区强制设置业绩PV比例为0
+	if (block_id == grb_exchange_block_id) {
+		$('.yeji_bili').val('0').attr('disabled', true);
+	}
+}
+</script>

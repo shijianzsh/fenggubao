@@ -1,0 +1,51 @@
+<div class="zc_anwia">
+	<h2>日管理津贴明细</h2>
+</div>
+<div class="zc_message">
+	<!-- [form] -->
+	<form name="search" method="get" action="__ACTION__">
+		<input type="text" name="keyword" class="inputWidth200" value="{$Think.get.keyword}" placeholder="请输入管理津贴用户帐号">
+		<input type="hidden" name="id" value="{$Think.get.id}"/>
+		
+		<label>管理津贴类型</label>
+		<select name="gljt_type">
+			<option value="cash">现金币</option>
+			<option value="goldcoin">公让宝</option>
+			<option value="colorcoin">商超券</option>
+		</select>
+		
+		<button type="submit" class="btn btn-primary">搜 索</button>
+	</form>
+	<!-- [/form] -->
+	<table>
+		<thead>
+			<tr>
+				<th>管理津贴用户</th>
+				<th>身份</th>
+				<th>管理津贴金额(元)</th>
+				<th>分发时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" key="key" item="item">
+			<tr>
+				<td>{$item.loginname}[{$item.nickname}]</td>
+				<td>
+					<if condition="$item[level] eq '3'">
+					[服务中心]
+					<elseif condition="$item[level] eq '4'"/>
+					[区域合伙人]
+					</if>
+					<if condition="$item[star] eq '3'">
+					[三星创客]
+					<elseif condition="$item[star] eq '5'"/>
+					[五星创客]
+					</if>
+				</td>
+				<td>{$item.record_amount}</td>
+				<td>{$item.record_addtime|date='Y-m-d H:i:s',###}</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

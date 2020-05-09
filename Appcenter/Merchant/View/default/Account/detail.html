@@ -1,0 +1,139 @@
+<div class="zc_anwia">
+    <h2>账户管理</h2>
+</div>
+<div class="zc_message">
+
+    <!-- [count] -->
+    <h2 style="margin-bottom:20px;">
+        <small>
+            现金币：<span style="color:red">{$account['account_cash_balance']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;
+            丰谷宝：<span style="color:red">{$account['account_goldcoin_balance']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;
+            积分：<span style="color:red">{$account['account_points_balance']|number_format=###, 2, '.', ''}</span>&nbsp;&nbsp;
+        </small>
+    </h2>
+    <!-- [/count] -->
+
+    <!-- [form] -->
+    <form role="form" action="__CONTROLLER__/detail/" method="get">
+        <assign name="search_date_hide" value="1"/>
+        <div class="">
+            <label for="member_cash" class="col-sm-2 control-label left">账户类型</label>
+            <div class="col-sm-10 left">
+                <select class="form-control zc_input" id="member_cash" name="member_cash">
+                    <option value="cash"
+                    <if condition="$Think.get.member_cash eq 'cash'">selected="selected"</if>
+                    >现金币</option>
+                    <option value="goldcoin"
+                    <if condition="$Think.get.member_cash eq 'goldcoin'">selected="selected"</if>
+                    >丰谷宝</option>
+                    <option value="points"
+                    <if condition="$Think.get.member_cash eq 'points'">selected="selected"</if>
+                    >积分</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label for="member_cash" class="col-sm-2 control-label left">日期范围</label>
+            <div class="form-group left">
+                <input type="text" class="layui-input" id="start_time" name="start_time" readonly value='{$Think.get.start_time}'>
+                --&nbsp;
+            </div>
+            <div class="form-group left">
+                <input type="text" class="layui-input" id="end_time" name="end_time" readonly value='{$Think.get.end_time}'>
+            </div>
+        </div>
+
+        <div>
+            <label for="member_cash" class="col-sm-2 control-label left">收入支出</label>
+            <div class="col-sm-10 left">
+                <select class="form-control zc_input" id="balance_type" name="balance_type">
+                    <option value=""
+                    <if condition="$Think.get.balance_type eq '' or $Think.get.bonus_type neq ''">selected="selected"
+                    </if>
+                    >全部</option>
+                    <option value="income"
+                    <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'income'">
+                        selected="selected"
+                    </if>
+                    >收入</option>
+                    <option value="expense"
+                    <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'expense'">
+                        selected="selected"
+                    </if>
+                    >支出</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success zc_submit">确认</button>
+            </div>
+        </div>
+    </form>
+    <!-- [/form] -->
+
+    <!-- [total] -->
+    <if condition="$Think.get.member_cash eq 'cash' or $Think.get.member_cash eq ''">
+        <div class="total" style="margin-bottom:10px;font-size:14px;">
+            累计现金币收益：<span style="color:red;">{$total_cash['income']|default='0'}</span>
+        </div>
+    </if>
+    <!-- [/total] -->
+
+    <!-- [list] -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>来源</th>
+            <th>收入</th>
+            <th>支出</th>
+            <th>收支类型</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="datalist" id="item" key="k" mod="2">
+            <tr>
+                <td align="center">{$item.record_id}</td>
+                <td align="left">{$item.from_name}</td>
+                <td align="right">
+                    <if condition="$item['record_amount'] gt '0'">
+                        {$item.record_amount|number_format=###, 2, '.', ''}
+                        <else/>
+                        0.00
+                    </if>
+                </td>
+                <td align="right">
+                    <if condition="$item['record_amount'] lt '0'">{$item.record_amount|number_format=###, 2, '.', ''}
+                        <else/>
+                        0.00
+                    </if>
+                </td>
+                <td align="center">{$item.record_remark}</td>
+                <td align="center">{$item.record_addtime|date='Y-m-d H:i',###}</td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+</div>
+
+<script>
+layui.use('laydate', function(){
+	var laydate = layui.laydate;
+	
+	laydate.render({
+		elem: '#start_time',
+		type: 'date'
+	});
+	
+	laydate.render({
+		elem: '#end_time',
+		type: 'date'
+	});
+});
+</script>

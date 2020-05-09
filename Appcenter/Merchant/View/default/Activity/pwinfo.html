@@ -1,0 +1,84 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia"><h2>折扣设置</h2></div>
+<div class="zc_message">
+	<form name="goodsSave" method="post" action="{:U('__CONTROLLER__/pwSave')}" enctype="multipart/form-data">
+		<div class="zc_shop">
+        	<span class="zc_span_Wdith">店铺公告:</span>
+        	<input type="text" name="pname" value="{$info.pname}" class="inputWidth200 zc_if_empty">
+        </div>
+        <div class="zc_shop">
+        	<span class="zc_span_Wdith">优惠方式:</span>
+			<em style="padding:0 10px;color:#00a0e9">店铺优惠</em>消费者在本店消费享受
+			<input type="text" name="discount" value="{$info.discount}" class="zc_if_price zc_if_empty">折
+        </div>
+        <div style="clear:both"></div>
+        <!-- 
+        <div class="zc_shop">
+        	<span class="zc_span_Wdith">当前审核状态:</span>
+        	<if condition="$info.manage_status eq '0'">未审核<elseif condition="$info.manage_status eq '1'"/>审核通过<elseif condition="$info.manage_status eq '2'"/>驳回</if>
+        </div>
+        <div class="zc_shop">
+        	<span class="zc_span_Wdith">当前活动状态:</span>
+        	<select name="status">
+        		<option value="0" <if condition="$info.status eq '0'">selected="selected"</if>>启用</option>
+        		<option value="1" <if condition="$info.status eq '1'">selected="selected"</if>>停用</option>
+        	</select>
+        </div>
+		<div class="zc_shop">
+			<span class="zc_span_Wdith">活动图片:</span>
+			<ul id="warp2" >
+          	 	 <li>
+                 <div class="warp_pic">
+                     <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.img}" class="zc_shop_img" />
+                 </div>
+                 <div class="zc_imgStum">上传文件</div>
+                 <input type="file" id="up_img_WU_FILE_0" name="img" class="zc_np_pic" />
+      		     </li>
+       		</ul>
+		</div>
+		 -->
+		<div class="clear1"></div>
+		<div class="zc_shop">
+        	<span class="zc_span_Wdith">修改时间:</span>
+        	{$info.post_time|date='Y-m-d',###}
+        </div>
+        
+		<div class="col-sm-2"></div>
+		<div class="zc_shop" style="margin-left:40px;">
+        	<span></span>
+        	<input type="submit" name="submit" value="保存">
+        </div>
+        
+		<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+
+<script type="text/javascript">
+	new uploadPreview({ UpBtn: "up_img_WU_FILE_0", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_0",Width:210,Height:210});
+
+</script>
+<script type="text/javascript">
+$(function(){
+	// //富文本编辑器
+ //    var editor = new wangEditor('textarea1');
+ //    // 上传图片（举例）
+ //    editor.config.uploadImgUrl = "{:U('Admin/Ajax/upload/path/product')}";
+
+ //    // 配置自定义参数（举例）
+ //    editor.config.uploadParams = {
+ //        token: 'abcdefg',
+ //        user: 'wangfupeng1988'
+ //    };
+ //    editor.create();
+ // 	// 初始化编辑器的内容
+ //    editor.$txt.html('{$info.content}');
+    //图片上传
+    var image_count = 0;
+	<foreach name="info['carousel1']" key="key" item="item2">
+        new uploadPreview({ UpBtn: "up_img_WU_FILE_{$key}", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_{$key}",Width:210,Height:210});
+	image_count++;
+	<php>echo PHP_EOL;</php>
+	</foreach>
+});
+</script>

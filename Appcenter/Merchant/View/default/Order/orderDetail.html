@@ -1,0 +1,76 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+<style>
+.zc_shop{margin: 10px 0px;}
+.label{display: inline-block; width:100px;text-align: right; margin-right: 20px;}
+</style>
+<div class="zc_anwia"><h2>订单管理</h2></div>
+<div class="zc_message">
+	<form name="goodsSave" method="post" action="{:U('__CONTROLLER__/goodsSave')}" enctype="multipart/form-data">
+		<div class="zc_shop">
+        	<span class="label">订单流水:</span>
+        	<span style="color: #1e1e1e">{$info.order_number}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">商品名称:</span>
+        	<span style="color: #1e1e1e">{$info.productname}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">下单时间:</span>
+        	<span style="color: #1e1e1e">{$info.time|date='Y-m-d H:i:s', ###}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">金额:</span>
+        	<span style="color: #1e1e1e">{$info.amount}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">买家:</span>
+        	<span style="color: #1e1e1e">{$info.loginname}[{$info.nickname}]</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">兑换方式:</span>
+        	<span style="color: #1e1e1e">{$info.exchangeway_cn}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">订单状态:</span>
+        	<span style="color: #c80000">{$info.order_status_cn}</span>
+        </div>
+        
+        <eq name="info.exchangeway" value="0">
+        <!-- 兑换 -->
+        <div class="zc_shop">
+        	<span class="label">购买数量:</span>
+        	<span style="color: #1e1e1e">{$info.num|default='0'}</span>
+        </div>
+        </eq>
+        
+        <eq name="info.exchangeway" value="1">
+        <!-- 送货 -->
+        <div class="zc_shop">
+        	<span class="label">购买数量:</span>
+        	<span style="color: #1e1e1e">{$info.num}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">收货人:</span>
+        	<span style="color: #1e1e1e">{$info.username} {$info.address}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">发货时间:</span>
+        	<span style="color: #1e1e1e">{$info.delivertime}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">物流公司:</span>
+        	<span style="color: #1e1e1e">{$info.ems}</span>
+        </div>
+        <div class="zc_shop">
+        	<span class="label">快递单号:</span>
+        	<span style="color: #1e1e1e">{$info.ems_code}</span>
+        </div>
+        </eq>
+        
+        <div class="zc_shop">
+        	<span class="label">买家留言:</span>
+        	<span style="color: #1e1e1e">{$info.comment}</span>
+        </div>
+        
+	</form>
+</div>

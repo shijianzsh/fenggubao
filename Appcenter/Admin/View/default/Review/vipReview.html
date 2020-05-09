@@ -1,0 +1,173 @@
+<div class="zc_anwia">
+	<h2><if condition="$_GET['type'] eq 0">未审核<else/>已审核</if>金卡代理</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="">
+		<assign name="search_date_title" value="升级日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		
+		<if condition="$Think.get.type eq '1'">
+		<div class="form-group left">
+			<label class="control-label left">审核结果</label>
+			<select name="status">
+				<option value="0" <if condition="$Think.get.status eq '' or $Think.get.status eq '0'">selected</if>>全部</option>
+				<option value="2" <if condition="$Think.get.status eq '2'">selected</if> >审核驳回</option>
+				<option value="3" <if condition="$Think.get.status eq '3'">selected</if> >审核通过</option>
+			</select>
+		</div>
+		</if>
+
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+		<input type="hidden" name="p" value="1">
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>账号</th>
+				<th>姓名</th>
+				<th>昵称</th>
+				<th>申请时间</th>
+				<th>通过时间</th>
+				<th>支付金额</th>
+				<th>当前身份</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.username}</td>
+				<td>{$item.truename}</td>
+				<td>{$item.nickname}</td>
+				<td>{$item.apply_addtime|date='Y/m/d H:i:s',###}</td>
+				<td>{$item.apply_uptime|date='Y/m/d H:i:s',###}</td>
+				<td>现金币:{$item[apply_amount][cash][record_amount]|default='0.00'|abs}，微信:{$item[apply_amount][wechat][record_amount]|default='0.00'|abs}，注册币:{$item[apply_amount][enroll][record_amount]|default='0.00'|abs}</td>
+				<td>
+					<if condition="$item['level'] eq '1'">体验用户</if>
+					<if condition="$item['level'] eq '2'">创客用户</if>
+					<!-- <if condition="$item['role'] eq '3'">服务中心</if> -->
+					<if condition="$item['role'] eq '4'">区域合伙人</if>
+					<if condition="$item['level'] eq '5'">银卡代理</if>
+					<if condition="$item['level'] eq '6'">金卡代理</if>
+					<if condition="$item['level'] eq '7'">钻卡代理</if>
+				</td>
+				<td>
+					<if condition="$item.apply_status eq '1' ">
+						<a href="__CONTROLLER__/vipReviewCenter/status/3/id/{$item.apply_id}/" class="btn btn-success">审核通过</a> 
+						| <a href="javascript:;" url="__CONTROLLER__/vipReviewCenter/status/2/id/{$item.apply_id}/" class="btn btn-success zc_Bxoani_if zccolor">驳回</a>
+					<elseif condition="$item.apply_status eq 2 " />
+						审核状态：不通过&nbsp;&nbsp;&nbsp;
+						<br>驳回理由:{$item.apply_remark}
+					<elseif condition="$item.apply_status eq 3 " />						
+						审核状态：通过&nbsp;&nbsp;&nbsp; 
+						<a href="javascript:;" url="__CONTROLLER__/vipReviewCenter/status/2/id/{$item.apply_id}/" class="btn btn-success zc_Bxoani_if zccolor">驳回</a>
+					<else/>
+						老用户自动开通为金卡代理
+					</if>	
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+	<p style="text-align:right;"><button type="button" onclick="exporta()" class="btn btn-success zc_submit">导出</button></p>
+	
+	<style type="text/css">
+		.zc_kepadmie{
+			position:fixed;
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,0.5);
+			left:0px;
+			top:0px;
+			z-index:1197;
+			display:none;
+		}
+		.zc_dnsai{
+			width:500px;
+			height:300px;
+			background:#fff;
+			border:1px solid #ddd;
+			position:fixed;
+			left:50%;
+			margin-left:-250px;
+			margin-top:-150px;
+			top:50%;
+			z-index: 1198;
+			display:none;
+		}
+		.zc_dnsai h3{
+			height:40px;
+			border-bottom:1px solid #ddd;
+			line-height:40px;
+			text-indent:20px;
+		}
+		.zc_liyou{
+			width:99%;
+			height:180px;
+			color:#999;
+			border: 1px red solid;
+		}
+		.zc_affirm{
+			display:block;
+			width:70%;
+			height:40px;
+			margin:0 auto;
+			background:#00a0e9;
+			color:#fff;
+			text-align:center;
+			line-height:40px;
+			font-size:16px;
+		}
+	</style>
+	<div class="zc_kepadmie"></div>
+	<div class="zc_dnsai">
+		<h3>驳回理由</h3>
+		<textarea class="zc_liyou"></textarea>
+		<a href="javascript:;" class="zc_affirm">确认驳回</a>
+	</div>
+</div>
+<script>
+var bohui_href = '';
+$(function(){
+	
+	$(".zc_Bxoani_if").on("click",function(){
+		$(".zc_dnsai,.zc_kepadmie").show();
+		bohui_href = $(this).attr('url');
+		return false;
+	});
+	$(".zc_kepadmie").on("click",function(){
+		$(".zc_dnsai,.zc_kepadmie").hide();
+	});
+	$(".zc_affirm").on("click", function(){
+		var reason = $(".zc_liyou").val();
+		 reason = $.trim(reason);
+		if(reason==''){
+			layer.msg('请填写驳回理由',{
+				time:1000
+			});
+			return false;
+		}else{
+			location.href = bohui_href+'/reason/'+encodeURI(encodeURI(reason));
+		}
+	});
+	
+});
+
+function exporta(){
+	var type = "{$Think.get.type}";
+	var status = "{$Think.get.status}";
+	var userid = "{$Think.get.userid}";
+	var starttime = "{$Think.get.time_min}";
+	var endtime = "{$Think.get.time_max}";
+	window.open('/Admin/Review/vipReviewExportAction?type='+type+'&status='+status+'&userid='+userid+'&time_min='+starttime+'&time_max='+endtime);
+}
+</script>

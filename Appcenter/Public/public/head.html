@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<title>{$Think.config.APP_TITLE}管理系统</title>
+	<if condition="CONTROLLER_NAME eq 'Login'">
+  	<link rel="stylesheet" href="__CSS_ADMIN__/zc_index.css">
+	<else/>
+	<link rel="stylesheet" href="__CSS_ADMIN__/zc_system.css">
+	<!-- <link rel="stylesheet" href="__JS_ADMIN__/wangEditor/dist/css/wangEditor.min.css"> -->
+	</if>
+	<link rel="stylesheet" href="__CSS_ADMIN__/public.css">
+	
+    <script type="text/javascript" src="__JS__/jquery.js"></script>
+   	<script type="text/javascript" src="__JS__/layer/layer.js"></script>
+	<script type="text/javascript" src="__JS_ADMIN__/zc_h.js"></script>
+	<if condition="CONTROLLER_NAME neq 'Login'">
+	<script type="text/javascript" src="__JS_ADMIN__/zc_style.js"></script>
+	<script type="text/javascript" src="__JS__/layui/layui.js"></script>
+	<script type="text/javascript" src="__JS_ADMIN__/jquery.rotate.min.js"></script>
+	<!--<script type="text/javascript" src="__JS_ADMIN__/wangEditor/dist/js/wangEditor.min.js"></script>-->
+	<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+	<script type="text/javascript" src="__JS_ADMIN__/My97DatePicker/WdatePicker.js"></script>
+	</if>
+</head>
+
+<if condition="CONTROLLER_NAME eq 'Login'">
+<body>
+<else/>
+<body style="background:#2d456b;">
+</if>

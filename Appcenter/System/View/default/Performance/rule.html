@@ -1,0 +1,35 @@
+<div class="zc_anwia">
+    <h2>个人代理等级晋升规则</h2>
+</div>
+<div class="zc_message">
+    <table>
+        <thead>
+        <tr>
+            <th align="center">星级</th>
+            <th align="center">头衔</th>
+            <th align="right">业绩指标（万）</th>
+            <!--<th align="right">分配比例（%）</th>-->
+            <th align="center">附加条件</th>
+            <th align="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="data.list" item="list">
+            <tr>
+                <td align="center">V{$list.rule_id}</td>
+                <td align="center">{$list.rule_label}</td>
+                <td align="right">{$list.rule_amount}</td>
+                <!--<td align="right">{$list.rule_bai}</td>-->
+                <td align="center">
+                    <if condition="$list.rule_condition_count gt 0">
+                        {$list.rule_condition_count}个V{$list.rule_condition_level}
+                    </if>
+                </td>
+                <td align="center">
+                    <a href="{:U('__CONTROLLER__/modify/id/'.$list[rule_id])}">编辑</a>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</div>

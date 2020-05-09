@@ -1,0 +1,187 @@
+<div class="zc_anwia">
+	<h2>拨比查询</h2>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="">				
+		<assign name="search_user_hide" value="1"/>
+		<assign name="search_date_title" value="日期"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>					
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th></th>
+				<th>总收入</th>
+				<th>总支出(不含手续费)</th>
+				<th>总盈利</th>
+				<th>拔出比率</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>总计</td>
+				<td>
+					{$total[finance_profits]+$total[finance_maker]+$total[finance_applymicrovip]+$total[finance_applyvip]+$total[finance_applyhonourvip]+$total[finance_tax]+$total[finance_managefee]}
+					<div style="display:none;">
+						<p>毛利润：{$total[finance_profits]}</p>
+						<p>申请创客：{$total[finance_maker]|default='0.00'}</p>
+						<p>申请银卡代理：{$total[finance_applymicrovip]|default='0.00'}</p>
+						<p>申请金卡代理：{$total[finance_applyvip]|default='0.00'}</p>
+						<p>申请钻卡代理：{$total[finance_applyhonourvip]|default='0.00'}</p>
+						<p>个人所得税：{$total[finance_tax]|default='0.00'}</p>
+						<p>平台管理费：{$total[finance_managefee]|default='0.00'}</p>
+					</div>
+					<a href="javascript:;" class="showDetail">明细</a>
+					<!-- <a href="javascript:wxDetail('0');">微信明细</a> -->
+				</td>
+				<td>
+					{$total[finance_expenditure]}
+					<a href="javascript:ratioDetail('0');">明细</a>
+				</td>
+				<td>
+					{$total[finance_profits]+$total[finance_maker]+$total[finance_applymicrovip]+$total[finance_applyvip]+$total[finance_applyhonourvip]+$total[finance_tax]+$total[finance_managefee]-$total[finance_expenditure]}
+				</td>
+				<td>
+					<php>echo sprintf('%.2f', ($total[finance_expenditure])/($total[finance_profits]+$total[finance_maker]+$total[finance_applymicrovip]+$total[finance_applyvip]+$total[finance_applyhonourvip]+$total[finance_tax]+$total[finance_managefee])*100);</php>%
+				</td>				
+			</tr>
+			</volist>
+	</table>
+	
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>日期</th>
+				<th>总收入</th>
+				<th>总支出(不含手续费)</th>
+				<th>总盈利</th>
+				<th>拔出比率</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="info" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.finance_tag}</td>
+				<td>
+					{$item[finance_profits]+$item[finance_maker]+$item[finance_applymicrovip]+$item[finance_applyvip]+$item[finance_applyhonourvip]+$item[finance_tax]+$item[finance_managefee]}
+					<div style="display:none;">
+						<p>毛利润：{$item.finance_profits|default='0.00'}</p>
+						<p>申请创客：{$item.finance_maker|default='0.00'}</p>
+						<p>申请银卡代理：{$item.finance_applymicrovip|default='0.00'}</p>
+						<p>申请金卡代理：{$item.finance_applyvip|default='0.00'}</p>
+						<p>申请钻卡代理：{$item[finance_applyhonourvip]|default='0.00'}</p>
+						<p>个人所得税：{$item[finance_tax]|default='0.00'}</p>
+						<p>平台管理费：{$item[finance_managefee]|default='0.00'}</p>
+					</div>
+					<a href="javascript:;" class="showDetail">明细</a>
+					<!-- <a href="javascript:wxDetail('{$item.finance_tag}');">微信明细</a> -->
+				</td>
+				<td>
+					{$item[finance_expenditure]}
+					<a href="javascript:ratioDetail('{$item.finance_tag}');">明细</a>
+				</td>
+				<td>
+					{$item[finance_profits]+$item[finance_maker]+$item[finance_applymicrovip]+$item[finance_applyvip]+$item[finance_applyhonourvip]+$item[finance_tax]+$item[finance_managefee]-$item[finance_expenditure]}
+				</td>
+				<td>
+					<php>echo sprintf('%.2f', ($item[finance_expenditure])/($item[finance_profits]+$item[finance_maker]+$item[finance_applymicrovip]+$item[finance_applyvip]+$item[finance_applyhonourvip]+$item[finance_tax]+$item[finance_managefee])*100);</php>%
+				</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+	<p style="text-align:right;"><button type="button" onclick="exporta()" class="btn btn-success zc_submit">导出</button></p>
+	
+</div>
+
+<script>
+function exporta(){
+	var p = "{$Think.get.p}";
+	var starttime = "{$Think.get.time_min}";
+	var endtime = "{$Think.get.time_max}";
+	window.open('/Admin/Finance/ratioExportAction?p='+p+'&time_min='+starttime+'&time_max='+endtime);
+}
+
+//查看拨比支出明细
+function ratioDetail(tag) {
+	var index = waitingWin('查询中，请稍后...');
+	$.ajax({
+		'url': "{:U('Admin/Ajax/getRatioDetail')}",
+		'type': 'post',
+		'data': {tag:tag},
+		'success': function(re){
+			layer.open({
+				'id': 'A',
+				'title': '部分支出明细',
+				'content': re,
+				'area': 'auto',
+				'maxWidth': CW-200,
+				'maxHeight': CH-200,
+				success: function(o,i){
+					layer.close(index);
+				}
+			});
+		},
+		'error': function(e,msg){
+			layer.close(index);
+			alert(msg);
+		},
+		'timeout': 10000
+	});
+}
+
+//查看微信收入明细
+function wxDetail(tag) {
+	var index = waitingWin('查询中，请稍后...');
+	$.ajax({
+		'url': "{:U('Admin/Ajax/getWxDetail')}",
+		'type': 'post',
+		'data': {tag:tag},
+		'success': function(re){
+			layer.open({
+				'id': 'A',
+				'title': '微信明细',
+				'content': re,
+				'area': 'auto',
+				'maxWidth': CW-200,
+				'maxHeight': CH-200,
+				success: function(o,i){
+					layer.close(index);
+				}
+			});
+		},
+		'error': function(e,msg){
+			layer.close(index);
+			alert(msg);
+		},
+		'timeout': 10000
+	});
+}
+
+$(function(){
+	
+	//总收入明细
+	$('.showDetail').click(function(){
+		var html = $(this).prev('div').html();
+		layer.open({
+			'id': 'A',
+			'title': '收入明细',
+			'content': html,
+			'area': 'auto',
+			'maxWidth': CW-200,
+			'maxHeight': CH-200,
+		});
+	});
+	
+});
+</script>

@@ -1,0 +1,2 @@
+INSERT INTO zc_settings VALUE (NULL, 4, '解锁资产费用比例', 'unlock_assets_fee', '1', 'text', '%', 1, 493, unix_timestamp());
+INSERT INTO zc_settings VALUE (NULL, 4, '解锁资产说明', 'unlock_assets_agreement', '微信支付锁定资产的1%，才能释放锁定资产', 'textarea', '', 1, 492, unix_timestamp());

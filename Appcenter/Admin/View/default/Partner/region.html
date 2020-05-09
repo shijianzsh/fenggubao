@@ -1,0 +1,148 @@
+<style>
+.kaitong .user_info {
+	font-size: 14px;
+	padding: 10px 0;
+}
+.kaitong .user_info span {
+	
+}
+</style>
+<div class="zc_anwia">
+    <h2>大中华区合伙人</h2>
+</div>
+<div class="zc_message">
+	<!-- [kaitong] -->
+	<div class="kaitong" style="margin-bottom:50px;">
+	<h3 class="shuoming">开通大中华区</h3>
+	<input type="text" name="user_account" placeholder="请输入待开通的用户手机号" class="open_user inputWidth200">
+	<a href="javascript:;" class="open_btn zc_btuaineq">搜索</a>
+	<div class="user_info"></div>
+	</div>
+	<!-- [/kaitong] -->
+
+    <!-- [search] -->
+    <h3 class="shuoming">查询搜索</h3>
+    <form name="form" method="get" action="">
+        <assign name="search_date_title" value="开通日期"/>
+        <include file="./Appcenter/Public/public/common.search.html"/>
+        
+        <div class="form-group left">
+            <label class="control-label left">激活状态</label>
+            <select name="enabled">
+            	<option value="">全部</option>
+            	<php>$enabled_config = C('GJJ_FIELD_CONFIG')['gjj_roles']['enabled'];</php>
+            	<foreach name="enabled_config" item="item" key="key">
+            	<option value="{$key}" <if condition="$Think.get.enabled eq $key and $think.get.enabled neq ''">selected</if> >{$item}</option>
+            	</foreach>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"> 搜 索</span>
+        </button>
+
+        <input type="hidden" name="p" value="1">
+    </form>
+    <!-- [/search] -->
+
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>账号</th>
+            <th>姓名</th>
+            <th>开通地区</th>
+            <th>直辖区县</th>
+            <th>开通时间</th>
+            <th>激活状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="list" id="item" key="k" mod="2">
+            <tr>
+                <td>{$item.loginname}</td>
+                <td>{$item.truename}</td>
+                <td>{$item.region}</td>
+                <td>
+					<foreach name="item[countrys]" item="item1">
+					<p>{$item1.province}{$item1.city}{$item1.country}</p>
+					</foreach>
+				</td>
+                <td>{$item.created_at|date='Y-m-d H:i:s',###}</td>
+                <td>{$item.enabled_cn}</td>
+                <td>
+                	<if condition="!$item[enabled]">
+                	<a href="{:U('__CONTROLLER__/activateRegion/id/'.$item[id])}">激活</a>
+                	</if>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+
+    <div class="exportData" style="text-align:right;"><button type="button" onclick="exportData()" class="btn">导出</button></div>
+</div>
+
+<script>
+$(function(){
+	
+	//搜索待开通用户信息
+	$('.open_btn').click(function(){
+		var user_account = $('.open_user').val();
+		
+		if (user_account==''){
+			alert('请输入待开通的用户手机号');
+			return false;
+		}
+		
+		$.ajax({
+			url: "{:U('__CONTROLLER__/getUserInfo')}",
+			type: "post",
+			data: {user_account:user_account},
+			success: function(re){
+				re = $.parseJSON(re);
+				if (re.error!=''){
+					alert(re.error);
+					return false;
+				} else {
+					$('.user_info').html(re.data);
+				}
+			},
+			error: function(e, msg){
+				alert(msg);
+			},
+			timeout: 10000
+		});
+	});
+	
+});
+
+//开通大中华区
+function openRegion(uid,account) {
+	var layer_id = waitingWin('页面加载中，请稍后...');
+    
+    $.ajax({
+        url: "{:U('Admin/Ajax/openRegion')}",
+        type: "post",
+        data: {uid: uid},
+        'success': function (re) {
+        	layer.close(layer_id);
+           	layer.open({
+            	'title': account+'开通大中华区',
+            	'content': re,
+            	'area': 'auto',
+            	'maxWidth': '90%',
+                'maxHeight': '90%',
+                'btn': false,
+            });
+        },
+        'error': function (e, msg) {
+        	layer.close(layer_id);
+            alert(msg);
+        },
+        'timeout': 10000
+    });
+}
+</script>

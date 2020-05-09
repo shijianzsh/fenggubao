@@ -1,0 +1,48 @@
+<div id="ajax_block">
+
+<form name="createSettings" method="post" action="{:U('System/Config/addSettings')}">
+<table>
+	<tr>
+		<td>所属配置组</td>
+		<td>
+			<select name="group_id">
+				<foreach name="list" item="item">
+				<option value="{$item.group_id}">{$item.group_name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>配置项标题</td>
+		<td><input type="text" name="settings_title"></td>
+	</tr>
+	<tr>
+		<td>配置项标识</td>
+		<td><input type="text" name="settings_code" placeholder="英文数字下划线组合"></td>
+	</tr>
+	<tr>
+		<td>配置项值</td>
+		<td><input type="text" name="settings_value"></td>
+	</tr>
+	<tr>
+		<td>配置项类型</td>
+		<td>
+			<select name="settings_type">
+				<php>$settings_type_config = C('FIELD_CONFIG')['settings']['settings_type'];</php>
+				<foreach name="settings_type_config" key="key" item="item">
+				<option value="{$key}">{$item}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>配置项说明</td>
+		<td><input type="text" name="settings_summary"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="submit" value="提交"></td>
+	</tr>
+</table>
+</form>
+
+</div>

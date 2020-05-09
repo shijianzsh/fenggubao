@@ -1,0 +1,50 @@
+<div class="zc_anwia"><h2>活动详情</h2></div>
+<div class="zc_message">
+    <div class="zc_shop">
+    	<span>活动名称:</span>
+    	{$info.pname}
+    </div>
+    <div class="zc_shop">
+    	<span>营业电话:</span>
+    	{$info.phone}
+    </div>
+    <div class="zc_shop">
+    	<span>活动背景图:</span>
+    	<img src="{$info.img}" class="zc_shop_img">
+    </div>
+    <div class="zc_shop">
+    	<span>活动条件:</span>
+    	{$info.conditions}
+    </div>
+    <div class="zc_shop">
+    	<span>活动奖励:</span>
+    	{$info.reward}
+    </div>
+
+    <div class="zc_shop">
+    	<span>活动开始时间:</span>
+		<if condition="$info.start_time eq 0 or $info.start_time eq null">0
+			<elseif condition="$info.start_time eq true"/>{$info.start_time|date="Y-m-d H:i",###}</if>
+
+    </div>
+	<div class="zc_shop">
+		<span>活动结束时间:</span>
+		<if condition="$info.end_time eq 0 or $info.start_time eq null">0
+			<elseif condition="$info.end_time eq true"/>{$info.end_time|date="Y-m-d H:i",###}</if>
+
+	</div>
+	<div class="zc_shop">
+		<span>活动增加时间:</span>
+		<if condition="$info.post_time eq 0 or $info.post_time eq null">0
+			<elseif condition="$info.post_time eq true"/>{$info.post_time|date="Y-m-d H:i",###}</if>
+
+	</div>
+    <div class="zc_shop">
+    	<span>活动状态:</span>
+		<if condition="$info.manage_status eq 0"> 未审核<elseif condition="$info.manage_status eq 1"/>已审核<elseif condition="$info.manage_status eq 2"/>驳回</if>
+    </div>
+    <div class="zc_shop">
+    	<span>活动启用状态:</span>
+		<if condition="$infostatus eq 0">启用<elseif condition="$info.status eq 1"/>未启用</if>
+    </div>
+</div>

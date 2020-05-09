@@ -1,0 +1,148 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff;
+    font-size: 16px;
+    font-family: "Microsoft YaHei";
+    color: #b3b3b3;
+}
+
+td, th, caption {
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+a {
+    color: #b3b3b3;
+    text-decoration: none;
+}
+
+img {
+    border: none;
+}
+
+ol, ul, li {
+    list-style: none;
+}
+
+input, textarea, select, button {
+    font: 14px Verdana, Helvetica, Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+.navbar-header {
+    border-bottom: solid 1px #cccccc;
+    text-align: center;
+    height: 40px;
+    font-size: 18px;
+    line-height: 40px;
+    color: #0f0f0f;
+    font-weight: bold;
+}
+
+.referee-info {
+    margin: 14px 21px 0 21px;
+    line-height: 50px;
+    height: 50px;
+}
+
+.referee-info > * {
+    float: left;
+    display: block;
+}
+
+.referee-info img {
+    width: 50px;
+    height: 50px;
+}
+
+.referee-info span {
+    color: #24b88c;
+    font-size: 21px;
+}
+
+.referee-info i {
+    font-style: normal;
+}
+
+.fields-group, .fields-footer {
+    margin: 0 21px;
+    clear: both;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.input-group {
+    padding: 10px 0;
+    border-bottom: solid 1px #cccccc;
+}
+
+.form-control {
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    color: #0f0f0f;
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #b3b3b3;
+}
+
+#verification {
+    border: none;
+    background: none;
+    font-size: 15px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    width: auto;
+    position: absolute;
+    right: 21px;
+    color: #24b88c;
+}
+
+.btn-group {
+    text-align: center;
+}
+
+.btn-control {
+    width: 164px;
+    height: 47px;
+    background: #24b88c;
+    color: #FFFFFF;
+    font-size: 18px;
+    border: none;
+    border-radius: 24px;
+}
+
+footer {
+    margin: 20px 15px 0 15px;
+}
+
+footer img {
+    width: 100%;
+}

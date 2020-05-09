@@ -1,0 +1,62 @@
+<style>
+.zc_message table {
+	text-align: center;
+}
+.yhx-button a {
+	display: block;
+	padding: 2px 5px;
+	background: #4A74B6;
+	color: #fff;
+	border-radius: 5px;
+	margin: 4px 0;
+}
+</style>
+
+<div class="zc_anwia">
+	<h2>每日分红</h2>
+</div>
+<div class="zc_message">
+	<table>
+		<thead>
+			<tr>
+				<th>日期</th>
+				<th>日总股数(股)</th>
+				<th>日封顶股数(股)</th>
+				<th>日总毛利润(元)</th>
+				<th>日可分红金额(元)</th>
+				<th>日实际分红金额(元)</th>
+				<th>日额外分红金额(元)</th>
+				<th>日分时间段差额(元)</th>
+				<th>日最终分红总额(元)</th>
+				<th>日分发管理津贴(元)</th>
+				<th>管理津贴占分红百分比</th>
+				<th>分红时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.date_created|date='Y-m-d',###}</td>
+				<td>{$item.bonus}</td>
+				<td>{$item.bonus_max}</td>
+				<td>{$item.profits}</td>
+				<td><php>echo sprintf('%.4f', $item['profits']*0.68);</php></td>
+				<td style="color:red;">{$item.share}（每股<php>echo sprintf('%.4f', $item['share']/$item['bonus']);</php>）</td>
+				<td>{$item.share_extra}</td>
+				<td>{$item.share_section}</td>
+				<td><php>echo sprintf('%.4f', $item['share']+$item['share_extra']+$item['share_section']);</php></td>
+				<td>{$item.gljt_money}</td>
+				<td><php>echo sprintf('%.2f', $item['gljt_money']/($item['share']+$item['share_extra']+$item['share_section'])*100);</php>%</td>
+				<td>{$item.date_created|date='Y-m-d H:i:s',###}</td>
+				<td class="yhx-button">
+					<a href="{:U('__CONTROLLER__/profitsDetail/id/'.$item['id'])}">日毛利润明细</a> 
+					<a href="{:U('__CONTROLLER__/bonusDetail/id/'.$item['id'])}">日分红明细</a> 
+					<a href="{:U('__CONTROLLER__/bonusFailDetail/id/'.$item['id'])}">日分红失败明细</a> 
+					<a href="{:U('__CONTROLLER__/gljtDetail/id/'.$item['id'])}">日管理津贴明细</a>
+				</td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+</div>

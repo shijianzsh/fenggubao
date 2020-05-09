@@ -1,0 +1,45 @@
+<div class="zc_anwia">
+	<h2>商品分类管理</h2>
+	<a href="{:U('__CONTROLLER__/categoryAddUi')}">添加分类</a>
+	<a href="{:U('__CONTROLLER__/secondCategoryModify')}">批量修改二级分类</a>
+	<a href="{:U('__CONTROLLER__/attributeList')}">属性管理</a>
+</div>
+<div class="zc_message">
+    <table id="zc_Shop_cms">
+    	<thead>
+    		<tr>
+    			<th>序号</th>
+    			<th>名称</th>
+    			<th>属性</th>
+    			<th>排序</th>
+    			<th>操作</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<foreach name="list" item="item">
+    		<tr class="shuoming">
+    			<th>{$item.fm_id}</th>
+    			<th>{$item.fm_name}</th>
+    			<th></th>
+    			<th>{$item.fm_order}</th>
+    			<th>
+    				<a href="{:U('__CONTROLLER__/categoryModify/fm_id/'.$item['fm_id'])}">修改</a>
+    				<a href="{:U('__CONTROLLER__/categoryDelete/fm_id/'.$item['fm_id'])}" class="zccolor">删除</a>
+    			</th>
+    		</tr>
+    			<foreach name="item[second]" item="sec">
+    			<tr>
+    				<td>{$sec.sm_id}</td>
+    				<td>{$sec.sm_name}</td>
+    				<td>{$sec.attr_name}</td>
+    				<td>{$sec.sm_order}</td>
+    				<td>
+    					<a href="{:U('__CONTROLLER__/categoryModify/sm_id/'.$sec['sm_id'])}">修改</a>
+    					<a href="{:U('__CONTROLLER__/categoryDelete/sm_id/'.$sec['sm_id'])}" class="zccolor">删除</a>
+    				</td>
+    			</tr>
+    			</foreach>
+    		</foreach>
+    	</tbody>
+    </table>
+</div>

@@ -1,0 +1,11 @@
+/*input*/
+#input_msg {position:absolute; left:0; top:0; z-index:10000000000;}
+.input_msg_top {height:35px; line-height:35px; zoom:1;}
+.input_msg_top:after {content:''; display:block; height:0; clear:both;}
+.input_msg_top i {display:block; float:right; width:8px; height:35px; background:url(images/popup_hint.png) no-repeat right top;}
+.input_msg_top span {display:block; float:left; color:#fff; line-height:40px; background:url(images/popup_hint.png) no-repeat left top; padding-left:8px;} 
+
+.input_msg_bottom {height:35px; line-height:35px; zoom:1;}
+.input_msg_bottom:after {content:''; display:block; height:0; clear:both;}
+.input_msg_bottom i {display:block; float:right; width:8px; height:35px; background:url(images/popup_hint_bottom.png) no-repeat right top;}
+.input_msg_bottom span {display:block; float:left; color:#fff; line-height:40px; background:url(images/popup_hint_bottom.png) no-repeat left top; padding-left:8px;} 

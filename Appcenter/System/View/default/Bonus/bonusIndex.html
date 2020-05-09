@@ -1,0 +1,100 @@
+<div class="zc_anwia">
+	<h2>今日分红</h2>
+</div>
+<div class="zc_message">
+	<if condition="!$is_created">
+		<div class="shuoming_warning">
+			点击下面的【生成今日毛利润及丰收点数】按钮的同时，系统会自动关闭APP客户端使用功能进入维护状态，当今日分红完成后系统会自动开启APP客户端使用功能退出维护模式，亦可进奖项设置中手动开启；
+		</div>
+		<!-- [form] -->
+		<form name="profitsCreate" method="post" action="{:U('__CONTROLLER__/profitsCreate')}">
+			<center><input type="submit" name="submit" value="生成今日毛利润及丰收点数" class="inputWidth400" onclick="if(confirm('确定今日数据库已完成备份?')){return true;}else{return false;}"></center>
+		</form>
+		<!-- [/form] -->
+	<else/>
+		<!-- [list] -->
+		<table>
+			<thead>
+				<tr>
+					<th>今日总丰收点数(股)</th>
+					<th>今日封顶点数(股)</th>
+					<th>今日总毛利润(元)</th>
+					<th>今日可分红总金额(元)</th>
+					<th>今日实际分红金额(元)</th>
+					<th>今日额外分红金额(元)</th>
+					<th>今日分时间段差额(元)</th>
+					<th>今日最终分红总额(元)</th>
+					<th>今日分发管理津贴(元)</th>
+					<th>管理津贴占分红百分比</th>
+					<th>今日分红时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{$info.bonus|default='0'}</td>
+					<td>{$info.bonus_max|default='0'}</td>
+					<td>{$info.profits|default='0'}</td>
+					<td>{$info.money|default='0'}</td>
+					<td>{$info.share|default='0'}（每股<php>echo sprintf('%.4f', $info['share']/$info['bonus']);</php>）</td>
+					<td>{$info.share_extra}</td>
+					<td>{$info.share_section}</td>
+					<td><php>echo sprintf('%.4f', $info['share']+$info['share_extra']+$info['share_section']);</php></td>
+					<td>{$info.gljt_money}</td>
+					<td><php>echo sprintf('%.2f', $info['gljt_money']/($info['share']+$info['share_extra']+$info['share_section'])*100);</php>%</td>
+					<td>{$info.date_created|date='Y-m-d H:i:s',###}</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- [/list] -->
+		<if condition="$info['share'] elt 0 and $is_close eq 1">
+			<div>
+				<center><a href="{:U('__CONTROLLER__/profitsCreate')}" class="commonButton commonButtonRed">重新生成今日毛利润及丰收点数</a></center>
+			</div>
+			<!-- [form] -->
+			<form name="bonusShare" method="post" action="{:U('__CONTROLLER__/bonusShare')}">
+				<div class="zc_shop">
+					<span>今日分红金额</span>
+					<input type="text" name="money" id="money" value="" class="zc_if_price zc_if_empty">
+					<span>每股<em class="per_bonus">0</em>元</span>
+				</div>
+				<div class="zc_shop">
+					<span></span>
+					<input type="submit" name="submit" value="分红" id="submit" >
+				</div>
+				<input type="hidden" name="time" value="{:getDateByFormat('', 'Ymd')}">
+			</form>
+			<!-- [/form] -->
+		<elseif condition="$info['share'] elt 0 and $is_close eq 0"/>
+			<center><button onclick="location.href='{:U('System/Parameter/index')}#site_close';" class="btn inputWidth400">点击关闭站点进入维护模式后，再进行分红操作！</button></center>
+		</if>
+	</if>
+</div>
+
+<script>
+var money_max = parseFloat("<php>echo sprintf('%.4f', $info['money']-$info['share']);</php>");
+var all_bonus = parseInt("{$info.bonus}");
+$(function(){
+	
+	$('#money').keyup(function(){
+		var money = parseFloat($(this).val());
+		if (money>money_max && 1==2) { //暂停此限制,无毛利润亦可分红
+			alert('分红金额不能大于今日可分红金额！');
+			$(this).val('');
+			$('.per_bonus').text(0);
+			return false;
+		} else {
+			var per_bonus = parseFloat(money/all_bonus);
+			$('.per_bonus').text(per_bonus.toFixed(4));
+		}
+	});
+	$("#submit").click(function(){
+		if(confirm('确认执行该操作?')) {
+			waitingWin('正在分红中，请稍后...');
+			return true;
+		}else{
+			return false;
+		}
+	})
+	
+});
+</script>

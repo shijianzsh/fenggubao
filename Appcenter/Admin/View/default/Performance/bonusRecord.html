@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+    <h2>区域合伙人业务补贴记录</h2>
+</div>
+<div class="zc_message">
+    <!-- [list] -->
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户</th>
+            <th>身份</th>
+            <th>金额</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="list" item="item">
+            <tr>
+                <td align="center">{$item.record_id}</td>
+                <td>{$item.loginname}/{$item.nickname}</td>
+                <td align="center">{$item.dengji}</td>
+                <td align="right">{$item.subsidy_amount}</td>
+                <td align="center">{$item.subsidy_addtime|dated='Y-m-d H:i:s',###}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <!-- [/list] -->
+</div>

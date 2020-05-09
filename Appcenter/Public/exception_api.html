@@ -1,0 +1,22 @@
+<?php
+        /**
+		 * 把MYSQL固定错误代码敏感信息去除(替换table,key,column,sql等关键词)
+		 * 如:
+		 * SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '17000000004' for key 'unique_people_telphone'
+		 * 把table,key,column,sql统一换成TTT,KKK,CCC,SSS
+		 */
+        $message = $e['message'];
+			
+		//去除敏感字眼
+		$patterns = array('/(table|Table|TABLE)+/', '/(key|Key|KEY)+/', '/(column|Column|COLUMN)+/', '/(sql|Sql|SQL)+/');
+		$replaces = array('TTT', 'KKK', 'CCC', 'SSS');
+		$message = preg_replace($patterns, $replaces, $message);
+
+		//添加接口异常特征识别码,用于区别接口内部程序错误
+		$message = 'EX:'.$message;
+
+$return = array('result'=>(object)array(), 'code'=>400, 'msg'=>'');
+echo json_encode($return);
+exit;
+
+?>

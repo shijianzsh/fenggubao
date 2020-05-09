@@ -1,0 +1,173 @@
+{__NOLAYOUT__}
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>注册{$Think.config.APP_TITLE}用户</title>
+    <link rel="stylesheet" type="text/css" href="/Public/H5/css/index.css"/>
+    <script src="/Public/H5/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div>
+    <div>
+        <!--<nav class="navbar-header">注册{$Think.config.APP_TITLE}用户</nav>-->
+        <header class="referee-info">
+            <if condition="$header_img eq true">
+                <img src="http://{$server_name}/{$header_img}"/>
+                <else/>
+                <img src="/Public/images/default-avatar.png"/>
+            </if>
+            <span> {$recommer_short}</span>
+            <i>(推荐人账号)</i>
+            <input type="hidden" id="recommer" value="{$recommer}">
+        </header>
+
+        <div class="fields-group">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" id="truename" name="truename" value="" class="form-control" maxlength="20"
+                           placeholder="你的真实姓名">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="password" id="password" name="password" value="" class="form-control" maxlength="20"
+                           placeholder="设置登录密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="password" id="repassword" name="repassword" value="" class="form-control"
+                           maxlength="20"
+                           placeholder="确认登录密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" id="personage_mobile" name="personage_mobile" value="" class="form-control"
+                           maxlength="11" placeholder="您的手机号">
+                </div>
+            </div>
+            <div class="form-group input_verification">
+                <div class="input-group">
+                    <button type="button" id="verification" disabled="disabled">获取验证码</button>
+                    <input type="text" id="auth" name="auth" value="" class="form-control" maxlength="6"
+                           placeholder="验证码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">注册则视为阅读且同意《<a
+                        href="/H5/Agreement/index?type=user">服务协议条款</a>》</label>
+            </div>
+
+            <div class="form-group">
+                <div class="btn-group">
+                    <button type="button" id="submit" name="submit" class="btn-control">注册</button>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <a href="/android/share_app.html"><img src="/Public/H5/images/download.png"/></a>
+        </footer>
+    </div>
+</div>
+<script type="text/javascript">
+var guest_is_china = "<php>echo getIpLocation()['is_china'];</php>";
+
+    $("#verification").prop("disabled", true).css("opacity", ".6");
+    $(".btn-control").prop("disabled", true).css("opacity", "0.6");
+    
+    if (guest_is_china == '0') {
+    	$('.input_verification').hide();
+    }
+
+    $("#personage_mobile").keyup(function () {
+        var pattern = /^\w+$/;
+        var mobile_value = $(this).val();
+        if (pattern.test(mobile_value) || guest_is_china == '0') {
+            $("#verification").prop("disabled", false).css("opacity", "1");
+            $(".btn-control").prop("disabled", false).css("opacity", "1");
+        } else {
+            $("#verification").prop("disabled", true).css("opacity", ".6");
+            $(".btn-control").prop("disabled", true).css("opacity", "0.6");
+        }
+    });
+
+    var countdown = "{$sms_time_out}";
+    var stime = null;
+    $("#verification").on("click", function () {
+        var mobile_value = parseInt($("#personage_mobile").val());
+        var send_type = 'R';
+        var data_string = {$data_string};
+        $.ajax({
+            type: "post",
+            url: "{:U('APP/Phone/get_phone_code')}",
+            data: {telphone: mobile_value, send_type: send_type, app_common_data: data_string},
+            dataType: "json",
+            success: function (data) {
+                if (data.code == '300') {
+                    window.alert(data.msg);
+                } else if (data.code == '400') {
+                    stime = setInterval(function () {
+                        $("#verification").prop("disabled", true).css("opacity", ".6");
+                        $("#verification").html('重新获取(' + countdown + ')');
+                        countdown--;
+                        if (countdown < 0) {
+                            $("#verification").prop("disabled", false).css("opacity", "1");
+                            $("#verification").html('获取验证码');
+                            countdown = "{$sms_time_out}";
+                            clearInterval(stime);
+                        }
+                    }, 1000);
+                    alert(data.msg);
+                }
+            }
+        });
+    });
+
+    $("#submit").click(function () {
+        var recommer = $("#recommer").val();
+        if (recommer == '') {
+            return alert('无推荐人');
+        }
+
+        var truename = $("#truename").val();
+        var password = $("#password").val();
+        var repassword = $("#repassword").val();
+        if (password != repassword) {
+            return window.alert('两次密码不相同');
+        }
+
+        var mobile_value = $("#personage_mobile").val();
+        var pattern = /^\w+$/;
+        if (!pattern.test(mobile_value) && guest_is_china == '1') {
+            return alert('请正确输入手机号');
+        }
+        var auth = $('#auth').val();
+        // if (auth == '' && guest_is_china == '1') {
+        //     return alert('请正确输入短信验证码');
+        // }
+        $(".btn-control").text('加载中...').prop("disabled", true).css("opacity", "0.6");
+        $.ajax({
+            type: "post",
+            url: "{:U('H5/Index/recommer')}",
+            data: {telphone: mobile_value, auth: auth, password: password, truename: truename},
+            dataType: "json",
+            success: function (data) {
+                $(".btn-control").text('注册').prop("disabled", false).css("opacity", "1");
+                if (data.code == '300') {
+                    alert(data.msg);
+                } else if (data.code == '400') {
+                    console.log(data);
+                    var url = "/android/share_app.html";
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

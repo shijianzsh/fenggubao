@@ -1,0 +1,31 @@
+<div class="zc_anwia">
+	<h2>执行队列修改</h2>
+</div>
+<div class="zc_message">
+	<form name="save" method="post" action="{:U('__CONTROLLER__/save')}">
+		<div class="zc_shop"><span>操作标识：</span>{$info.queue_tag}</div>
+		<div class="zc_shop"><span>操作命令：</span>{$info.queue_action}</div>
+		<div class="zc_shop"><span>操作参数：</span>{$info.queue_params}</div>
+		<div class="zc_shop"><span>输出参数：</span>{$info.queue_params_out}</div>
+		<div class="zc_shop"><span>操作说明：</span>{$info.queue_summary}</div>
+		<div class="zc_shop"><span>开始执行时间：</span><if condition="$info[queue_starttime]">{$info.queue_starttime|date='Y/m/d H:i:s',###}</if></div>
+		<div class="zc_shop"><span>结束执行时间：</span><if condition="$info[queue_endtime]">{$info.queue_endtime|date='Y/m/d H:i:s',###}</if></div>
+		<div class="zc_shop">
+			<span>操作状态：</span>
+			<select name="queue_status">
+				<foreach name="queue_status_list" key="key" item="item">
+				<option value="{$key}" <if condition="$key eq $info[queue_status]">selected</if> >{$item}</option>
+				</foreach>
+			</select>
+		</div>
+		<div class="zc_shop">
+			<span>执行次数：</span>
+			<input type="text" name="queue_execute_count" value="{$info.queue_execute_count}" class="zc_if_number">
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="queue_id" value="{$info.queue_id}">
+	</form>
+</div>

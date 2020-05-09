@@ -1,0 +1,30 @@
+<div id="ajax_block">
+
+<table>
+	<thead>
+		<tr>
+			<th>收益项</th>
+			<th>金额</th>
+		</tr>
+	</thead>
+	<tr>
+		<td>微信线下买单</td>
+		<td>{$list['buy']|default='0.0000'}</td>
+	</tr>
+	<tr>
+		<td>微信商城买单</td>
+		<td>{$list['shop']|default='0.0000'}</td>
+	</tr>
+	<tr>
+		<td>微信充值</td>
+		<td>{$list['recharge']|default='0.0000'}</td>
+	</tr>
+	<tr>
+		<td>微信申请VIP</td>
+		<td>{$list['apply']|default='0.0000'}</td>
+	</tr>
+</table>
+
+<div class="title">累计总金额：{$list['buy']+$list['shop']+$list['recharge']+$list['apply']}</div>
+
+</div>

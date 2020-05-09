@@ -1,0 +1,73 @@
+<script type="text/javascript" src="__JS_ADMIN__/uploadPreview.min.js"></script>
+
+<div class="zc_anwia"><h2>商品分类添加</h2></div>
+<div class="zc_message">
+    <form name="categoryAdd" method="post" action="{:U('__CONTROLLER__/categoryAdd')}" enctype="multipart/form-data">
+    	<div class="zc_shop">
+    		<span>上级分类</span>
+    		<select name="fm_id" id="fm_id">
+    			<option value="">顶级分类</option>
+    			<foreach name="first_list" item="item">
+    			<option value="{$item.fm_id}">{$item.fm_name}</option>
+    			</foreach>
+    		</select>
+    	</div>
+    
+   		<div class="zc_shop">
+    		<span>分类名称</span>
+    		<input type="text" name="name" class="zc_if_empty">
+    		<input type="text" name="name_en" placeholder="分类名称-英文">
+    		<input type="text" name="name_ko" placeholder="分类名称-韩文">
+    		<span></span>
+    	</div>
+    	<div class="zc_shop">
+    		<span>分类排序</span>
+    		<input type="text" name="order" class="zc_if_number">
+    		<span></span>
+    	</div>
+    	
+    	<div class="second_menu" style="display:none;">
+    		<div class="zc_shop">
+    			<span>所属属性</span>
+    			<select name="attr_id">
+    				<option value="">无</option>
+    				<foreach name="attr_list" item="attr">
+    				<option value="{$attr.id}">{$attr.name}</option>
+    				</foreach>
+    			</select>
+    		</div>
+	    	<div class="clear zc_shop">
+	    		<span style="padding:5px 0px;display:block">菜单图标</span>
+	    		<ul id="warp">
+	                <li>
+	                    <div class="warp_pic">
+	                        <img id="imgShow_WU_FILE_0" src="" class="zc_shop_img" />
+	                    </div>
+	                    <div class="zc_imgStum">上传文件</div>
+	                    <input type="file" id="up_img_WU_FILE_0" name="sm_image" class="zc_np_pic" />
+	                </li>
+	            </ul>
+	    	</div>
+    	</div>
+    	
+    	<div class="zc_shop">
+    		<span></span>
+    		<input type="submit" name="submit" value="保存">
+    	</div>
+    </form>
+</div>
+
+<script type="text/javascript">
+	new uploadPreview({ UpBtn: "up_img_WU_FILE_0", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_0",Width:210,Height:210});
+	
+$(function(){
+	$('#fm_id').change(function(){
+		var value = $(this).val();
+		if(value!=''){
+			$('.second_menu').show();
+		}else{
+			$('.second_menu').hide();
+		}
+	});
+});
+</script>

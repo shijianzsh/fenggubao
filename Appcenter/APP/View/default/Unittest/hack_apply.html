@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title> 测试接口：申请成为创客</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="/Public/Api/js/css.css" rel="stylesheet">
+	</head>
+<body>
+
+<div  class="testdiv">
+	<h3>测试接口：申请成为创客</h3>
+	<div class="testform">
+	<form name="theform" enctype="multipart/form-data" method="post">
+		<table>
+			<tr>
+				<td class="label">uid</td>
+				<td><input type="text" name="uid" value="174605"> </td>
+			</tr>
+			<tr>
+				<td class="label">id_card</td>
+				<td><input type="text" name="id_card" value="513824199112310619"> </td>
+			</tr>
+			<tr>
+				<td class="label">province</td>
+				<td><input type="text" name="province" value="四川省"> </td>
+			</tr>
+			<tr>
+				<td class="label">city</td>
+				<td><input type="text" name="city" value="成都市"> </td>
+			</tr>
+			<tr>
+				<td class="label">country</td>
+				<td><input type="text" name="country" value="锦江区"> </td>
+			</tr>
+			<tr>
+				<td class="label">address</td>
+				<td><input type="text" name="address" value="红星路二段"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="1表示阅读过">agreement</td>
+				<td><input type="text" name="agreement" value="1"> </td>
+			</tr>
+			<tr>
+				<td class="label" title="1 表示108丰谷宝；2表示108现金积分；3 代表丰谷宝+现金，丰谷宝优先；4表示支付宝支付；5代表微信支付">apply_coin_class</td>
+				<td><input type="text" name="apply_coin_class" value="1"> </td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input type="button" class="commit" value="测试4版"  onclick="test('http://local.zcsh4.com/APP/Hack/hack_apply')" />
+					<input type="button" class="commit" value="测试3版"  onclick="test('http://cs.b.zcsh123.com/Hack/hack_apply')"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+</div>
+<script>
+	function test(url) {
+		document.forms['theform'].action=url;
+		document.forms['theform'].submit();
+    }
+</script>
+</body>
+</html>

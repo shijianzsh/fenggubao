@@ -1,0 +1,29 @@
+<div class="zc_anwia">
+	<h2>业绩分配规则编辑</h2>
+</div>
+<div class="zc_message">
+	<form name="save" method="post" action="{:U('__CONTROLLER__/save')}">
+		<div class="zc_shop">
+			<span>星级：</span>
+			V{$info.rule_id}
+		</div>
+		<div class="zc_shop">
+			<span>头衔：</span>
+			<input type="text" name="rule_label" value="{$info.rule_label}">
+		</div>
+		<div class="zc_shop">
+			<span>业绩指标：</span>
+			<input type="text" name="rule_amount" value="{$info.rule_amount}">万
+		</div>
+		<div class="zc_shop">
+			<span>附加条件：</span>
+			<input type="text" name="rule_condition_count" value="{$info.rule_condition_count}">个V
+			<input type="text" name="rule_condition_level" value="{$info.rule_condition_level}">
+		</div>
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="rule_id" value="{$info.rule_id}">
+	</form>
+</div>

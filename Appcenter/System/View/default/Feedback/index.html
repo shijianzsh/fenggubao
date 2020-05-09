@@ -1,0 +1,77 @@
+<style>
+.reply {
+	padding: 10px;
+}
+.reply textarea {
+	height: 100px;
+	width: 500px;
+}
+</style>
+<div class="zc_anwia">
+	<h2>意见反馈管理</h2>
+</div>
+<div class="zc_message zc_message_feedback">
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>编号ID</th>
+				<th>用户</th>
+				<th>联系方式</th>
+				<th>时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<foreach name="list" item="item">
+			<tr>
+				<td>{$item.id}</td>
+				<td>{$item.loginname}[{$item.nickname}]</td>
+				<td><if condition="$item.contact eq ''">{$item.loginname}<else/>{$item.contact}</if></td>
+				<td>{$item.date_created|date='Y-m-d H:i:s',###}</td>
+				<td>
+					<a href="javascript:;" class="look">查看</a>
+					<a href="{:U('__CONTROLLER__/feedbackDelete/id/'.$item['id'])}">删除</a>
+				</td>
+			</tr>
+			<tr class="lookcontent">
+				<td colspan="4">
+					<div style="padding:10px; padding-bottom:0; font-weight:bold;">意见反馈内容：</div>
+					<div style="padding:10px;">{$item.content}</div>
+					<if condition="$item[reply] eq ''">
+						<div class="reply">
+							<form name="reply" method="post" action="{:U('__CONTROLLER__/reply')}">
+								<p><textarea name="content" placeholder="回复内容"></textarea></p>
+								<p><input type="submit" name="submit" value="回复" class="submit"></p>
+								<input type="hidden" name="fid" value="{$item.id}">
+							</form>
+						</div>
+					<else/>
+						<div style="padding:10px; padding-bottom:0; font-weight:bold;">已回复内容：</div>
+						<div style="padding:10px;">{$item.reply}</div>
+					</if>
+					<a href="javascript:;" class="close">关闭</a>
+				</td>
+				<td></td>
+			</tr>
+			</foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>
+
+<script>
+$(function(){
+	
+	$('.look').click(function(){
+		$('.zc_message .lookcontent').hide();
+		$(this).parent('td').parent('tr').next('tr.lookcontent').show();
+	});
+	
+	$('.close').click(function(){
+		$(this).parent('td').parent('tr.lookcontent').hide();
+	});
+	
+});
+
+</script>

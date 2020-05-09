@@ -1,0 +1,57 @@
+<div class="zc_anwia"><h2>店铺活动管理</h2></div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="form" method="get" action="">
+		<div class="form-group left">
+			<label for="pname"></label>
+			<input type="text" id="pname" name="pname" placeholder="请输入店铺 / 活动名称">
+		</div>
+
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+    <table>
+    	<thead>
+    		<tr>
+  				<th>序号</th>
+  				<th>活动名称</th>
+  				<th>所属店铺</th>
+				<th>申请人</th>
+				<th>营业电话</th>
+  				<th>消费条件</th>
+  				<th>赠送金币数量</th>
+  				<th>活动状态</th>
+  				<th>审核状态</th>
+  				<th>操作</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<foreach name="list" item="item">
+    		<tr>
+    			<td>{$item.id}</td>
+    			<td><a href="{:U('__CONTROLLER__/storePreferentialWayDetail/id/'.$item['id'])}">{$item.pname}</a></td>
+    			<td>{$item.store_name}</td>
+				<td>[{$item.nickname}]{$item.loginname}</td>
+				<td>{$item.phone}</td>
+    			<td>{$item.conditions}</td>
+    			<td>{$item.reward}</td>
+    			<td <if condition="$item['status'] eq 1">style="color:red;"</if> >{$item.status_cn}</td>
+    			<td>{$item.manage_status_cn}</td>
+    			<td>
+    				<if condition="$Think.get.type neq 1">
+    				<a href="{:U('__CONTROLLER__/storePreferentialWayPass/id/'.$item['id'])}" onclick="return confirmWin();">审核通过</a>
+    				</if>
+    				<if condition="$Think.get.type neq 2">
+    				<a href="{:U('__CONTROLLER__/storePreferentialWayReject/id/'.$item['id'])}" onclick="return confirmWin();" class="zccolor">驳回</a>
+    				</if>
+    			</td>
+    		</tr>
+    		</foreach>
+    	</tbody>
+    </table>
+    <!-- [/list] -->
+</div>

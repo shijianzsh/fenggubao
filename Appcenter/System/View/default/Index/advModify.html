@@ -1,0 +1,127 @@
+<div class="zc_anwia">
+	<h2>
+	<if condition="$Think.get.type eq '1'">
+	商城
+	<elseif condition="$Think.get.type eq '2'"/>
+	资讯
+	<else/>
+	首页
+	</if>
+	轮播广告编辑
+	</h2>
+</div>
+<div class="zc_message">
+	<form name="advSave" method="post" action="{:U('__CONTROLLER__/advSave')}" enctype="multipart/form-data" onsubmit="return check();">
+		<div class="zc_xt_item">
+			<span>名称</span>
+			<input type="text" name="car_title" value="{$info.car_title}" class="zc_if_empty">
+			<input type="text" name="car_title_en" value="{$info.car_title_en}" placeholder="名称-英文">
+			<input type="text" name="car_title_ko" value="{$info.car_title_ko}" placeholder="名称-韩文">
+		</div>
+		<div class="zc_xt_item">
+			<span>图片</span>
+			<ul id="warp" class="clear">
+                <li>
+                    <div class="warp_pic">
+                        <img id="imgShow_WU_FILE_0" src="{:U('/', '','', true)}{$info.car_image}" class="zc_shop_img" />
+                    </div>
+                    <div class="zc_imgStum">上传文件</div>
+                    <input type="file" id="up_img_WU_FILE_0" name="car_image" class="zc_np_pic" />
+                </li>
+            </ul>
+		</div>
+		<div>
+			<span>广告类别</span>
+			<select id="select_type">
+				<option value="0">外链</option>
+				<option value="1">商家</option>
+				<option value="2">商品</option>
+				<option value="3">资讯</option>
+			</select>
+		</div>
+		<div class="select_type type_0 zc_xt_item" style="display:none">
+			<span>外链地址</span>
+			<input type="text" name="h5_path" value="{$info.h5_path}" class="input inputWidth400">
+		</div>
+		<div class="select_type type_1 zc_xt_item" style="display:none;">
+			<span>商 家 ID</span>
+			<input type="text" name="uid" value="{$info.uid}" class="input">
+		</div>
+		<div class="select_type type_2 zc_xt_item" style="display:none;">
+			<span>商 品 ID</span>
+			<input type="text" name="cid" value="{$info.cid}" class="input">
+		</div>
+		<div class="select_type type_3 zc_shop" style="display:none;">
+			<span>链接资讯</span>
+			<select name="car_link" class="input">
+			<option value="">无</option>
+			<foreach name="zixun_list" item="item">
+			<option value="{$item.id}" <if condition="$info[car_link] eq $item[id]">selected</if> >{$item.title}</option>
+			</foreach>
+			</select>
+		</div>
+		
+		<div class="zc_shop">
+			<span>排序</span>
+			<input type="text" name="sort" class="zc_if_number input" value="{$item.sort}">
+		</div>
+		<div class="zc_shop">
+			<span>是否关闭</span>
+			<select name="is_hidden">
+				<option value="0" <if condition="!$item[is_hidden]">selected</if> >否</option>
+				<option value="1" <if condition="$item[is_hidden]">selected</if> >是</option>
+			</select>
+		</div>
+		
+		<div>
+			<span></span>
+			<input type="submit" name="submit" value="保存">
+		</div>
+		<input type="hidden" name="car_id" value="{$info.car_id}">
+		<input type="hidden" name="car_type" value="{$info.car_type}">
+	</form>
+</div>
+<script type="text/javascript">
+new uploadPreview({ UpBtn: "up_img_WU_FILE_0", DivShow: "warp_pic", ImgShow: "imgShow_WU_FILE_0",Width:210,Height:210});
+	
+var select_change_key_current = 0;
+var column = ["{$info.h5_path}", "{$info.uid}", "{$info.cid}", "{$info.car_link}"];
+
+$(function(){
+	
+	$.each(column, function(key,val){
+		if(val!='' && val!='0') {
+			select_change(key);
+			return;
+		}
+	});
+	$('#select_type').change(function(){
+		var key = $(this).val();
+		select_change(key);
+	});
+	
+});
+
+//类别选择
+function select_change(key){
+	$('#select_type option:eq('+key+')').attr('selected', 'selected');
+	$('.select_type').hide();
+	$('.type_'+key).show();
+	select_change_key_current = key;
+}
+
+//提交时再次核对广告类别和对应值,并重置其他类别的值为空
+function check(){
+	var current_value = $('.type_'+select_change_key_current).find('.input').val();
+	if(current_value=='' || current_value=='0'){
+		//alert('请填写当前选择类别对应的值');
+		//return false;
+	}
+	$.each(column, function(key,val){
+		if(key!=select_change_key_current){
+			$('.type_'+key).find('.input').remove();
+		}
+	});
+	return true;
+}
+</script>

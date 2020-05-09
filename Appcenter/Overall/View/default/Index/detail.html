@@ -1,0 +1,132 @@
+<div class="zc_anwia">
+	<h2>账户明细</h2>
+	<span><a href="__ACTION__">个人信息</a></span>
+</div>
+<div class="zc_message">
+
+	<!-- [count] -->
+	<h2 style="margin-bottom:20px;">
+		<small>
+           丰谷宝：<span style="color:red">{$account['account_goldcoin_balance']|default='0'}</span>&nbsp;&nbsp;
+           商超券：<span style="color:red">{$account['account_colorcoin_balance']|default='0'}</span>&nbsp;&nbsp;
+           现金币：<span style="color:red">{$account['account_cash_balance']|default='0'}</span>&nbsp;&nbsp;
+           积分：<span style="color:red">{$account['account_points_balance']|default='0'}</span>&nbsp;&nbsp;
+          丰收点：<span style="color:red">{$account['account_bonus_balance']|default='0'}</span>&nbsp;&nbsp;
+          注册币：<span style="color:red">{$account['account_enroll_balance']|default='0'}</span>&nbsp;&nbsp;
+          商城积分：<span style="color:red">{$account['account_credits_balance']|default='0'}</span>&nbsp;&nbsp;
+          特供券：<span style="color:red">{$account['account_supply_balance']|default='0'}</span>&nbsp;&nbsp;
+          乐享币：<span style="color:red">{$account['account_enjoy_balance']|default='0'}</span>
+		</small>
+    </h2>
+	<!-- [/count] -->
+	
+	<!-- [notice] -->
+	<div class="shuoming_warning">默认只显示当前月明细，通过日期选择可查看历史记录</div>
+	<!-- [/notice] -->
+	
+	<!-- [form] -->
+	<form role="form" action="__ACTION__/type/detail" method="get">
+		<assign name="search_date_hide" value="1"/>
+		<div class="">
+			<label for="member_cash" class="col-sm-2 control-label left">账户类型</label>
+			<div class="col-sm-10 left">
+				<select class="form-control zc_input" id="member_cash" name="member_cash">
+					<option value="cash" <if condition="$Think.get.member_cash eq 'cash'">selected="selected"</if>>现金币</option>
+					<option value="goldcoin" <if condition="$Think.get.member_cash eq 'goldcoin'">selected="selected"</if>>丰谷宝</option>
+					<option value="colorcoin" <if condition="$Think.get.member_cash eq 'colorcoin'">selected="selected"</if>>商超券</option>
+					<option value="points" <if condition="$Think.get.member_cash eq 'points'">selected="selected"</if>>积分</option>
+					<option value="bonus" <if condition="$Think.get.member_cash eq 'bonus'">selected="selected"</if>>丰收点</option>
+					<option value="enroll" <if condition="$Think.get.member_cash eq 'enroll'">selected="selected"</if>>注册币</option>
+					<option value="credits" <if condition="$Think.get.member_cash eq 'credits'">selected="selected"</if>>商城积分</option>
+					<option value="supply" <if condition="$Think.get.member_cash eq 'supply'">selected="selected"</if>>特供券</option>
+					<option value="enjoy" <if condition="$Think.get.member_cash eq 'enjoy'">selected="selected"</if>>乐享币</option>
+				</select>
+			</div>
+		</div>
+		
+		<div>
+			<label for="member_cash" class="col-sm-2 control-label left">收入支出</label>
+			<div class="col-sm-10 left">
+				<select class="form-control zc_input" id="balance_type" name="balance_type">
+					<option value="" <if condition="$Think.get.balance_type eq '' or $Think.get.bonus_type neq ''">selected="selected"</if>>全部</option>
+					<option value="income" <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'income'">selected="selected"</if>>收入</option>
+					<option value="expense" <if condition="$Think.get.bonus_type eq '' and $Think.get.balance_type eq 'expense'">selected="selected"</if>>支出</option>
+				</select>
+			</div>
+		</div>
+		
+		<div>
+			<label for="member_cash" class="col-sm-2 control-label left">收支类型</label>
+			<div class="col-sm-10 left">
+				<select class="form-control zc_input" id="bonus_type" name="bonus_type">
+					<option value="" <if condition="$Think.get.bonus_type eq ''">selected="selected"</if>>全部</option>
+					<option value="13" <if condition="$Think.get.bonus_type eq '13'">selected="selected"</if>>现金币提现</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="">
+			<label for="member_cash" class="col-sm-2 control-label left">日期范围</label>
+        	<div class="form-group left">
+				<input name="start_time" id="LAY_demorange_s" class="form-control" size="8" type="text" value='{$Think.get.start_time}' readonly>
+				--&nbsp;
+			</div>
+			<div class="form-group left">
+				<input name="end_time" class="form-control" id="LAY_demorange_e" size="8" type="text" value='{$Think.get.end_time}' readonly>
+			</div>
+        </div>
+		 
+		<div  class="">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-success zc_submit">确认</button>
+			</div>
+		</div>
+	</form>
+	<!-- [/form] -->
+	
+	<!-- [total] -->
+	<if condition="$Think.get.member_cash eq 'cash' or $Think.get.member_cash eq ''">
+	<div class="total" style="margin-bottom:10px;font-size:14px;">
+		累计现金币收益：<span style="color:red;">{$total_income|default='0'}</span>
+	</div>
+	</if>
+	<!-- [/total] -->
+ 
+ 	<!-- [list] -->
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>来源</th>
+				<th>收入</th>
+				<th>支出</th>
+				<th>收支类型</th>
+				<th>状态</th>
+				<th>时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="datalist" id="item" key="k" mod="2">
+			<tr>
+				<td>{$item.record_id}</td>
+				<td>{$item.from_name}</td>
+				<td><if condition="$item['record_amount'] gt '0'">{$item.record_amount}<else/>0.00</if></td>
+				<td><if condition="$item['record_amount'] lt '0'">{$item.record_amount}<else/>0.00</if></td>
+				<td>{$item.record_remark}</td>
+				<td>{$item.record_balance}</td>
+				<td>{$item.record_addtime|date='Y-m-d H:i',###}</td>
+			</tr>
+			</volist>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+	
+</div>
+<script>
+function exporta(){
+	cash = $('#member_cash').val();
+	starttime = $('#LAY_demorange_s').val();
+	endtime = $('#LAY_demorange_e').val();
+	window.open('/Merchant/Account/exportAction?member_cash='+cash+'&start_time='+starttime+'&end_time='+endtime);
+}
+</script>

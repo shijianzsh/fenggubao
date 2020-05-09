@@ -1,0 +1,279 @@
+<!doctype>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<title>会话列表</title>
+<link rel="stylesheet" href="__CSS__/base.css">
+<script src="__JS__/jquery.js"></script>
+<script src='__JS__/jmessage-sdk-web.2.5.0.min.js'></script>
+<script src="__JS__/touche.js"></script>
+<script src="__JS__/p-pull-refresh.js"></script>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: Verdana,Microsoft yahei;
+}
+a {
+	color: #333;
+	cursor: pointer;
+}
+body {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.content {
+	background: #F5F5F5;
+	height:100%;
+	width: 100%;
+}
+.content ul li {
+	border-bottom: 1px #dfe2e1 solid;
+	background: #fff;
+	height: 4em;
+	line-height: 4em;
+	color: #333;
+	cursor: pointer;
+	zoom: 1;
+	padding: 0 1em;
+}
+.content ul li:after {
+	content: ''; 
+	height: 0; 
+	display: block; 
+	clear: both;
+}
+.content ul li a {
+	float: left;
+}
+.content ul li a img {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 20%;
+	margin-right: 0.5em;
+}
+.content ul li a span {
+	padding: 0.2em 0.4em;
+	background: #ff7f21;
+	margin-left: 0.5em;
+	border-radius: 10%;
+	color: #fff;
+}
+.content ul li a em {
+	display: inline-block;
+	height: 1rem;
+	line-height: 1rem;
+	width: 1rem;
+	text-align: center;
+	border-radius: 50%;
+	background: #E40C0C;
+	margin-left: 0.5rem;
+	font-size: 0.6rem;
+	color: #fff;
+}
+.content ul li i {
+	float: right;
+	color: #999;
+}
+.loading {
+	font-size: 1em;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #ddd;
+	text-align: center;
+	line-height: 3em;
+	z-index: 2;
+	color: #000;
+}
+.loading a {
+	color: #000;
+}
+</style>
+</head>
+
+<body>
+
+<div class="content">
+	<ul>
+		<li class="clearfix online robot" url="{:U('__CONTROLLER__/index/target_id/1', '', false, true)}">
+			<a href="javascript:;"><img src="__PUBLIC__/images/robot.png" align="absmiddle">机器人客服<span>官方</span></a>
+			<i></i>
+		</li>
+	</ul>
+</div>
+<div class="loading">加载中...</div>
+	
+</body>
+
+<script>
+//全局初始化
+var User = {$user};
+var status_login = true;
+var status_register = true;
+var msg_id = 0;
+var host = "{:U('__CONTROLLER__', '', '', true)}";
+window.JIM = new JMessage({
+   	debug : true
+});
+
+//异常断线监听
+JIM.onDisconnect(function(){
+	failNotice('连接已断开，点击重试');
+}); 
+
+//----------------------------
+$(function(){
+	
+	init();
+	
+	//聚焦输入框
+	$('.msg').focus();
+	
+	//触发机器人客服
+	$('.robot').click(function(){
+		location.href = $(this).attr('url')+'/current_id/'+User.current.user_id;
+	});
+	
+});
+//----------------------------
+
+//插入会话列表信息
+//val: 数据对象
+function loadDialog(val){
+	$.ajax({
+		'url': "{:U('__CONTROLLER__/getUserInfo')}",
+		'type': 'post',
+		'data': {username:val.username},
+		'success': function(re){
+			re = $.parseJSON(re);
+			if(re.error!=''){
+				alert(re.error);
+			}else{
+				if(re.data != ''){
+					var time = new Date(val.mtime);
+					time = time.getFullYear() + '/' + time.getMonth() + '/' + time.getDate() + ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+					var unread_count = val.unread_msg_count>0 ? '<em>'+val.unread_msg_count+'</em>' : '';
+					var store_name = (re.data.store_name == '' || re.data.store_name == null) ? val.nickName : re.data.store_name;
+					var store_img = (re.data.store_img == '' || re.data.store_img == null) ? re.data.img : re.data.store_img;
+					if(store_name != '' && store_name != null){
+						store_name = (re.data.store_name == '' || re.data.store_name == null) ? store_name : store_name+'<span>店铺</span>';
+						$('.content ul').append('<li class="clearfix" onclick="location.href=\''+host+'/chat/target_id/'+re.data.id+'\'"><a href="javascript:;"><img src="'+store_img+'" align="absmiddle">'+store_name+unread_count+'</a><i>'+time+'</i></li>');
+					}
+				}
+			}
+		},
+		'error': function(e,msg){
+			alert(msg);
+		},
+		'timeout': 10000
+	});
+}
+
+//获取当前初始化状态
+function isInit(){
+	return JIM.isInit();
+}
+
+//初始化
+function init(){
+	JIM.init({
+        "appkey":"{$config.appkey}",
+        "random_str": "{$config.random_str}",
+        "signature": "{$config.signature}",
+        "timestamp": "{$config.timestamp}",
+        "flag": "{$config.flag}"
+    }).onSuccess(function(data) {
+    	loginAction();
+    	return data;
+	}).onFail(function(data) {
+		failNotice('加载失败，点击重新加载');
+	}).onTimeout(function(data){
+		failNotice('加载失败，点击重新加载');
+	});
+}
+
+//获取登录状态
+function isLogin(){
+	return JIM.isLogin();
+}
+
+//获取用户个人信息
+function getSelfInfo(){
+	JIM.getUserInfo({
+        'username' : User.current.username
+    }).onSuccess(function(data) {
+    	return data;
+    }).onFail(function(data) {
+		return false;
+    });
+}
+
+//登录用户
+function loginAction(){
+	JIM.login({
+		'username' : User.current.username,
+		'password': User.current.password,
+		'is_md5': true
+	}).onSuccess(function(data) {
+		getConversation();
+	}).onFail(function(data) {
+		register('current');
+	}).onTimeout(function(data) {
+		failNotice('登录失败，点击重新登录');
+	});
+}
+
+//登出用户
+function loginOut(){
+	return JIM.loginOut();
+}
+
+//注册用户
+//type 注册用户类型: current|target
+function register(type){
+	var username='',nickname='',password='';
+	if(type == 'target'){
+		username = User.target.username;
+		nickname = User.target.nickname;
+		password = User.target.password;
+	}else{
+		username = User.current.username;
+		nickname = User.current.nickname;
+		password = User.current.password;
+	}
+	JIM.register({
+		'username' : username,
+		'nickname' : nickname,
+		'password': password,
+		'is_md5' : true
+	}).onSuccess(function(data) {
+		loginAction();
+	}).onFail(function(data) {
+	});
+}
+
+//获取会话列表
+function getConversation(){
+	 JIM.getConversation().onSuccess(function(data) {
+         $.each(data.conversations, function(key,val){
+        	 loadDialog(val);
+         });
+         $('.loading').hide();
+     }).onFail(function(data) {
+    	 failNotice('加载失败，点击重新加载');
+     });
+}
+
+//通用失败提示
+function failNotice(msg){
+	$('.loading').html('<a href="javascript:location.reload();">'+msg+'</a>').slideDown();
+}
+
+</script>
+
+</html>

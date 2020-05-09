@@ -1,0 +1,141 @@
+/*@CHARSET "UTF-8";*/
+* {
+    margin: 0;
+    padding: 0;
+    word-break: break-all;
+    word-warp: break-word;
+    font-style: normal;
+    outline: none;
+}
+
+img {
+    border: none;
+}
+
+ul, li, dl, dt, dd {
+    list-style: none;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.clearfix:after {
+    content: '';
+    height: 0;
+    display: block;
+    clear: both;
+}
+
+.f_l {
+    float: left;
+}
+
+.f_r {
+    float: right;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.text-hidden {
+    text-indent: -99999999px;
+}
+
+.f12 {
+    font-size: 12px;
+}
+
+.f14 {
+    font-size: 14px;
+}
+
+.f16 {
+    font-size: 16px;
+}
+
+.f18 {
+    font-size: 18px;
+}
+
+.f24 {
+    font-size: 24px;
+}
+
+.f30 {
+    font-size: 30px;
+}
+
+.f36 {
+    font-size: 36px;
+}
+
+.f48 {
+    font-size: 48px;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    position: relative;
+    background: #ffffff;
+    font-family: "Microsoft YaHei";
+    font-size: 12px;
+    /*overflow: hidden;*/
+}
+
+.common_message {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.common_message h1 {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+    background: #666;
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+    font-weight: normal;
+}
+
+.common_message p {
+    font-size: 14px;
+    width: 360px;
+    padding: 19px;
+    border: 1px #666 solid;
+    box-shadow: 0 0 5px #666;
+    border-radius: 0 0 5px 5px;
+}
+
+.common_message p span {
+    display: block;
+    height: 40px;
+    padding-left: 20px;
+}
+
+.common_message p span.success {
+    background: url('../images/action_check.png') no-repeat left 5px;
+}
+
+.common_message p span.error {
+    background: url('../images/attention.png') no-repeat left 5px;
+}
+
+.common_message p small {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    color: #999;
+}

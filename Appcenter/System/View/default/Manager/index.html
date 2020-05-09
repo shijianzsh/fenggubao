@@ -1,0 +1,69 @@
+<div class="zc_anwia">
+	<h2>用户列表</h2>
+	<a href="{:U('__CONTROLLER__/memberAddUi')}">添加用户</a>
+</div>
+<div class="zc_message">
+	<!-- [search] -->
+	<form name="searchManager" method="get" action="{:U('__ACTION__')}">
+		<assign name="search_date_hide" value="1"/>
+		<assign name="search_user_value" value="$Think.get.userid"/>
+		<include file="./Appcenter/Public/public/common.search.html"/> 
+		<label>管理员类型</label>
+		<select name="group_id">
+			<option value="">全部</option>
+			<foreach name="group_list" item="list">
+			<option value="{$list.id}" <if condition="$Think.get.group_id eq $list['id']">selected</if> >{$list.title}</option>
+			</foreach>
+		</select>
+		
+		<button type="submit" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search">搜 索</span>
+		</button>
+	</form>
+	<!-- [/search] -->
+	<!-- [list] -->
+	<table>
+		<thead>
+			<tr>
+				<th>用户账户</th>
+				<th>最近登录时间</th>
+				<th>最近登录IP</th>
+				<th>状态</th>
+				<th>角色</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		    <foreach name="member_list" item="list">
+			<tr>
+				<td>{$list.loginname}<span style="color:red;padding-left:3px;">[{$list.username}]</span></td>
+				<td>{$list.last_login_time|date="Y-m-d H:i:s",###}</td>
+				<td class="ip">{$list.last_login_ip}</td>
+				<td><if condition="$list.is_lock eq 1">已锁定<else />已启用</if></td>
+				<td>
+				    <if condition="$list[id] eq 1">
+					超级管理员
+				    <else/>
+					{$list['group_access_list']}
+				    </if>
+				</td>
+				<td>
+				    <if condition="$list[id] neq 1"><a href="{:U('__CONTROLLER__/memberModify/id/'.$list['id'])}">编辑</a></if>
+				    <a href="{:U('__CONTROLLER__/memberDelete/id/'.$list['id'])}" class="zccolor">删除</a>
+				</td>
+			</tr>
+		    </foreach>
+		</tbody>
+	</table>
+	<!-- [/list] -->
+</div>
+
+<script>
+$(function(){
+	
+	$(window).load(function(){
+		getIpLocation();
+	});
+	
+});
+</script>

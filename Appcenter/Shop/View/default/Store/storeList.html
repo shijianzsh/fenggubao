@@ -1,0 +1,317 @@
+<div class="zc_anwia">
+	<h2>店铺管理</h2>
+</div>
+<div class="zc_message">
+	<!-- [shuoming] -->
+	<div class="shuoming_warning">
+		<p>1、APP客户端显示店铺的条件：已审店铺 + 店铺状态[正常] + 店铺活动[已审已启用]。</p>
+	</div>
+	<!-- [/shuoming] -->
+	<!-- [search] -->
+	<form name="form" method="get" action="__ACTION__/type/{$Think.get.type}">
+		<div class="form-group left">
+			<label for="store_name"></label>
+			<input type="text" id="store_name" name="store_name" value="{$Think.get.store_name}" style="width:200px !important;" placeholder="店铺名/营业电话 /账号/姓名/用户名">
+		</div>
+		
+		<div style="clear:left;"></div>
+		
+		<div class="form-group left">
+			<label>所属地区</label>
+			<assign name="select_area_province_value" value="$Think.get.province"/>
+			<assign name="select_area_city_value" value="$Think.get.city"/>
+			<assign name="select_area_country_value" value="$Think.get.country"/>
+			<assign name="select_area_option_type" value="chs"/>
+			<assign name="select_area_select_init" value="全部"/>
+			<include file="./Appcenter/Public/public/common.area.html"/>
+		</div>
+		
+		<div class="form-group left">
+			<label>店铺状态</label>
+			<select name="store_status">
+				<option value="">不限</option>
+				<option value="1" <if condition="$Thinke.get.store_status eq 1">selected</if> >正常</option>
+				<option value="2" <if condition="$Thinke.get.store_status eq 2">selected</if> >冻结</option>
+			</select>
+		</div>
+		
+		<div class="form-group left">
+			<label>店铺活动</label>
+			<select name="store_activity">
+				<option value="">不限</option>
+				<option value="1" <if condition="$Thinke.get.store_activity eq 1">selected</if> >未审活动</option>
+				<option value="2" <if condition="$Thinke.get.store_activity eq 2">selected</if> >已审已启用</option>
+				<option value="3" <if condition="$Thinke.get.store_activity eq 3">selected</if> >已审未启用</option>
+				<option value="4" <if condition="$Thinke.get.store_activity eq 4">selected</if> >已驳回</option>
+			</select>
+		</div>
+		<div class="form-group left">
+			<label>店铺类型</label>
+			<select name="store_type">
+				<option value="">不限</option>
+				<php>$store_type = C('FIELD_CONFIG.store')['store_type'];</php>
+				<foreach name="store_type" key="key" item="item">
+				<option value="{$key}" <if condition="$Think.get.store_type eq $key">selected</if> >{$item}</option>
+				</foreach>
+			</select>
+		</div>
+		
+		<div class="form-group left">
+			<label>是否自营</label>
+			<select name="store_supermarket">
+				<option value="" <if condition="$Think.get.store_supermarket eq ''">selected</if>>不限</option>
+				<php>$store_supermarket = C('FIELD_CONFIG.store')['store_supermarket'];</php>
+				<foreach name="store_supermarket" key="key" item="item">
+				<option value="{$key}" <if condition="$Think.get.store_supermarket neq '' && $Think.get.store_supermarket eq $key">selected</if> >{$item}</option>
+				</foreach>
+			</select>
+		</div>
+		
+		<button type="submit" class="btn btn-primary" style="float:right;margin-bottom:10px;">
+			<span class="glyphicon glyphicon-search"> 搜 索</span>
+		</button>
+		
+		<input type="hidden" name="p" value="1">
+	</form>
+	<!-- [/search] -->
+	
+	<!-- [list] -->
+    <table>
+    	<thead>
+    		<tr>
+  				<th style="width:90px;">序号</th>
+  				<th>店铺名称</th>
+  				<th>申请人</th>
+  				<th>推荐人账号</th>
+  				<th>营业电话</th>
+  				<th>店铺地址</th>
+  				<th>申请时间</th>
+  				<th>店铺状态</th>
+  				
+  				<if condition="$Think.get.type eq 1">
+  					<th>评分等级</th>
+  					<th>关注度</th>
+  					<th>商家类型</th>
+  					<th>是否自营</th>
+  				</if>
+  				<th>操作</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<foreach name="list" item="item">
+    		<tr>
+    			<td>
+    				<if condition="$Think.get.type eq 1">
+					<label><input type="checkbox" name="id[]" value="{$item.id}"></label>
+					</if>
+    				{$item.id}
+    			</td>
+    			<td>{$item.store_name}</td>
+    			<td>
+    				{$item.username}[昵称:{$item.nickname}][姓名:{$item.truename}]
+    				<if condition="getUser($item['uid'],'is_blacklist') neq '0'"><span style="color:#fff;background:#000;">[<php>echo C('FIELD_CONFIG.member')['is_blacklist'][getUser($item['uid'],'is_blacklist')];</php>黑名单]</span></if>
+    			</td>
+    			<td>{$item.retel}</td>
+    			<td>{$item.phone}</td>
+    			<td>{$item.address}</td>
+    			<td><if condition="$item['date_created'] neq 0">{$item.date_created|date='Y-m-d H:i:s',###}</if></td>
+    			<if condition="$Think.get.type neq 1">
+    				<td>
+    				{$item.manage_status_cn}
+    				<if condition="$Think.get.type eq 2">
+    				<p>驳回原因：{$item.message}</p>
+    				</if>
+    				</td>
+    			<else/>
+    				<td>{$item.status_cn}</td>
+    				<td>{$item.score}</td>
+    				<td>{$item.attention}</td>
+    				<td><php>echo C('FIELD_CONFIG.store')['store_type'][$item['store_type']];</php></td>
+    				<td><php>echo C('FIELD_CONFIG.store')['store_supermarket'][$item['store_supermarket']];</php></td>
+    			</if>
+    			<td style="line-height:150%;">
+    				<if condition="$item['manage_status'] neq 1">
+    				<a href="{:U('__CONTROLLER__/storePass/id/'.$item['id'])}" onclick="return confirmWin();">审核通过</a>
+    				</if>
+    				
+    				<if condition="$item['manage_status'] neq 2">
+    				<a href="javascript:;" url="__CONTROLLER__/storeReject/id/{$item['id']}"  class="zc_Bxoani_if zccolor">驳回</a>
+    				</if>
+    				
+    				<a href="{:U('__CONTROLLER__/storeModify/id/'.$item['id'])}">编辑</a>
+    				
+    				<if condition="$item['manage_status'] eq 2">
+    				<a href="{:U('__CONTROLLER__/storeDelete/id/'.$item['id'])}" class="zccolor">删除</a>
+    				</if>
+    				
+    				<if condition="$item['manage_status'] eq 1">
+    					<if condition="$item['status'] eq 1">
+    					<a href="{:U('__CONTROLLER__/storeThaw/id/'.$item['id'])}" onclick="return confirmWin();" style="color:red;">解冻</a>
+    					<else/>
+    					<a href="{:U('__CONTROLLER__/storeForzen/id/'.$item['id'])}" onclick="return confirmWin();">冻结</a>
+    					</if>
+    					<br>
+	    				<a href="{:U('__CONTROLLER__/storeDetail/id/'.$item['id'])}">店铺详情</a>
+	    				<a href="{:U('__CONTROLLER__/storeOrderList/id/'.$item['id'])}">订单详情</a>
+    				</if>
+    			</td>
+    		</tr>
+    		</foreach>
+    		<if condition="$Think.get.type eq 1">
+	    		<tr id="zc_all_list">
+					<td colspan="15"  style="text-align:left;padding-left:10px;">
+						<span>选择：</span>
+						<input type="button" value="全选" class="btn zc_selesce" id="selectAll">
+						<input type="button" value="全不选" class="btn zc_selesce" id="unSelect">
+						<span>操作：</span>
+						<select id="checkbox_action">
+							<option value="type_1">设置为普通商家</option>
+							<option value="type_2">设置为中型商家</option>
+							<option value="type_3">设置为大型商家</option>
+							<option value="supermarket_0">设置为非自营</option>
+							<option value="supermarket_1">设置为自营</option>
+						</select>
+						<input type="button" value="执行" class="btn zc_selesce" id="checkbox_do">
+					</td>
+				</tr>
+			</if>
+    	</tbody>
+    </table>
+    <!-- [/list] -->
+
+<style type="text/css">
+		.zc_kepadmie{
+			position:fixed;
+			width:100%;
+			height:100%;
+			background:rgba(0,0,0,0.5);
+			left:0px;
+			top:0px;
+			z-index:1197;
+			display:none;
+		}
+		.zc_dnsai{
+			width:500px;
+			height:300px;
+			background:#fff;
+			border:1px solid #ddd;
+			position:fixed;
+			left:50%;
+			margin-left:-250px;
+			margin-top:-150px;
+			top:50%;
+			z-index: 1198;
+			display:none;
+		}
+		.zc_dnsai h3{
+			height:40px;
+			border-bottom:1px solid #ddd;
+			line-height:40px;
+			text-indent:20px;
+		}
+		.zc_liyou{
+			width:99%;
+			height:180px;
+			color:#999;
+			border: 1px red solid;
+		}
+		.zc_affirm{
+			display:block;
+			width:70%;
+			height:40px;
+			margin:0 auto;
+			background:#00a0e9;
+			color:#fff;
+			text-align:center;
+			line-height:40px;
+			font-size:16px;
+		}
+	</style>
+	<div class="zc_kepadmie"></div>
+	<div class="zc_dnsai">
+		<h3>驳回理由</h3>
+		<textarea class="zc_liyou"></textarea>
+		<a href="javascript:;" class="zc_affirm">确认驳回</a>
+	</div>
+</div>
+<script>
+$(function(){
+	
+	//驳回
+	$(".zc_Bxoani_if").on("click",function(){
+		var href=$(this).attr("url");
+		$(".zc_dnsai,.zc_kepadmie").show();
+		$(".zc_affirm").on("click", function(){
+			var reason = $(".zc_liyou").val();
+			 reason = $.trim(reason);
+			if(reason==''){
+				layer.msg('请填写驳回理由',{
+					time:1000
+				});
+				return false;
+				
+			}else{
+				location.href = href+'/reason/'+encodeURI(encodeURI(reason));
+			};
+
+		});
+	});
+	$(".zc_kepadmie").on("click",function(){
+		$(".zc_dnsai,.zc_kepadmie").hide();
+	});
+	
+	//多选执行
+	$('#checkbox_do').click(function(){
+		obj = document.getElementsByName("id[]");
+		check_val = [];
+		for(k in obj){
+			if(obj[k].checked){
+				check_val.push(obj[k].value);
+			}
+		}
+		if(check_val.length==0){
+			alert('请选择后再执行确认操作');
+			return false;
+		}
+		
+		var checkbox_action = $('#checkbox_action').val();
+		if(checkbox_action==''){
+			alert('请选择要执行的操作');
+			return false;
+		}
+		
+		if(confirm("确定执行操作？")){
+			var url = "{:U('__CONTROLLER__/batchStoreType')}";
+			$.post(url,{id:check_val,store_type:checkbox_action},function(data){
+				if(data==''){
+					alert('执行成功');
+					document.location.reload();
+				}else{
+					alert(data);
+					return false;
+				}
+			});
+		}else{
+			return false;
+		}
+	});
+
+});
+	
+
+var qxuan= document.getElementsByName("id[]");
+var selectAll=document.getElementById("selectAll");
+var unSelect=document.getElementById("unSelect");
+selectAll.onclick=function(){
+	allSelectChange(true);
+};
+unSelect.onclick=function(){
+	allSelectChange(false);
+};
+
+function allSelectChange(status){
+	for(var i=0;i<qxuan.length;i++){
+		qxuan[i].checked=status;
+	}
+}
+</script>

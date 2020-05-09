@@ -1,0 +1,71 @@
+/* CSS Document */
+* { padding: 0px; margin: 0px; }
+html { color: #000; background: #f5f5f5;}
+body { font: 12px/20px Open Sans, Helvetica, Arial, sans-serif;}
+ul { list-style-type: none; }
+a { text-decoration: none; }
+*:focus { outline: none; }
+b, strong { font-weight: bold; }
+input, select, textarea { font-size: 100%; border: 1px solid #CCC; }
+.icon { font-weight: normal; }
+/**/
+.top { background: #009ce7; width: 100%; position: relative; height: 80px; color: #FFF; font-weight: bold; min-width: 1366px; }
+.top-bottom { height: 5px; _font-size: 1px; background: #FFF; margin-bottom: 5px; border-bottom: 1px solid #dedede; }
+.top_left { float: left; }
+.top .top_logo { float: left; width: 200px; height: 80px; background: url(../images/logotop.png) no-repeat; border-right: 1px solid #009ce7; margin-right:50px; }
+/*主页菜单*/
+.nav { margin-top: 20px; float: left; }
+.nav li { margin-right: 2px; position: relative; font-size: 16px; float: left; color: #FFF; }
+.nav li a { color: #fff; padding: 10px; display: block; }
+.nav a:hover { color: #fff }
+.hint_flag { display: block; padding: 0 7px; height: 20px; border-radius: 10px; overflow: hidden; float: right; background-color: #F00; font-size: 10px; color: #FFF; margin: -8px -10px -12px 0; line-height: 20px; text-align: center; box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.35); }
+.nav .submenu { display: none; position: absolute; background: #17a992; width: 165px; padding: 10px 0; z-index: 9999; }
+.nav .submenu a { display: block; padding: 10px; }
+.nav .submenu a:hover { color: #fff }
+.on { background-color: #17a992; }
+.xiangxia { display: inline-block; overflow: hidden; width: 0; height: 0; border: 0; border-top: 4px solid #FFF; border-left: 4px solid transparent; border-right: 4px solid transparent; vertical-align: middle; margin-left: 5px; }
+/*主页菜单end*/
+.top-right { float: right; }
+.top-right p { text-align: right; padding-right: 10px; font-size: 13px; }
+.top .tip1 { margin-top: 15px; }
+.top .tip1 a { display: inline-block; padding: 5px 0 5px 10px; color: #fff; }
+/*整体内容*/
+.main { position: relative; min-width: 1366px; }
+.main h1 { line-height: 36px; padding: 0 10px; border-bottom: 1px solid #dedede; border-top: 1px solid #111111; font-size: 18px; }
+.main h2 { line-height: 40px; padding: 0 10px; font-weight: bold; font-size: 20px; color: #000; border-bottom: 1px solid #ddd; }
+.main ul li { line-height: 30px; }
+.main .input { height: 30px; line-height: 30px; border: 1px solid #CCC; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; }
+.main .but { padding: 0 20px; height: 30px; line-height: 30px; background: #111111; color: #FFF; margin: 10px; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; cursor: pointer; }
+/*整体内容*/
+/*快捷菜单*/
+#function { min-width: 1366px; margin: 0 auto; overflow: hidden; margin-top: 10px; margin-left: 0px; }
+#function li { float: left; background: #fff; width: 121px; margin: 0 5px; border: 1px solid #2bbe7d; }
+#function a { color: #6e6e6e; }
+#function a:hover { color: #cc0000; text-decoration: none; }
+#function p { text-align: center; font-size: 13px; font-weight: bold; }
+#function i { font-size: 50px; }
+.i1 { color: #1faeff; }
+.i2 { color: #ff2e12; }
+.i3 { color: #00c13f; }
+.i4 { color: #e1b700; }
+.i5 { color: #7200ac; }
+.i6 { color: #ff76bc; }
+.i7 { color: #001e4e; }
+.i8 { color: #632f00; }
+.i9 { color: #13A8B1; }
+/*内容*/
+.mainContent { margin-top: 10px; padding-bottom: 50px; position: relative; top: 0; }
+/*左边*/
+.fn_fleft { width: 280px; position: absolute; left: 5px; top: 0; }
+.m_infor { color: #000; font-size: 16px; background: #FFF; border: 1px solid #dedede; box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1); }
+.m_infor ul { display: block; background: #FFF; padding: 0 0 10px 10px; font-size: 110%; }
+.m_infor ul span { color: #f0a401; font-weight: bold; }
+.m_find { background: #FFF; margin: 0 0 10px 0; border: 1px solid #dedede; box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1); }
+.m_find a { display: block; border-radius: 3px; box-shadow: 0 0 1px #c1c4c9; background: #0699e6; color: #FFF; margin: 5px 20px; text-align: center; text-decoration: none; }
+/*右边*/
+.fn_fright { margin-left: 300px; padding-bottom: 50px; overflow: hidden; height: auto; }
+/*右边内容*/
+/*版权*/
+.footer { position: fixed; left: 0; bottom: 0; height: 30px; line-height: 30px; background: #009ce7; overflow: hidden; width: 100%; color: #FFF;min-width: 1366px; }
+.footer .copyright { position: absolute; left: 0; top: 0; width: 45%; padding-left: 20px; }
+.footer .support { position: absolute; right: 0; top: 0; width: 600px; padding-right: 20px; text-align: right; }

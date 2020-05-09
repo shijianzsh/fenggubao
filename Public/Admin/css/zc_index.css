@@ -1,0 +1,62 @@
+/*
+*   众彩生活电商网站index.css
+*   BY:从小就很酷
+*   QQ:1194794288
+*/
+/*重置样式*/
+ul,li,ol,body,dl,dt,dd,p,h1,h2,h3,h4,h5,h6,div,img,span,i,a,b,strong{margin:0;padding:0;font-weight: inherit;}
+img,input,textarea,a{border:none;outline:none;}
+a{text-decoration: none;color:#404040;}
+li{list-style:none;}
+img{display: block}
+i,em{font-style: normal;}
+textarea{resize:none;}
+
+/*公用样式*/
+body{position: relative;font-size:12px;color:#404040;}
+.between{width:1200px;margin:0 auto;height:100%;position: relative;}
+.clear:after{content:"";display: block;height:0;clear:both;font-size:0;}
+.left{float:left;_display:inline;}
+.right{float:right;_display:inline;}
+
+/*初始化样式结束*/
+.zc_header{height:65px;border-bottom:1px solid #ddd;}
+.zc_header .zc_inner .zc_firm{color:#5c7eaa;font-weight:bold;line-height:65px;height:65px;font-size:24px;}
+.zc_header .zc_inner .English{margin-left:10px;font-size:16px;color:#5c7eaa;padding-top:28px;}
+.zc_header .zc_inner .zc_state{line-height:65px;height:65px;font-size:16px;background:url("../images/zc_log.jpg") no-repeat
+left center;padding-left:40px;}
+.zc_mein{min-height:584px;_height:584px;border-bottom:1px solid #ddd;background:url("../images/zc_bg.jpg") no-repeat;-webkit-background-size:cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;
+background-size: cover;}
+.zc_mein .zc_ling{width:305px;height:370px;border:1px solid #ddd;margin-top:80px;right:35px;
+    -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:20px;background:#fff;}
+.zc_mein .zc_ling .zc_t{color:#5c7eaa;height:45px;line-height:45px;border-bottom:1px solid #ddd;margin-bottom:10px;}
+.zc_item{padding-left:10px;}
+.zc_item .zc_title{height:35px;line-height:35px;font-size:14px;color:#000;}
+.zc_item .zc_title em{color:#2D93CA;}
+.zc_item .zc_inpt input.input{padding:10px 0px;border-radius:5px;border:1px solid #ddd;padding-left:35px;width:260px !important;background:rgba(0,0,0,0); position:relative; z-index:1;}
+input#zc_btn{height:37px;position:absolute;top:2px;right:-2px;color:#5e86b7;cursor:pointer;background:rgba(255,255,255,0)}
+input#zc_take{height:40px;border:1px solid #1db9aa;background:#5e85b5;margin-right:5px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;margin-top:10px;width:148px;text-align:center;color:#fff !important;cursor:pointer;font-size:16px;}
+.zc_item .zc_inpt{position:relative;}
+.zc_item .zc_inpt span{display:block;width:20px;height:38px;position:absolute;left:10px;top:0px;}
+.zc_item .zc_inpt span.loc1{background:url("../images/zc_yonghu.jpg") no-repeat center;}
+.zc_item .zc_inpt span.ioc2{background:url("../images/zc_1545afafa15.jpg") no-repeat center;}
+.zc_item .zc_inpt span.ioc3{background:url("../images/zc_64614dafcsvs58458.jpg") no-repeat center;}
+.footer{height:50px;line-height:50px;font-size:14px;color:#000;text-align:center;}
+
+/*@y*/
+.zc_item .zc_inpt img {
+	position: absolute;
+	right: 0;
+	top: 2px;
+	z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+

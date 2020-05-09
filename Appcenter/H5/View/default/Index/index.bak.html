@@ -1,0 +1,167 @@
+{__NOLAYOUT__}
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>{$Think.config.APP_TITLE}_邀请注册</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/H5/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__/H5/register/css/index.css"/>
+		<script src="__PUBLIC__/H5/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/H5/register/js/index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<header class="zcrniwl_dr">邀请注册</header>
+		
+		<div class="zcmin">
+		<div class="zcbanner">
+			<if condition="$eventway_img eq true">
+				<img src="http://{$server_name}/{$eventway_img}"/>
+				<else />
+				<img src="__PUBLIC__/H5/register/images/zcanisnisaksdni190u398tu893yg8ehnvf289yfhswi_02.png"/>
+			</if>
+
+		</div>
+		<div class="recommend">
+			<if condition="$header_img eq true">
+				<img src="http://{$server_name}/{$header_img}"/>
+				<else />
+				<img src="__PUBLIC__/H5/register/images/default-avatar.png"/>
+			</if>
+			
+			<p class="recho_name" >{$recommer}(推荐人账号)</p>
+			<p class="des">免费下载{$Think.config.APP_TITLE}APP</p>
+			<if condition="$give_goldcoin gt 0">
+			<p class="des des_big">注册就送{$give_goldcoin}丰谷宝</p>
+			</if>
+		</div>
+		<div class="zcsubject">
+ 
+            <input type="hidden" id="recommer" value="{$recommer}">
+            <div class="zctatrun_list">
+                <span class="zc_input_ico3"></span>
+                <input type="text" name="" id="truename" placeholder="您的真实姓名" />
+            </div>
+            <div class="zctatrun_list">
+                <span class="zc_input_ico4"></span>
+                <input type="password" name="" id="password" placeholder="设置新登录密码" />
+            </div>
+            <div class="zctatrun_list">
+                <span class="zc_input_ico5"></span>
+                <input type="password" name="" id="repassword" placeholder="确认新登录密码" />
+            </div>
+			<div class="zctatrun_list">
+				<span class="zc_input_ico6"></span>
+				<input type="tel" name="" id="personage_mobile" placeholder="您的手机号" maxlength="11" />
+			</div>
+			<div class="zcinput_all">
+				<span class="zc_input_ico zc_input_ico7"></span>
+				<input type="text" name="" id="auth" placeholder="验证码"/>
+				<button type="button" id="verification" disabled="disabled" >获取验证码</button>
+			</div>
+			<div class="zcinput_all_loing">
+				<button type="button" id="next" class="h5rgbtn">注册</button>
+				<p>注册则视为阅读且同意《<a href="javascript:;">服务协议条款</a>》</p>
+			</div>
+		</div>
+	
+		<!--subjectedn-->
+		<!--button_top-->
+		<div class="zcbutton"><img src="__PUBLIC__/H5/register/images/navi_button_spread.png"/></div>
+		<!--button_topend-->
+		<!--img
+		<div class="zcmobaimg">
+			<img src="__PUBLIC__/H5/register/images/images/nivbdsiviovmodpvdivnd_04.png"/>
+		</div>-->
+		<!--imgend-->
+		<!--download-->
+		<div class="zcdownload">
+			<a href="/android/share_app.html">下载{$Think.config.APP_TITLE}</a>
+		</div>
+		<!--downloadend-->
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	$("#personage_mobile").keyup(function(){
+		var pattern = /(1[3-9]\d{9}$)/;
+		var mobile_value = $(this).val();
+		if(pattern.test(mobile_value)){
+			$("#verification").prop("disabled",false).css("opacity","1");
+			$(".zcinput_all_loing button").css("opacity","1");
+		}else{
+			$("#verification").prop("disabled",true).css("opacity",".6");
+			$(".zcinput_all_loing button").css("opacity","0.6");
+		};
+	});
+	var countdown = "{$sms_time_out}";
+	var stime = null;
+	$("#verification").on("click",function(){
+		var mobile_value = parseInt($("#personage_mobile").val());
+		var send_type = 'R';
+		var data_string = {$data_string};
+			$.ajax({
+				type: "post",
+				url: "{:U('APP/Phone/get_phone_code')}",
+				data: {telphone:mobile_value,send_type:send_type,app_common_data:data_string},
+				dataType: "json",
+				success: function(data){
+					if(data.code=='300'){
+						alert(data.msg);
+					}else if(data.code=='400'){
+						stime = setInterval(function(){
+							$("#verification").prop("disabled",true).css("opacity",".6");
+							$("#verification").html('重新获取('+countdown+')');
+							countdown--;
+							if(countdown<0){
+								$("#verification").prop("disabled",false).css("opacity","1");
+								$("#verification").html('获取验证码');
+								countdown = "{$sms_time_out}";
+								clearInterval(stime);
+							}
+						},1000);
+						alert(data.msg);
+					}
+				}
+			});
+	})
+	
+	$("#next").click(function(){
+		var truename = $("#truename").val();
+		var password = $("#password").val();
+		var repassword = $("#repassword").val();
+		var mobile_value = $("#personage_mobile").val();
+		var auth = $('#auth').val();
+		if(password != repassword){
+			alert('两次密码不相同');
+			return;
+		}
+		if(recommer){
+			var pattern = /(1[3-9]\d{9}$)/;
+			if(pattern.test(mobile_value)){
+				if(auth){
+					$.ajax({
+						type: "post",
+						url: "{:U('H5/Index/recommer')}",
+						data: {telphone:mobile_value,auth:auth,password:password,truename:truename},
+						dataType: "json",
+						success: function(data){
+							if(data.code=='300'){
+								alert(data.msg);
+							}else if(data.code=='400'){
+								console.log(data);
+								var url="{:U('H5/Index/download')}";
+								window.location.href=url;
+							}
+						}
+					});
+				}else {
+					alert('请正确输入');
+				}
+			}else {
+				alert('请正确输入');
+			}
+		}else {
+			alert('请正确输入');
+		};
+	})
+</script>

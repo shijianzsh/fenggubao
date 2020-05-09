@@ -1,0 +1,35 @@
+<div class="zc_anwia">
+	<h2>系统维护</h2>
+</div>
+<div class="zc_message">
+	<form name="form" method="post" action="{:U('__CONTROLLER__/parameterSave')}">
+		<table id="zc_Sasnfisd">
+		<tr>
+			<td>系统当前状态</td>
+			<td>
+				<span style="color:red;font-weight:bold;"><if condition="$site_switch[settings_value] eq '0'">已关闭<else/>已开启</if></span>
+			</td>
+		</tr>
+		<tr>
+			<td>设置系统状态</td>
+			<td>
+				<select name="site_switch" class="form-control">
+					<option value="0" <if condition="$site_switch[settings_value] eq 0"> selected="selected"</if>>关闭</option>
+					<option value="1" <if condition="$site_switch[settings_value] eq 1"> selected="selected"</if>>开启</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>关闭时提示信息</td>
+			<td>
+				<textarea name="site_switch_intro" cols="45" rows="3" class="form-control">{$site_switch_intro[settings_value]}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input type="submit" name="submit" value="保存" style="width:auto !important;">
+			</td>
+		</tr>
+		</table>
+</div>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{$Think.config.APP_TITLE}_用户注册</title>
+    <link rel="stylesheet" href="__PUBLIC__/H5/css/zc_base.css">
+    <link rel="stylesheet" href="__PUBLIC__/H5/css/zc_wap.css">
+    <script type="text/javascript" src="__PUBLIC__/H5/js/jquery.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/H5/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/H5/js/jQuery.md5.js"></script>
+    <style>
+        .block_truename {
+            position: absolute;
+            left: 150px;
+            top: 6px;
+            color: #fff;
+            font-size: 12px;
+            font-family: Microsoft Yahei;
+        }
+
+        .ios-down {
+            background: #333;
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ios-down p {
+            display: block;
+            width: 85%;
+            padding: 5%;
+            background: #fff;
+            font-size: 15px;
+            font-family: Verdana, Microsoft Yahei;
+            lien-height: 25px;
+            border-radius: 5px;
+            margin: 0 auto;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .ios-down p span {
+            display: block;
+            line-height: 30px;
+        }
+
+        .ios-down p em {
+            background: #333;
+            color: #fff;
+            display: inline;
+            padding: 0 5px;
+            border-radius: 3px;
+        }
+
+        .ios-down p span i {
+            color: #999;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<header class="zc_Top">
+    <a href="JavaScript:history.go(-1)" class="left" id="drop"></a>
+    注册
+</header>
+<section class="zc_content">
+    <form action="" class="zc_register">
+        <div class="zc_item">
+            <em class="block_truename">{$truename}</em>
+            <span class="zc_icon icon6"></span>
+            <input type="hidden" name="referrer" id="referrer" placeholder="推荐人" value="" readonly
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+        <div class="zc_item">
+            <span class="zc_icon icon5"></span>
+            <input type="text" name="mobile" id="mobile" placeholder="本人手机号" value=""
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+        <div class="zc_item yhx-vcode">
+            <span class="zc_icon icon4"></span>
+            <input type="text" name="verification" id="verification" placeholder="验证码"
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}" style="width:40%;" value=""/>
+            <input type="hidden" id="m_phone_code" value=""/>
+            <input class="verification" id="verification_button" type="button" id="count" value="获取验证码"/>
+        </div>
+        <div class="zc_item">
+            <span class="zc_icon icon2"></span>
+            <input type="text" name="compellation" id="compellation" placeholder="本人真实姓名" value=""
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+        <!--
+        <div class="zc_item">
+            <span class="zc_icon icon2"></span>
+            <input type="text" name="nickname" id="nickname" placeholder="昵称" value=""  onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+         -->
+        <div class="zc_item">
+            <span class="zc_icon icon3"></span>
+            <input type="password" name="password" id="password" title="密码" placeholder="密码" value=""
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+        <div class="zc_item">
+            <span class="zc_icon icon3"></span>
+            <input type="password" name="password" id="confirm" placeholder="确认密码" title="确认密码" value=""
+                   onclick="if (value == defaultValue) {value = '';this.style.color = '#fff'}"
+                   onblur="if (!value) {value = defaultValue;this.style.color = '#fff'}"/>
+        </div>
+        <div class="zc_item">
+            <button class="notarize" type="button" id="submit">注册</button>
+        </div>
+    </form>
+</section>
+<footer class="zc_base">
+    <!--<p>请务必填写真实姓名便于提现</p>-->
+    <span><label><input type="checkbox" id="checkbox" value="1"></label><a href="javascript:">我已阅读注册协议</a></span>
+</footer>
+</body>
+</html>
+<script type="text/javascript">
+    var app_download = "https://gongrangbao.oss-cn-shenzhen.aliyuncs.com/Uploads/apk/grb.apk";
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('iphone') != -1) {
+        app_download = '#';
+    }
+
+    //取消验证码-模块1(重新启用时只需把模块1,2代码段删除即可)
+    //BEGIN
+    /*
+    $('.yhx-vcode').hide();
+    var vcode = Math.random();
+    vcode = String(vcode);
+    vcode = vcode.substring(2,8);
+    $('#verification').remove();
+    $('#m_phone_code').after('<input type="hidden" name="verification" id="verification" value="'+vcode+'">');
+    $("input[name='verification']").val(vcode);
+    */
+    //END
+
+    $('#referrer').val({$recommer});
+    $("#submit").on("click", function () {
+        if (!$("#checkbox").is(":checked")) {
+            layer.msg("请务必阅读服务条款");
+        } else if ($("#referrer,#mobile,#compellation,#nickname,#password,#confirm").val() == "") {
+            layer.confirm('请认真填写您的信息', {
+                btn: ['确认'] //按钮
+            })
+        } else {
+            //取消验证码-模块2
+            //BEGIN
+            /*
+            var input_phone = $('#mobile').val();
+            $('#m_phone_code').val($.md5(input_phone+vcode));
+            */
+            //END
+
+            var url = "{:U('APP/LoginRegister/register')}";
+            $.post(url,
+                {
+                    recommer: $('#referrer').val(),
+                    phone: $('#mobile').val(),
+                    //nickname:$('#nickname').val(),
+                    truename: $('#compellation').val(),
+                    password: $.md5($('#password').val()),
+                    phone_code: $('#verification').val(),
+                    m_phone_code: $('#m_phone_code').val()
+                },
+                function (data) {
+                    if (data.code == 300) {
+                        alert(data.msg);
+                    } else if (data.code == 400) {
+                        //
+                        layer.alert('注册成功！快去下载{$Think.config.APP_TITLE}APP登陆吧', {
+                            title: "系统提示",
+                            skin: 'layui-layer-molv', closeBtn: 0
+                        });//
+                        $(".layui-layer-btn0").on("click", function () {
+                            if (ua.indexOf('iphone') != -1 && ua.indexOf('micromessenger') != -1) {
+                                $('body').addClass('ios-down').html('<p><span>请点击右上角<em>···</em>按钮<i>↗</i></span><span>选择在Safari浏览器中下载</span></p>');
+                                return false;
+                            } else {
+                                window.location.href = app_download;
+                            }
+                        })
+                    }
+                });
+        }
+    })
+    $("#referrer").blur(function () {
+        var mobile = $(this).val();
+        if (mobile == "") {
+            $(this).next("span.correct").remove();
+            layer.tips('请填写您的推荐人', '#referrer', {
+                tips: 1
+            });
+        } else if (!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(mobile)) {
+            $(this).next("span.correct").remove();
+            layer.msg("请输入正确的推荐人手机号");
+        } else {
+            $(this).next("span.correct").remove();
+            $(this).parent().append('<span class="correct"></span>');
+        }
+    })
+    $("#mobile").blur(function () {
+        var mobile = $(this).val();
+        if (mobile == "") {
+            $(this).next("span.correct").remove();
+            layer.tips('请填写您的手机号', '#mobile', {
+                tips: 1
+            });
+        } else if (!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(mobile)) {
+            $(this).next("span.correct").remove();
+            layer.msg("请填写正确的手机号");
+        } else {
+            $(this).next("span.correct").remove();
+            $(this).parent().append('<span class="correct"></span>');
+        }
+    })
+    $("#compellation").blur(function () {
+        var value = $(this).val();
+        var red = /^[\u2E80-\u9FFF]+$/;
+        if (value == "") {
+            $(this).next("span.correct").remove();
+            layer.tips('请填写你的真实姓名', '#compellation', {
+                tips: 1
+            });
+        } else if (!red.test(value)) {
+            $(this).next("span.correct").remove();
+            layer.msg("请输入中文名！不包含数字");
+            $(this).val("")
+        } else {
+            $(this).next("span.correct").remove();
+            $(this).parent().append('<span class="correct"></span>');
+        }
+    })
+    /*
+    $("#nickname").blur(function(){
+        var value=$(this).val();
+        if(value==""){
+            $(this).next("span.correct").remove();
+            layer.tips('亲~设置一个昵称呗', '#nickname', {
+                tips: 1
+            });
+        }else{
+            $(this).next("span.correct").remove();
+            $(this).parent().append('<span class="correct"></span>');
+        }
+    })
+    */
+    $("#password").blur(function () {
+        if ($(this).val() == "") {
+            $(this).next("span.correct").remove();
+            layer.msg("亲~设置密码呀！");
+        }
+    })
+    $("#confirm").blur(function () {
+        if ($(this).val() == "") {
+            $(this).next("span.correct").remove();
+            $("#password").next("span.correct").remove();
+            layer.msg("亲~设置密码呀！");
+        } else if ($(this).val() != $("#password").val()) {
+            $(this).next("span.correct").remove();
+            $("#password").next("span.correct").remove();
+            layer.msg("两次密码不一致，请重新输入")
+        } else {
+            $(this).next("span.correct").remove();
+            $("#password").next("span.correct").remove();
+            $("#password").parent().append('<span class="correct"></span>');
+            $(this).parent().append('<span class="correct"></span>');
+        }
+    })
+    // 验证码
+    var wait = 60;
+
+    function time() {
+        var TB = document.getElementById('verification_button');
+        if (wait == 0) {
+            TB.removeAttribute("disabled");
+            TB.value = "获取验证码";
+            wait = 60;
+        } else {
+            TB.setAttribute("disabled", true);
+            TB.value = "重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function () {
+                    time()
+                },
+                1000)
+        }
+    }
+
+    // document.getElementById("btn").onclick=function(){time(this);}
+    $(".verification").on("click", function () {
+        var mobile = $("#mobile").val();
+        if ($("#mobile").val() == "") {
+            layer.tips('请填写您的手机号', '#mobile', {
+                tips: 1
+            });
+        } else if (!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(mobile)) {
+            layer.msg("请填写正确的手机号");
+        } else {
+            getverify();
+        }
+    })
+
+    function getverify() {
+        var url = "{:U('APP/Phone/get_phone_code')}";
+        $.post(url,
+            {
+                telphone: $('#mobile').val(),
+                send_type: 'R'
+            },
+            function (re) {
+                if (re.code == 400) {
+                    $('#m_phone_code').val(re.result['m_phone_code']);
+                    time();
+                    alert(re.msg);
+                } else {
+                    alert(re.msg);
+                }
+            }
+        );
+    }
+</script>

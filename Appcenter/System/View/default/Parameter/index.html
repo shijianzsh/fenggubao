@@ -1,0 +1,846 @@
+<style>
+.zc_message input,
+.zc_message textarea {
+	box-shadow: 1px 1px 3px #ccc inset;
+	color: #676a6c !important;
+	font-weight: bold;
+}
+.zc_message input:focus,
+.zc_message textarea:focus {
+	background: #FFC2C2;
+	box-shadow: -3px 0px 0px #D20000 inset;
+	color: #D20000 !important;
+}
+.zc_message input {
+	font-weight: bold;
+}
+.zc_message textarea {
+	padding: 10px;
+}
+.zc_message input[type='radio'] {
+	width: 30px !important;
+	border: none;
+	box-shadow: none;
+}
+#ad_click_enable_week input {
+	box-shadow: none;
+}
+.config_title {
+	font-weight: bold;
+	color: blue;
+	line-height: 30px;
+}
+.shuoming_big td {
+	padding: 0;
+	padding: 10px 0;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	background: #00A0E9;
+	color: #fff;
+}
+</style>
+
+<div class="zc_anwia">
+	<h2>参数设置</h2>
+</div>
+<div class="zc_message clear">
+	<div class="shuoming_warning">以下参数涉及兑换资金等重要信息，请谨慎操作！</div>
+	<form name="form" method="post" action="__CONTROLLER__/parameterSave/" class="form-inline clear">
+		<table id="zc_Sasnfisd">
+			<tbody>
+				<tr class="shuoming_big"><td colspan="2">平台配置</td></tr>
+                <tr>
+					<td class="partxt zc_ldaia">系统名称</td>
+					<td>
+						<input name="data[site_name]" type="text" value="{$data.site_name}" class="form-control w2 zc_if_empty"  id="zc_form_input" />
+					</td>
+                </tr>
+
+                <tr>
+					<td class="partxt zc_ldaia">版权</td>
+					<td>
+						<input name="data[copyright]" type="text" value="{$data.copyright}" class="form-control w2 zc_if_empty" style="width:50% !important;" />
+					</td>
+                </tr>
+                
+                <!--<tr>-->
+					<!--<td class="partxt zc_ldaia">第三方平台货币互转</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--<span>货币互转开关：</span>-->
+							<!--<select name="data[third_currency_transfer]">-->
+								<!--<option vlaue="0" <if condition="C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER') eq '0'">selected</if> >关闭</option>-->
+								<!--<option value="1" <if condition="C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER') eq '1'">selected</if> >开启</option>-->
+							<!--</select>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>互转最小金额：</span><input name="data[third_currency_transfer_min]" type="text" value="{:C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER_MIN')}" class="form-control w1 zc_if_price" />，-->
+							<!--<span>货币互转倍数：</span><input name="data[third_currency_transfer_bei]" type="text" value="{:C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER_BEI')}" class="form-control w1 zc_if_figure" />，-->
+							<!--<span>转出至第三方手续费：</span>-->
+							<!--<input name="data[third_currency_transfer_out_bai]" type="text" value="{:C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER_OUT_BAI')}" class="form-control w1 zc_if_price" /><span>%，</span>-->
+							<!--<span>第三方转入手续费：</span>-->
+							<!--<input name="data[third_currency_transfer_in_bai]" type="text" value="{:C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER_IN_BAI')}" class="form-control w1 zc_if_price" /><span>%</span>-->
+						<!--</p>-->
+						<!--<p><span>互转规则说明：</span></p>-->
+						<!--<p>	-->
+							<!--<textarea name="data[third_currency_transfer_description]" cols="30" rows="3" class="form-control">{:C('PARAMETER_CONFIG.THIRD_CURRENCY_TRANSFER_DESCRIPTION')}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">现金币提现</td>-->
+					<!--<td>-->
+						<!--<p>-->
+						<!--<span>用户：</span>-->
+						<!--<span>最小金额</span><input name="data[tiqu_cash_min]" type="text" value="{$data.tiqu_cash_min}" class="form-control w1 zc_if_figure" />,-->
+						<!--<span>现金币倍数</span><input name="data[tiqu_cash_bei]" type="text" value="{$data.tiqu_cash_bei}" class="form-control w1 zc_if_figure" />,-->
+						<!--<span>支付宝：</span>-->
+						<!--<input name="data[tiqu_fee]" type="text" value="{$data.tiqu_fee}" class="form-control w1 zc_if_price" /><span>%,</span>-->
+						<!--<span>微&nbsp;&nbsp;&nbsp;&nbsp;信：</span>-->
+						<!--<input name="data[tiqu_fee_weixin]" type="text" value="{$data.tiqu_fee_weixin}" class="form-control w1 zc_if_price" /><span>%,</span>-->
+						<!--<span>银行卡：</span>-->
+						<!--<input name="data[tiqu_fee_bank]" type="text" value="{$data.tiqu_fee_bank}" class="form-control w1 zc_if_price" /><span>%</span>-->
+						<!--</p>-->
+						<!--<p>-->
+						<!--<span>商家：</span>-->
+						<!--<span>最小金额</span><input name="data[tiqu_cash_min_merchant]" type="text" value="{$data.tiqu_cash_min_merchant}" class="form-control w1 zc_if_figure" />,-->
+						<!--<span>现金币倍数</span><input name="data[tiqu_cash_bei_merchant]" type="text" value="{$data.tiqu_cash_bei_merchant}" class="form-control w1 zc_if_figure" />,-->
+						<!--<span>支付宝：</span>-->
+						<!--<input name="data[tiqu_fee_merchant]" type="text" value="{$data.tiqu_fee_merchant}" class="form-control w1 zc_if_price" /><span>%,</span>-->
+						<!--<span>微&nbsp;&nbsp;&nbsp;&nbsp;信：</span>-->
+						<!--<input name="data[tiqu_fee_weixin_merchant]" type="text" value="{$data.tiqu_fee_weixin_merchant}" class="form-control w1 zc_if_price" /><span>%,</span>-->
+						<!--<span>银行卡：</span>-->
+						<!--<input name="data[tiqu_fee_bank_merchant]" type="text" value="{$data.tiqu_fee_bank_merchant}" class="form-control w1 zc_if_price" /><span>%</span>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">现金币转公让宝</td>-->
+					<!--<td>-->
+						<!--<span>现金币转公让宝最小金额</span><input name="data[cash_goldcoin_min]" type="text" value="{:C('CASHTOGOLDCOIN.cash_goldcoin_min')}" class="form-control w1 zc_if_figure" />-->
+						<!--<span>,现金币转公让宝倍数</span><input name="data[cash_goldcoin_bei]" type="text" value="{:C('CASHTOGOLDCOIN.cash_goldcoin_bei')}" class="form-control w1 zc_if_figure" />-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">现金币转赠</td>-->
+					<!--<td>-->
+						<!--<span>现金币转帐最小金额</span><input name="data[cash_min]" type="text" value="{:C('CASHTOGOLDCOIN.cash_min')}" class="form-control w1 zc_if_figure" />-->
+						<!--<span>,现金币转帐倍数</span><input name="data[cash_bei]" type="text" value="{:C('CASHTOGOLDCOIN.cash_bei')}" class="form-control w1 zc_if_figure" />-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">公让宝兑现比率</td>-->
+					<!--<td>-->
+					<!--<span>1个公让宝=</span><input name="data[rate_dai]" type="text" value="{$data.rate_dai}" class="form-control w1 zc_if_price" /><span>元</span>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<input type="hidden" name="data[service_company_points]" value="1">-->
+				 <!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">商家类型配置</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--<span>普通商家：</span><span>每日可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_day_1]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_day_1']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝，每周可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_week_1]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_week_1']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝</span>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>中型商家：</span><span>每日可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_day_2]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_day_2']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝，每周可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_week_2]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_week_2']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝</span>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>大型商家：</span><span>每日可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_day_3]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_day_3']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝，每周可赠公让宝上限为</span>-->
+							<!--<input type="text" name="data[points_merchant_max_week_3]" value="{:C('PARAMETER_CONFIG.MERCHANT')['points_merchant_max_week_3']}" class="form-control w1 zc_if_number">-->
+							<!--<span>公让宝</span>-->
+						<!--</p>-->
+						<!--<p class="shuoming">注意：系统会优先按照每日上限积分进行商家公让宝的判断，若需按每周上限则每日上限的值需为0</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">买单/购物</td>-->
+					<!--<td>-->
+						<!--<p class="config_title">自营店铺兑换：</p>-->
+						<!--<p>-->
+							<!--平台付给商家的金额为应给商家金额的-->
+							<!--<input name="data[colorcoin_pay_bai]" type="text" value="{:C('PARAMETER_CONFIG.COLORCOIN_PAY_BAI')}" class="form-control w1 zc_if_money"/>%-->
+						<!--</p>-->
+						<!--<p class="config_title">非自营店铺兑换：</p>-->
+						<!--<p>-->
+							<!--平台付给商家的金额为应给商家金额的-->
+							<!--<input name="data[v51_shop_custom_pay_bai]" type="text" value="{$data.v51_shop_custom_pay_bai}" class="form-control w1 zc_if_money"/>%-->
+						<!--</p>-->
+						<!--<p class="shuoming">-->
+							<!--应给商家金额 = 订单总额 - 可用虚拟币金额 - 平台毛利润金额-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td>平台毛利润</td>-->
+					<!--<td>-->
+						<!--平台毛利润为买单或购物时可用公让宝或特供券金额的<input type="text" name="data[v51_system_proftis_bai]" value="{$data.v51_system_proftis_bai}" class="zc_if_empty zc_if_price">%-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td>责任消费</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--按天计算：责任消费金额需为平台收益总额的<input type="text" name="data[duty_consume_week_bai]" value="{$data.duty_consume_week_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--用户待责任消费金额满<input type="text" name="data[v51_duty_consume_total_amount]" value="{$data.v51_duty_consume_total_amount}" class="zc_if_empty zc_if_price">元时自动执行责任消费并给上级分发责任消费奖，-->
+							<!--同时该用户可获得责任消费金额的<input type="text" name="data[duty_consume_exchange_bei]" value="{$data.duty_consume_exchange_bei}" class="zc_if_price">倍的公让宝-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--  
+				<tr>
+					<td>乐享币</td>
+					<td>
+						<p>用户每笔收益转为乐享币的金额占收益金额的<input type="text" name="data[duty_consume_enjoy_bai]" value="{$data.duty_consume_enjoy_bai}" class="zc_if_empty zc_if_price">%，
+							转为乐享币的倍数为<input type="text" name="data[duty_consume_enjoy_bei]" value="{$data.duty_consume_enjoy_bei}" class="zc_if_empty zc_if_price">倍
+						</p>
+					</td>
+				</tr>
+				-->
+				
+				<!--<tr>-->
+					<!--<td>个人所得税</td>-->
+					<!--<td>用户系统收益需缴纳个人所得税为收益金额的<input type="text" name="data[fee_person_profits]" value="{$data.fee_person_profits}" class="zc_if_empty zc_if_price">%</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>平台管理费</td>-->
+					<!--<td>用户系统收益需缴纳平台管理费为收益金额的<input type="text" name="data[fee_system_manage]" value="{$data.fee_system_manage}" class="zc_if_empty zc_if_price">%</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td>免费区</td>-->
+					<!--<td>-->
+						<!--兑换成功后可获赠支付金额的<input type="text" name="data[v51_block_free_return_buyer_bai]" value="{$data.v51_block_free_return_buyer_bai}" class="zc_if_empty zc_if_price">%公让宝-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr class="shuoming_big"><td colspan="2">申请配置</td></tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">申请创客</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--<span>支付金额：</span>-->
+							<!--<input name="data[reg_money]" type="text" value="{$data.reg_money}" class="form-control w1 zc_if_figure" />-->
+							<!--<span>-->
+								<!--元，是否启用支付：-->
+								<!--<select name="data[reg_money_enable]">-->
+									<!--<option vlaue="0" <if condition="C('PARAMETER_CONFIG.REG_MONEY_ENABLE') eq '0'">selected</if> >否</option>-->
+									<!--<option value="1" <if condition="C('PARAMETER_CONFIG.REG_MONEY_ENABLE') eq '1'">selected</if> >是</option>-->
+								<!--</select>-->
+							<!--</span>-->
+							<!--<span class="shuoming">说明：选择[否]则按照满足分享3个用户即可申请成为创客</span>-->
+						<!--</p>-->
+						<!--<p>申请创客说明：</p>-->
+						<!--<p>-->
+							<!--<textarea name="data[reg_condition_description]" id="reg_condition_description" cols="30" rows="3" class="form-control">{:C('PARAMETER_CONFIG.REG_CONDITION_DESCRIPTION')}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">申请区域合伙人</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--申请区域合伙人赠送特供券和公让宝自动结算：每月<input type="text" name="data[company_return_amount]" value="{$data.company_return_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--共结算月数为<input type="text" name="data[company_return_month]" value="{$data.company_return_month}" class="zc_if_empty zc_if_number">个月-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>申请银卡代理</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--申请银卡代理需缴纳费用<input type="text" name="data[v51_micro_vip_apply_amount]" value="{$data.v51_micro_vip_apply_amount}" class="zc_if_empty zc_if_price">元,-->
+							<!--可使用注册币的金额为缴纳费用的<input type="text" name="data[v51_micro_vip_apply_use_enroll_bai]" value="{$data.v51_micro_vip_apply_use_enroll_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请银卡代理赠送特供券和公让宝自动结算：每月分别为<input type="text" name="data[v51_micro_vip_apply_return_amount]" value="{$data.v51_micro_vip_apply_return_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--共结算月数为<input type="text" name="data[v51_micro_vip_apply_return_month]" value="{$data.v51_micro_vip_apply_return_month}" class="zc_if_empty zc_if_number">个月-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请银卡代理赠送<input type="text" name="data[v51_micro_vip_apply_return_enroll_amount]" value="{$data.v51_micro_vip_apply_return_enroll_amount}" class="zc_if_empty zc_if_price">注册币-->
+						<!--</p>-->
+						<!--<p>申请银卡代理说明：</p>-->
+						<!--<p>-->
+							<!--<textarea name="data[v51_micro_vip_apply_intro]" cols="30" rows="3" class="form-control">{$data.v51_micro_vip_apply_intro}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>申请金卡代理</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--申请金卡代理需缴纳费用<input type="text" name="data[vip_apply_amount]" value="{$data.vip_apply_amount}" class="zc_if_empty zc_if_price">元,-->
+							<!--可使用注册币的金额为缴纳费用的<input type="text" name="data[vip_apply_use_enroll_bai]" value="{$data.vip_apply_use_enroll_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请金卡代理赠送特供券和公让宝自动结算：每月分别为<input type="text" name="data[vip_apply_return_amount]" value="{$data.vip_apply_return_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--共结算月数为<input type="text" name="data[vip_apply_return_month]" value="{$data.vip_apply_return_month}" class="zc_if_empty zc_if_number">个月-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请金卡代理赠送<input type="text" name="data[v51_vip_apply_return_enroll_amount]" value="{$data.v51_vip_apply_return_enroll_amount}" class="zc_if_empty zc_if_price">注册币-->
+						<!--</p>-->
+						<!--<p>申请金卡代理说明：</p>-->
+						<!--<p>-->
+							<!--<textarea name="data[vip_apply_intro]" cols="30" rows="3" class="form-control">{$data.vip_apply_intro}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>申请钻卡代理</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--申请钻卡代理需缴纳总费用<input type="text" name="data[honour_vip_apply_amount]" value="{$data.honour_vip_apply_amount}" class="zc_if_empty zc_if_price">元,-->
+							<!--可使用注册币的金额为缴纳费用的<input type="text" name="data[honour_vip_apply_use_enroll_bai]" value="{$data.honour_vip_apply_use_enroll_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--首次所需缴纳定金的金额<input type="text" name="data[honour_vip_apply_first_amount]" value="{$data.honour_vip_apply_first_amount}" class="zc_if_empty zc_if_price">元-->
+							<!--<span class="shuoming">此值不能为0，且不能大于所需缴纳的总费用，当等于总费用时视为需一次性支付完成</span>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请钻卡代理赠送特供券和公让宝自动结算：每月分别为<input type="text" name="data[honour_vip_apply_return_amount]" value="{$data.honour_vip_apply_return_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--共结算月数为<input type="text" name="data[honour_vip_apply_return_month]" value="{$data.honour_vip_apply_return_month}" class="zc_if_empty zc_if_number">个月-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--申请钻卡代理赠送<input type="text" name="data[v51_honour_vip_apply_return_enroll_amount]" value="{$data.v51_honour_vip_apply_return_enroll_amount}" class="zc_if_empty zc_if_price">注册币-->
+						<!--</p>-->
+						<!--<p>申请钻卡代理说明：</p>-->
+						<!--<p>-->
+							<!--<textarea name="data[honour_vip_apply_intro]" cols="30" rows="3" class="form-control">{$data.honour_vip_apply_intro}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr class="shuoming_big"><td colspan="2">互动配置</td></tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>注册</td>-->
+					<!--<td>注册送<input type="text" name="data[v51_reg_give_goldcoin_amount]" value="{$data.v51_reg_give_goldcoin_amount}" class="zc_if_empty zc_if_number">公让宝</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>签到</td>-->
+					<!--<td>签到送<input type="text" name="data[sign_points]" value="{$data.sign_points}" class="zc_if_empty zc_if_number">公让宝</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">摇一摇</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--<span>设定用户摇奖次数</span><input name="data[b7]" type="text" value="{$data.b7}" class="form-control w1 zc_if_figure" />-->
+							<!--<span>，中奖次数</span><input name="data[b8]" type="text" value="{$data.b8}" class="form-control w1 zc_if_figure" /><span>+不中次数</span><input name="data[b9]" type="text" value="{$data.b9}" class="form-control w1 zc_if_figure" /><span>=100</span>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>每天摇中同一商家的次数</span><input name="data[b10]" type="text" value="{$data.b10}" class="form-control w1 zc_if_figure" />-->
+							<!--<span>，每天分享朋友圈后可增加摇一摇的次数</span><input name="data[b11]" type="text" value="{$data.b11}" class="form-control w1 zc_if_figure" />-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--摇一摇收益币种的概率为： 现金币<input type="text" name="data[shake_cash_bai]" value="{$data.shake_cash_bai}" class="zc_if_empty zc_if_number">% + -->
+							<!--公让宝<input type="text" name="data[shake_credits_bai]" value="{$data.shake_credits_bai}" class="zc_if_empty zc_if_number">% = 100%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--商家发布摇一摇最小金额为<input type="text" name="data[shake_push_amount_min]" value="{$data.shake_push_amount_min}" class="zc_if_empty zc_if_price">元，-->
+							<!--每次摇的最小金额为<input type="text" name="data[shake_amount_min]" value="{$data.shake_amount_min}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--商家发布摇一摇回本金额为发布金额的<input type="text" name="data[shake_return_bei]" value="{$data.shake_return_bei}" class="zc_if_empty zc_if_price">倍,-->
+							<!--分为<input type="text" name="data[shake_return_day]" value="{$data.shake_return_day}" class="zc_if_empty zc_if_number">天回本完毕-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--商家摇一摇发布后的供用户摇的实际金额为商家发布金额的<input type="text" name="data[shake_amount_bai]" value="{$data.shake_amount_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>看广告</td>-->
+					<!--<td>-->
+						<!--<p>-->
+							<!--<span>广告开关：</span>-->
+							<!--<select name="data[ad_switch]">-->
+								<!--<option vlaue="0" <if condition="$data[ad_switch] eq '0'">selected</if> >关闭</option>-->
+								<!--<option value="1" <if condition="$data[ad_switch] eq '1'">selected</if> >开启</option>-->
+							<!--</select>-->
+							<!--<i style="color:red;">当前状态:<if condition="$data[ad_switch] eq '1'">开启中<else/>已关闭</if></i>-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>关闭时的提示信息：</span>-->
+							<!--<input type="text" name="data[ad_close_msg]" value="{$data.ad_close_msg}"  class="inputWidth800">-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--<span>每天可点广告的起始时间：</span>-->
+							<!--<input type="text" name="data[ad_click_enable_hour]" value="{$data.ad_click_enable_hour}" class="zc_if_empty zc_if_number">点(24小时制)-->
+						<!--</p>-->
+						<!--<p id="ad_click_enable_week">-->
+							<!--<span>每周星期几可点击广告:</span>-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="1" <php>if (preg_match('/1/', $data[ad_click_enable_week])) echo 'checked';</php> >星期一-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="2" <php>if (preg_match('/2/', $data[ad_click_enable_week])) echo 'checked';</php> >星期二-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="3" <php>if (preg_match('/3/', $data[ad_click_enable_week])) echo 'checked';</php> >星期三-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="4" <php>if (preg_match('/4/', $data[ad_click_enable_week])) echo 'checked';</php> >星期四-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="5" <php>if (preg_match('/5/', $data[ad_click_enable_week])) echo 'checked';</php> >星期五-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="6" <php>if (preg_match('/6/', $data[ad_click_enable_week])) echo 'checked';</php> >星期六-->
+							<!--<input type="checkbox" name="data[ad_click_enable_week][]" value="0" <php>if (preg_match('/0/', $data[ad_click_enable_week])) echo 'checked';</php> >星期日-->
+						<!--</p>-->
+						<!--<p class="config_title">现金每天最高收益限额：</p>-->
+						<!--<p>-->
+							<!--体验用户<input type="text" name="data[ad_profits_day_level_1_amount]" value="{$data.ad_profits_day_level_1_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--正式会员<input type="text" name="data[ad_profits_day_level_2_amount]" value="{$data.ad_profits_day_level_2_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--银卡代理<input type="text" name="data[v51_ad_profits_day_level_5_amount]" value="{$data.v51_ad_profits_day_level_5_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--金卡代理<input type="text" name="data[ad_profits_day_level_6_amount]" value="{$data.ad_profits_day_level_6_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--钻卡代理<input type="text" name="data[ad_profits_day_level_7_amount]" value="{$data.ad_profits_day_level_7_amount}" class="zc_if_empty zc_if_price">-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--&lt;!&ndash; 服务中心<input type="text" name="data[ad_profits_day_role_3_amount]" value="{$data.ad_profits_day_role_3_amount}" class="zc_if_empty zc_if_price">， &ndash;&gt;-->
+							<!--区域合伙人<input type="text" name="data[ad_profits_day_role_4_amount]" value="{$data.ad_profits_day_role_4_amount}" class="zc_if_empty zc_if_price">-->
+						<!--</p>-->
+						<!--<p class="config_title">公让宝每天最高收益限额：</p>-->
+						<!--<p>-->
+							<!--体验用户<input type="text" name="data[ad_profits_day_level_1_credits_amount]" value="{$data.ad_profits_day_level_1_credits_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--正式会员<input type="text" name="data[ad_profits_day_level_2_credits_amount]" value="{$data.ad_profits_day_level_2_credits_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--银卡代理<input type="text" name="data[v51_ad_profits_day_level_5_credits_amount]" value="{$data.v51_ad_profits_day_level_5_credits_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--金卡代理<input type="text" name="data[ad_profits_day_level_6_credits_amount]" value="{$data.ad_profits_day_level_6_credits_amount}" class="zc_if_empty zc_if_price">，-->
+							<!--钻卡代理<input type="text" name="data[ad_profits_day_level_7_credits_amount]" value="{$data.ad_profits_day_level_7_credits_amount}" class="zc_if_empty zc_if_price">-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--&lt;!&ndash; 服务中心<input type="text" name="data[ad_profits_day_role_3_credits_amount]" value="{$data.ad_profits_day_role_3_credits_amount}" class="zc_if_empty zc_if_price">， &ndash;&gt;-->
+							<!--区域合伙人<input type="text" name="data[ad_profits_day_role_4_credits_amount]" value="{$data.ad_profits_day_role_4_credits_amount}" class="zc_if_empty zc_if_price">-->
+						<!--</p>-->
+						<!--<p class="config_title">同一广告不同身份的对应价格：</p>-->
+						<!--<p>-->
+							<!--体验用户<input type="text" name="data[ad_profits_day_level_1_bai]" value="{$data.ad_profits_day_level_1_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--正式会员<input type="text" name="data[ad_profits_day_level_2_bai]" value="{$data.ad_profits_day_level_2_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--银卡代理<input type="text" name="data[v51_ad_profits_day_level_5_bai]" value="{$data.v51_ad_profits_day_level_5_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--金卡代理<input type="text" name="data[ad_profits_day_level_6_bai]" value="{$data.ad_profits_day_level_6_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--钻卡代理<input type="text" name="data[ad_profits_day_level_7_bai]" value="{$data.ad_profits_day_level_7_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--&lt;!&ndash; 服务中心<input type="text" name="data[ad_profits_day_role_3_bai]" value="{$data.ad_profits_day_role_3_bai}" class="zc_if_empty zc_if_price">%， &ndash;&gt;-->
+							<!--区域合伙人<input type="text" name="data[ad_profits_day_role_4_bai]" value="{$data.ad_profits_day_role_4_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--【体验用户和创客】获取收益币种概率：-->
+							<!--现金币<input type="text" name="data[ad_profits_cash_bai]" value="{$data.ad_profits_cash_bai}" class="zc_if_empty zc_if_price">% +-->
+							<!--公让宝<input type="text" name="data[ad_profits_credits_bai]" value="{$data.ad_profits_credits_bai}" class="zc_if_empty zc_if_price">%  = 100%-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--【银卡代理、金卡代理、钻卡代理、区域合伙人】获取收益币种概率：-->
+							<!--现金币<input type="text" name="data[ad_profits_vip_cash_bai]" value="{$data.ad_profits_vip_cash_bai}" class="zc_if_empty zc_if_price">% +-->
+							<!--公让宝<input type="text" name="data[ad_profits_vip_credits_bai]" value="{$data.ad_profits_vip_credits_bai}" class="zc_if_empty zc_if_price">%  = 100%-->
+						<!--</p>-->
+						<!--<p class="config_title">可享有看广告收益的年数（针对银卡代理、金卡代理、钻卡代理）：</p>-->
+						<!--<p>-->
+							<!--推介1人：可享有<input type="text" name="data[v51_ad_use_year_by_recommand_1]" value="{$data.v51_ad_use_year_by_recommand_1}" class="zc_if_empty zc_if_number">年收益，-->
+							<!--推介2人：可享有<input type="text" name="data[v51_ad_use_year_by_recommand_2]" value="{$data.v51_ad_use_year_by_recommand_2}" class="zc_if_empty zc_if_number">年收益，-->
+							<!--推介3人及以上：可享有<input type="text" name="data[v51_ad_use_year_by_recommand_3]" value="{$data.v51_ad_use_year_by_recommand_3}" class="zc_if_empty zc_if_number">年收益-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr class="shuoming_big"><td colspan="2">奖项配置</td></tr>-->
+				<!--  
+				<tr>
+					<td>通用规则</td>
+					<td class="shuoming">
+						<p>银卡代理：只能拿推广奖，其他奖项均不能获取</p>
+					</td>
+				</tr>
+				-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">商家联盟奖</td>-->
+					<!--<td>-->
+						<!--<span>拿平台毛利润的</span><input name="data[marchant_bai]" type="text" value="{$data.marchant_bai}" class="form-control w1 zc_if_price" /><span>%</span>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>联盟投放奖</td>-->
+					<!--<td>-->
+						<!--联盟投放奖金额为商家发布摇一摇金额的<input type="text" name="data[profits_union_delivery_bai]" value="{$data.profits_union_delivery_bai}" class="zc_if_empty zc_if_price">%-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>直推奖</td>-->
+					<!--<td>-->
+						<!--<p class="config_title">申请银卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--<input type="text" name="data[v51_profits_market_subsidy_1_by_micro_vip_amount]" value="{$data.v51_profits_market_subsidy_1_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请金卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--<input type="text" name="data[v51_profits_market_subsidy_1_by_vip_amount]" value="{$data.v51_profits_market_subsidy_1_by_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请钻卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--<input type="text" name="data[v51_profits_market_subsidy_1_by_honour_vip_amount]" value="{$data.v51_profits_market_subsidy_1_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>见点奖</td>-->
+					<!--<td>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--2代  + 3代 - <input type="text" name="data[v51_profits_market_subsidy_all_median_dai]" value="{$data.v51_profits_market_subsidy_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_market_subsidy_all_max_dai]" value="{$data.v51_profits_market_subsidy_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">申请银卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--2代：<input type="text" name="data[v51_profits_market_subsidy_2_by_micro_vip_amount]" value="{$data.v51_profits_market_subsidy_2_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_market_subsidy_median_by_micro_vip_amount]" value="{$data.v51_profits_market_subsidy_median_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_market_subsidy_max_by_micro_vip_amount]" value="{$data.v51_profits_market_subsidy_max_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请金卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--2代：<input type="text" name="data[v51_profits_market_subsidy_2_by_vip_amount]" value="{$data.v51_profits_market_subsidy_2_by_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_market_subsidy_median_by_vip_amount]" value="{$data.v51_profits_market_subsidy_median_by_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_market_subsidy_max_by_vip_amount]" value="{$data.v51_profits_market_subsidy_max_by_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请钻卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--2代：<input type="text" name="data[v51_profits_market_subsidy_2_by_honour_vip_amount]" value="{$data.v51_profits_market_subsidy_2_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_market_subsidy_median_by_honour_vip_amount]" value="{$data.v51_profits_market_subsidy_median_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_market_subsidy_max_by_honour_vip_amount]" value="{$data.v51_profits_market_subsidy_max_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">通用配置</p>-->
+						<!--<p>-->
+							<!--直推人数满足<input type="text" name="data[v51_profits_public_recommand_people_count]" value="{$data.v51_profits_public_recommand_people_count}" class="zc_if_empty zc_if_number">人的用户可获取<input type="text" name="data[v51_profits_public_recommand_dai]" value="{$data.v51_profits_public_recommand_dai}" class="zc_if_empty zc_if_number">代的奖项收益，-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--直推人数满足<input type="text" name="data[v51_profits_public_recommand_people_count_1]" value="{$data.v51_profits_public_recommand_people_count_1}" class="zc_if_empty zc_if_number">人的用户可获取<input type="text" name="data[v51_profits_public_recommand_dai_1]" value="{$data.v51_profits_public_recommand_dai_1}" class="zc_if_empty zc_if_number">代的奖项收益，-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--直推人数满足<input type="text" name="data[v51_profits_public_recommand_people_count_2]" value="{$data.v51_profits_public_recommand_people_count_2}" class="zc_if_empty zc_if_number">人的用户可获取<input type="text" name="data[v51_profits_public_recommand_dai_2]" value="{$data.v51_profits_public_recommand_dai_2}" class="zc_if_empty zc_if_number">代的奖项收益，-->
+						<!--</p>-->
+						<!--<p>-->
+							<!--直推人数满足<input type="text" name="data[v51_profits_public_recommand_people_count_3]" value="{$data.v51_profits_public_recommand_people_count_3}" class="zc_if_empty zc_if_number">人的用户可获取<input type="text" name="data[v51_profits_public_recommand_dai_3]" value="{$data.v51_profits_public_recommand_dai_3}" class="zc_if_empty zc_if_number">代的奖项收益-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>机构补贴奖</td>-->
+					<!--<td>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_framework_subsidy_all_median_dai]" value="{$data.v51_profits_framework_subsidy_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_framework_subsidy_all_max_dai]" value="{$data.v51_profits_framework_subsidy_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">申请银卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_framework_subsidy_1_by_micro_vip_amount]" value="{$data.v51_profits_framework_subsidy_1_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--2代：<input type="text" name="data[v51_profits_framework_subsidy_2_by_micro_vip_amount]" value="{$data.v51_profits_framework_subsidy_2_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_framework_subsidy_median_by_micro_vip_amount]" value="{$data.v51_profits_framework_subsidy_median_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_framework_subsidy_max_by_micro_vip_amount]" value="{$data.v51_profits_framework_subsidy_max_by_micro_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请金卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_framework_subsidy_1_by_vip_amount]" value="{$data.v51_profits_framework_subsidy_1_by_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--2代：<input type="text" name="data[v51_profits_framework_subsidy_2_by_vip_amount]" value="{$data.v51_profits_framework_subsidy_2_by_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_framework_subsidy_median_by_vip_amount]" value="{$data.v51_profits_framework_subsidy_median_by_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_framework_subsidy_max_by_vip_amount]" value="{$data.v51_profits_framework_subsidy_max_by_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="config_title">申请钻卡代理时可获收益：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_framework_subsidy_1_by_honour_vip_amount]" value="{$data.v51_profits_framework_subsidy_1_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--2代：<input type="text" name="data[v51_profits_framework_subsidy_2_by_honour_vip_amount]" value="{$data.v51_profits_framework_subsidy_2_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_framework_subsidy_median_by_honour_vip_amount]" value="{$data.v51_profits_framework_subsidy_median_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_framework_subsidy_max_by_honour_vip_amount]" value="{$data.v51_profits_framework_subsidy_max_by_honour_vip_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>责任消费奖</td>-->
+					<!--<td>-->
+						<!--<p class="shuoming">针对银卡代理/金卡代理/钻卡代理：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_duty_consume_all_median_dai]" value="{$data.v51_profits_duty_consume_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_duty_consume_all_max_dai]" value="{$data.v51_profits_duty_consume_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获收益占责任消费金额的百分比：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_duty_consume_1_bai]" value="{$data.v51_profits_duty_consume_1_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--2代：<input type="text" name="data[v51_profits_duty_consume_2_bai]" value="{$data.v51_profits_duty_consume_2_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_duty_consume_median_bai]" value="{$data.v51_profits_duty_consume_median_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_duty_consume_max_bai]" value="{$data.v51_profits_duty_consume_max_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p class="shuoming">针对区域合伙人：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_duty_consume_company_all_median_dai]" value="{$data.v51_profits_duty_consume_company_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_duty_consume_company_all_max_dai]" value="{$data.v51_profits_duty_consume_company_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获收益占责任消费金额的百分比：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_duty_consume_company_1_bai]" value="{$data.v51_profits_duty_consume_company_1_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--2代：<input type="text" name="data[v51_profits_duty_consume_company_2_bai]" value="{$data.v51_profits_duty_consume_company_2_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_duty_consume_company_median_bai]" value="{$data.v51_profits_duty_consume_company_median_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_duty_consume_company_max_bai]" value="{$data.v51_profits_duty_consume_company_max_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>实体消费奖</td>-->
+					<!--<td>-->
+						<!--<p class="shuoming">针对银卡代理/金卡代理/钻卡代理：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_repeat_consume_all_median_dai]" value="{$data.v51_profits_repeat_consume_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_repeat_consume_all_max_dai]" value="{$data.v51_profits_repeat_consume_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获收益占毛利润金额的百分比：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_repeat_consume_1_bai]" value="{$data.v51_profits_repeat_consume_1_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--2代：<input type="text" name="data[v51_profits_repeat_consume_2_bai]" value="{$data.v51_profits_repeat_consume_2_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_repeat_consume_median_bai]" value="{$data.v51_profits_repeat_consume_median_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_repeat_consume_max_bai]" value="{$data.v51_profits_repeat_consume_max_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+						<!--<p class="shuoming">针对区域合伙人：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_repeat_consume_company_all_median_dai]" value="{$data.v51_profits_repeat_consume_company_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_repeat_consume_company_all_max_dai]" value="{$data.v51_profits_repeat_consume_company_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获收益占毛利润金额的百分比：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[v51_profits_repeat_consume_company_1_bai]" value="{$data.v51_profits_repeat_consume_company_1_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--2代：<input type="text" name="data[v51_profits_repeat_consume_company_2_bai]" value="{$data.v51_profits_repeat_consume_company_2_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_repeat_consume_company_median_bai]" value="{$data.v51_profits_repeat_consume_company_median_bai}" class="zc_if_empty zc_if_price">%，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_repeat_consume_company_max_bai]" value="{$data.v51_profits_repeat_consume_company_max_bai}" class="zc_if_empty zc_if_price">%-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td>免费补贴奖</td>-->
+					<!--<td>-->
+						<!--<p class="shuoming">针对银卡代理/金卡代理/钻卡代理：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_free_subsidy_all_median_dai]" value="{$data.v51_profits_free_subsidy_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_free_subsidy_all_max_dai]" value="{$data.v51_profits_free_subsidy_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获取收益金额：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[profits_free_subsidy_vip_1_amount]" value="{$data.profits_free_subsidy_vip_1_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--2代：<input type="text" name="data[profits_free_subsidy_vip_2_amount]" value="{$data.profits_free_subsidy_vip_2_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_free_subsidy_median_amount]" value="{$data.v51_profits_free_subsidy_median_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_free_subsidy_max_amount]" value="{$data.v51_profits_free_subsidy_max_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+						<!--<p class="shuoming">针对区域合伙人：</p>-->
+						<!--<p class="config_title">可获取收益的代数：</p>-->
+						<!--<p>-->
+							<!--1代 + 2代  + 3代 - <input type="text" name="data[v51_profits_free_subsidy_company_all_median_dai]" value="{$data.v51_profits_free_subsidy_company_all_median_dai}" class="zc_if_empty zc_if_number">代(M) - <input type="text" name="data[v51_profits_free_subsidy_company_all_max_dai]" value="{$data.v51_profits_free_subsidy_company_all_max_dai}" class="zc_if_empty zc_if_number">代(N)-->
+						<!--</p>-->
+						<!--<p class="config_title">可获取收益金额：</p>-->
+						<!--<p>-->
+							<!--1代：<input type="text" name="data[profits_free_subsidy_company_1_amount]" value="{$data.profits_free_subsidy_company_1_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--2代：<input type="text" name="data[profits_free_subsidy_company_2_amount]" value="{$data.profits_free_subsidy_company_2_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--3-M代：<input type="text" name="data[v51_profits_free_subsidy_company_median_amount]" value="{$data.v51_profits_free_subsidy_company_median_amount}" class="zc_if_empty zc_if_price">元，-->
+							<!--M-N代：<input type="text" name="data[v51_profits_free_subsidy_company_max_amount]" value="{$data.v51_profits_free_subsidy_company_max_amount}" class="zc_if_empty zc_if_price">元-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+
+				<!--<tr class="shuoming_big"><td colspan="2">其他配置</td></tr>-->
+				<!-- [/v5.0新增] -->
+				
+				<!--  
+				<tr>
+					<td class="partxt zc_ldaia">丰收点</td>
+					<td>
+					<span>1丰收点 =</span><input name="data[points_to_bonus]" type="text" value="{$data.points_to_bonus}" class="form-control w1 zc_if_number" /><span>积分,</span>
+					<span>每丰收点丰收至公让宝比例：</span><input name="data[bonus_to_goldcoin]" type="text" value="{$data.bonus_to_goldcoin}" class="form-control w1 zc_if_number"/>%,
+					<span>每丰收点丰收至商超券比例：</span><input name="data[bonus_to_colorcoin]" type="text" value="{$data.bonus_to_colorcoin}" class="form-control w1 zc_if_number"/>%,
+					<span>每丰收点丰收至现金币比例：</span><input name="data[bonus_to_cash]" type="text" value="{$data.bonus_to_cash}" class="form-control w1 zc_if_number"/>%
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="partxt zc_ldaia">管理津贴</td>
+					<td>
+					<p><span>三星创客/服务中心管理津贴比例：</span><input name="data[star_3_bai]" type="text" value="{$data.star_3_bai}" class="form-control w1 zc_if_money"/><span>%，日封顶金额：</span><input name="data[star_3_today_gljt_max]" type="text" value="{$data.star_3_today_gljt_max}" class="form-control w1 zc_if_price" /><span>元</span></p>
+					<p><span>五星创客/区域合伙人管理津贴比例：</span><input name="data[star_5_bai]" type="text" value="{$data.star_5_bai}" class="form-control w1 zc_if_money"/><span>%，日封顶金额：</span><input name="data[star_5_today_gljt_max]" type="text" value="{$data.star_5_today_gljt_max}" class="form-control w1 zc_if_price" /><span>元</span></p>
+					<p><span>责任消费总额占管理津贴总额比例：</span><input name="data[gljt_zerenxiaofei_bai]" type="text" value="{$data.gljt_zerenxiaofei_bai}" class="form-control w1 zc_if_money"/><span>%</span></p>
+					<p><span>可以拿</span><input name="data[gljt_dai]" type="text" value="{$data.gljt_dai}" class="form-control w1 zc_if_number" /><span>代三星/五星/服务中心/区域合伙人体系内管理津贴</span></p>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="partxt zc_ldaia">用户丰收点封顶</td>
+					<td>
+						<p>
+							<span>封顶丰收点为</span><input type="text" name="data[member_bonus_max]" value="{$data.member_bonus_max}" class="form-control zc_if_number"><span>点，</span>
+							<span>向上浮动为</span><input type="text" name="data[member_bonus_float]" value="{$data.member_bonus_float}" class="form-control zc_if_number"><span>个丰收点</span>
+						</p>
+						<p>
+							<span>每日分红时，达到{$data.member_bonus_max}丰收点以上的用户每股金额按正常每股金额增加</span><input name="data[member_bonus_add_bai]" type="text" value="{$data.member_bonus_add_bai}" class="form-control w1 zc_if_money"/><span>%</span>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td class="partxt zc_ldaia">分时间段丰收</td>
+					<td>
+						<div class="shuoming">
+							<p>1、注册时间格式如：201701（年份：4位数字格式，月份：2位数字格式）</p>
+							<p>2、在以下时间段内注册的用户在丰收时，每丰收点金额以下面对应时间段的每丰收点金额为准</p>
+							<p>3、当以下时间段值全部为空时，则不启用分时间丰收功能</p>
+						</div>
+						<p>
+							<span>注册时间小于等于：</span>
+							<input type="text" name="data[share_bonus_section][0][time]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][0]['time']}" class="form-control">
+							<span>，每丰收点</span>
+							<input type="text" name="data[share_bonus_section][0][money]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][0]['money']}" class="form-control zc_if_price">
+							<span>元</span>
+						</p>
+						<p>
+							<span>注册时间小于等于：</span>
+							<input type="text" name="data[share_bonus_section][1][time]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][1]['time']}" class="form-control">
+							<span>，每丰收点</span>
+							<input type="text" name="data[share_bonus_section][1][money]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][1]['money']}" class="form-control zc_if_price">
+							<span>元</span>
+						</p>
+						<p>
+							<span>注册时间小于等于：</span>
+							<input type="text" name="data[share_bonus_section][2][time]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][2]['time']}" class="form-control">
+							<span>，每丰收点</span>
+							<input type="text" name="data[share_bonus_section][2][money]" value="{:C('PARAMETER_CONFIG.BONUS')['share_bonus_section'][2]['money']}" class="form-control zc_if_price">
+							<span>元</span>
+						</p>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="partxt zc_ldaia">特殊用户丰收</td>
+					<td>
+						<p>
+							<span>特殊用户每丰收点金额：</span>
+							<input type="text" name="data[bonus_special_member_amount]" value="{$data.bonus_special_member_amount}" class="form-control zc_if_price">元
+						</p>
+						<p><span>特殊用户帐号列表（多个用英文逗号,隔开）</span></p>
+						<p>
+							<textarea name="data[bonus_special_member]" class="form-control inputWidth800" cols="45" rows="3">{$data.bonus_special_member}</textarea>
+						</p>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>自动回本清零</td>
+					<td>
+						<p>不执行自动回本清零的特殊用户列表（多个用英文逗号,隔开）</p>
+						<p>
+							<textarea name="data[bonus_special_refund_member]" class="form-control inputWidth800" cols="45" rows="3">{$data.bonus_special_refund_member}</textarea>
+						</p>
+					</td>
+				</tr>
+				-->
+				
+				<!--<tr>-->
+					<!--<td>只能有广告收益的特殊用户</td>-->
+					<!--<td>-->
+						<!--<p>只能有广告收益的特殊用户列表（多个用英文逗号,隔开）</p>-->
+						<!--<p>-->
+							<!--<textarea name="data[profits_only_ad_member]" class="form-control inputWidth800" cols="45" rows="3">{$data.profits_only_ad_member}</textarea>-->
+						<!--</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">微信提现说明</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_instruction]" id="cash_withdraw_instruction" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_MSG')['instruction']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">微信提现规则</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_rule]" id="cash_withdraw_rule" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_MSG')['rule']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">银行卡提现说明</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_bank_instruction]" id="cash_withdraw_bank_instruction" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_BANK_MSG')['instruction']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">银行卡提现规则</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_bank_rule]" id="cash_withdraw_rule" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_BANK_MSG')['rule']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">银行卡绑定说明</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_bank_bind]" id="cash_withdraw_bank_bind" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_BANK_MSG')['bind']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">支付宝提现说明</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_alipay_instruction]" id="cash_withdraw_alipay_instruction" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_ALIPAY_MSG')['instruction']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">支付宝提现规则</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_withdraw_alipay_rule]" id="cash_withdraw_alipay_rule" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.WITHDRAW_ALIPAY_MSG')['rule']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">现金币转公让宝说明</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_trans_instruction]" id="cash_trans_instruction" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.GOLDZHUANCASH')['instruction']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">现金币转公让宝规则</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[cash_trans_rule]" id="cash_trans_rule" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.GOLDZHUANCASH')['rule']}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				<!---->
+				<!--<tr>-->
+					<!--<td class="partxt zc_ldaia">在线课堂页面说明内容</td>-->
+					<!--<td>-->
+						<!--<textarea name="data[online_classroom]" id="online_classroom" cols="45" rows="3" class="form-control">{:C('PARAMETER_CONFIG.ONLINE_CLASSROOM')}</textarea>-->
+					<!--</td>-->
+				<!--</tr>-->
+				
+				<tr>
+					<td class="partxt">&nbsp;</td>
+					<td>
+						<input type="submit" name="submit" value="保存">
+						<input type="hidden" name="data[id]" value="{$data.id}" />
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</form>
+</div>
