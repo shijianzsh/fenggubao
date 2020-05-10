@@ -32,14 +32,14 @@ class SysController extends ApiController
         } else {
             $where = 'platform=2';
         }
+        
         $apk_item = $manage->where($where)->order('id desc')->limit(1)->find();
-
         if (strpos($apk_item['src'], 'http') !== false) {
             $apkurl = $apk_item['src'];
         } else {
             $apkurl = C('LOCAL_HOST') . $apk_item['src'];
         }
-        if ($apk_item) {
+        // if ($apk_item) {
             $result = array(
                 'code' => 0,
                 'data' => array(
@@ -48,15 +48,17 @@ class SysController extends ApiController
                     'create_time' => date('Y-m-d H:i:s', $apk_item['add_time']),
                     'message' => $apk_item['content'.$current_lang],
                     'version' => $apk_item['version_num'],
-                    'number' => intval($apk_item['number']),
+                    'number' => $apk_item['number'],
                 ),
                 'message' => 'ok',
                 'time' => date('Y-m-d H:i:s', time()),
             );
-            $this->myApiPrint('', 400, $result);
-        } else {
-            $this->myApiPrint('无最新版', 300);
-        }
+
+            $this->ajaxReturn($result);
+
+        // } else {
+        //     $this->myApiPrint('无最新版', 300);
+        // }
     }
 
     /**

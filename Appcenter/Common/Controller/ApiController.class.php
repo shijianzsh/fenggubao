@@ -52,7 +52,10 @@ class ApiController extends PushController {
 		} elseif (isset($app_headers_data['App-Common-Data'])) { //新增的标准公共头
 			$app_headers_data = $app_headers_data['App-Common-Data'];
 			$app_headers_data = json_decode( $app_headers_data, true );
-		} elseif ( isset( $this->post['app_common_data'] ) ) { //兼容接收非APP传输的数据
+		} elseif (isset($app_headers_data['app-common-data'])) {
+            $app_headers_data = $app_headers_data['app-common-data'];
+            $app_headers_data = json_decode( $app_headers_data, true );
+        } elseif ( isset( $this->post['app_common_data'] ) ) { //兼容接收非APP传输的数据
 			$app_headers_data = $this->post['app_common_data'];
 			$app_headers_data = json_decode( html_entity_decode( html_entity_decode( $app_headers_data ) ), true );
 		} else {

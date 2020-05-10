@@ -1587,7 +1587,7 @@ function getLunboLink($id) {
 	$car_link = '';
 	
 	if (validateExtend($info['car_link'], 'NUMBER')) {
-		$car_link = U('APP/News/showNewsDetails/id/' . $info['car_link'], '', '', true);
+		$car_link = U('News/showNewsDetails/id/' . $info['car_link'], '', '', true);
 	} elseif (!empty($info['h5_path'])) {
 		$car_link = $info['h5_path'];
 	} elseif (!empty($info['uid'])) {

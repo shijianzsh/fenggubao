@@ -65,7 +65,7 @@ class NewsModel extends BaseModel
         //随机获取一个附件头域名
         $attach_domain_key = array_rand( C( 'DEVICE_CONFIG' )[ C( 'DEVICE_CONFIG_DEFAULT' ) ]['attach_domain'], 1 );
         $attach_domain     = C( 'DEVICE_CONFIG' )[ C( 'DEVICE_CONFIG_DEFAULT' ) ]['attach_domain'][ $attach_domain_key ];
-        $info['content'] = str_replace('http://grb.58dzt.com/', $attach_domain, $info['content']);
+        $info['content'] = str_replace('http://apifgb.fenggubao.com/', $attach_domain, $info['content']);
         return $info;
     }
 

@@ -110,7 +110,9 @@ class AccountModel
         }
 
         //获取冻结资金
-       $frozen = M('frozen_fund')->field('sum(frozen_credits) frozen_credits, sum(frozen_supply) frozen_supply, sum(frozen_goldcoin) frozen_goldcoin, sum(frozen_colorcoin) frozen_colorcoin, sum(frozen_cash) as frozen_cash')->where('frozen_status = 1 and user_id=' . $user_id)->find();
+        $where['frozen_status'] = 1;
+        $where['user_id'] = $user_id;
+       $frozen = M('frozen_fund')->field('sum(frozen_credits) frozen_credits, sum(frozen_supply) frozen_supply, sum(frozen_goldcoin) frozen_goldcoin, sum(frozen_colorcoin) frozen_colorcoin, sum(frozen_cash) as frozen_cash')->where($where)->find();
        if ($frozen && $forzentag) {
            if ($frozen['frozen_goldcoin'] > 0) {
                $balance['account_goldcoin_balance'] = ($balance['account_goldcoin_balance'] - $frozen['frozen_goldcoin']) . '';

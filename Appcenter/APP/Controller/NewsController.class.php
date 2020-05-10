@@ -105,10 +105,9 @@ class NewsController extends ApiController
         
         $data['title'] = $data['title'.$current_lang];
         $data['content'] = $data['content'.$current_lang];
-
         switch ($type) {
             case '2':
-                $data['content'] = U('APP/News/showNewsDetails/id/' . $data['id'], '', '', true);
+                $data['content'] = U('/News/showNewsDetails/id/' . $data['id'], '', '', true);
                 break;
         }
 

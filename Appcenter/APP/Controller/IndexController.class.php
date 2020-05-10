@@ -135,7 +135,7 @@ class IndexController extends ApiController
             $field_flash_link = 'flash_link'.$current_lang.' as flash_link';
             $news = M('flash_news')->where(['type' => 2])->field('flash_id, '.$field_flash_content.', flash_image, '.$field_flash_link.', uid, cid, h5_path, city, type, post_time')->order('flash_id desc')->limit(5)->select();
             foreach ($news as $k => $v) {
-                $news[$k]['flash_link'] = C('LOCAL_HOST') . 'APP/Index/getFlashNewsDetail/flash_id/' . $v['flash_id'];
+                $news[$k]['flash_link'] = C('LOCAL_HOST') . '/APP/Index/getFlashNewsDetail/flash_id/' . $v['flash_id'];
             }
             $data['news'] = $news;
 
@@ -694,7 +694,7 @@ class IndexController extends ApiController
         $flash_news = M('flash_news')->field('flash_id,'.$field_flash_content.',h5_path')->where($wh)->order('cid desc, flash_id desc')->limit($pageString)->select();
         foreach ($flash_news as $k => $v) {
             $h5_path = trim($v['h5_path']);
-            $flash_news[$k]['h5_path'] = empty($h5_path) ? U('Index/getFlashNewsDetail/flash_id/' . $v['flash_id'], '', '', true) : $h5_path;
+            $flash_news[$k]['h5_path'] = empty($h5_path) ? U('index.php/Index/getFlashNewsDetail/flash_id/' . $v['flash_id'], '', '', true) : $h5_path;
         }
         $this->myApiPrint('查询成功', 400, $flash_news);
     }
