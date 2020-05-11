@@ -1246,3 +1246,19 @@ function decodeUnicode($str) {
 			),
 			$str);
 }
+
+
+/**
+ * 手机号判断
+ * @param $phone
+ */
+function getPhonePrefix($phone) {
+    if ((substr($phone, 0, 1) == 0 && strlen($phone) == 10) || (substr($phone, 0, 1) == 0 && strlen($phone) == 11)) {
+        // 非大陆手机号
+        $return['is_china'] = '0';
+    } else {
+        $return['is_china'] = '1';
+    }
+
+    return $return;
+}

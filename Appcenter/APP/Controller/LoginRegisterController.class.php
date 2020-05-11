@@ -29,13 +29,6 @@ class LoginRegisterController extends ApiController {
 	 * @param m_phone_code MD5验证码
 	 */
 	public function register() {
-	    //注册地区限制
-	    //$ipmsg = getIpAddr();
-	    //regAddrFilter($ipmsg);
-	    
-		//判断IP是否属于大陆
-		$is_china = getIpLocation()['is_china'];
-
 		$data['loginname'] = I('post.phone');
 		$data['username'] =  I('post.truename');
 		$data['truename'] =  I('post.truename');
@@ -44,6 +37,8 @@ class LoginRegisterController extends ApiController {
 		$data['password'] =  I('post.password');
 		$data['phone_code'] = I('post.phone_code');
 		$m_phone_code = I('post.m_phone_code');
+		//判断手机号是否属于大陆
+        $is_china = getPhonePrefix($data['loginname'])['is_china'];
 
 		if ($data['reuserid']=="" || $data['truename']=="" || $data['loginname']=="" || $data['password']=="") {
 			$this->myApiPrint('输入有空值！');
