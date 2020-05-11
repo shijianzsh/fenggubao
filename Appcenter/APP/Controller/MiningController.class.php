@@ -102,58 +102,59 @@ class MiningController extends ApiController
      */
     public function autoMine()
     {
-        // 查询出消费记录大于0的
-        $where_consume['amount'] = ['gt',0];
-        $where_consume['is_out'] = 0;
-        $where_consume['dynamic_out'] = 0;
-        $consume_arr = M('Consume')->where($where_consume)->field('user_id,level,amount,dynamic_worth,static_worth')->select();
-        foreach ($consume_arr as $value) {
-            // 出局倍数
-            $out_bei = M('ConsumeRule')->where(['level'=>$value['level']])->getField('out_bei');
-            $out_bei = $out_bei ? $out_bei : 2;
-            // 出局剩余价值
-            $dynamic_out = $value['amount'] * $out_bei - $value['static_worth'] - $value['dynamic_worth'];
-            if ($dynamic_out > 0) {
-                $MiningModel = new MiningModel();
-                $EnjoyModel = new EnjoyModel();
-                //判断节假日条件
-                $date_validate = getDateStatus(); //0：工作日，1：假日，2：节日
-                if ($date_validate == 0) {
-                    //早x点至晚y点可丰收
-                    $hour = date('H');
-                    $hour_start = $this->CFG['mine_start_hour'];
-                    if ($hour > $hour_start) {
-                        //判断系统条件
-                        $system_validate = $MiningModel->mineValidateBySystem($this->CFG);
-                        if (!$system_validate['error']) {
-                            // 执行丰收 查询是否存在丰收队列数据：无则新增,有则更新日期
-                            $info = M('MiningQueue')->where("user_id={$value['user_id']} and is_expired=0 and FROM_UNIXTIME(updated_time, '%Y%m%d')=FROM_UNIXTIME(UNIX_TIMESTAMP(), '%Y%m%d')")->find();
-                            if (!$info) {
-                                $data_info = [
-                                    'user_id' => $value['user_id'],
-                                    'created_time' => time(),
-                                    'updated_time' => time()
-                                ];
-                                $result = M('MiningQueue')->add($data_info);
-                                //当前用户农场个数
-                                $portion_info = $MiningModel->getPortionNumber($value['user_id'], true);
-                                $portion = $portion_info['enabled'];
-                                //扣除澳洲SKN股数
-                                $mining_use_amount = floor ( $portion / 0.5 ) * $this->CFG['enjoy_mining'];
-                                $result2 = $EnjoyModel->miningUse($value['user_id'], $mining_use_amount);
-                                if (!$result || !$result2) {
-                                    $this->logWrite('定时任务Error:添加当日丰收队列失败', 1, false, $value['user_id']);
-                                }
-                            }
-                        } else {
-                            if ($system_validate['is_print']) {
-                                $this->logWrite('定时任务Error' . $system_validate['msg'], 1, false, $value['user_id']);
-                            }
-                            $this->logWrite('定时任务Error' . $system_validate['msg'], 1, false, $value['user_id']);
-                        }
-                    }
-                }
-            }
+    	//判断节假日条件
+        $date_validate = getDateInfo(); //0：工作日，1：假日，2：节日
+        if ($date_validate == 0) {
+        	// 查询出消费记录大于0的
+	        $where_consume['amount'] = ['gt',0];
+	        $where_consume['is_out'] = 0;
+	        $where_consume['dynamic_out'] = 0;
+	        $consume_arr = M('Consume')->where($where_consume)->field('user_id,level,amount,dynamic_worth,static_worth')->select();
+	        foreach ($consume_arr as $value) {
+	            // 出局倍数
+	            $out_bei = M('ConsumeRule')->where(['level'=>$value['level']])->getField('out_bei');
+	            $out_bei = $out_bei ? $out_bei : 2;
+	            // 出局剩余价值
+	            $dynamic_out = $value['amount'] * $out_bei - $value['static_worth'] - $value['dynamic_worth'];
+	            if ($dynamic_out > 0) {
+	                $MiningModel = new MiningModel();
+	                $EnjoyModel = new EnjoyModel();
+	                
+	                //早x点至晚y点可丰收
+	                $hour = date('H');
+	                $hour_start = $this->CFG['mine_start_hour'];
+	                if ($hour > $hour_start) {
+	                    //判断系统条件
+	                    $system_validate = $MiningModel->mineValidateBySystem($this->CFG);
+	                    if (!$system_validate['error']) {
+	                        // 执行丰收 查询是否存在丰收队列数据：无则新增,有则更新日期
+	                        $info = M('MiningQueue')->where("user_id={$value['user_id']} and is_expired=0 and FROM_UNIXTIME(updated_time, '%Y%m%d')=FROM_UNIXTIME(UNIX_TIMESTAMP(), '%Y%m%d')")->find();
+	                        if (!$info) {
+	                            $data_info = [
+	                                'user_id' => $value['user_id'],
+	                                'created_time' => time(),
+	                                'updated_time' => time()
+	                            ];
+	                            $result = M('MiningQueue')->add($data_info);
+	                            //当前用户农场个数
+	                            $portion_info = $MiningModel->getPortionNumber($value['user_id'], true);
+	                            $portion = $portion_info['enabled'];
+	                            //扣除澳洲SKN股数
+	                            $mining_use_amount = floor ( $portion / 0.5 ) * $this->CFG['enjoy_mining'];
+	                            $result2 = $EnjoyModel->miningUse($value['user_id'], $mining_use_amount);
+	                            if (!$result || !$result2) {
+	                                $this->logWrite('定时任务Error:添加当日丰收队列失败', 1, false, $value['user_id']);
+	                            }
+	                        }
+	                    } else {
+	                        if ($system_validate['is_print']) {
+	                            $this->logWrite('定时任务Error' . $system_validate['msg'], 1, false, $value['user_id']);
+	                        }
+	                        $this->logWrite('定时任务Error' . $system_validate['msg'], 1, false, $value['user_id']);
+	                    }
+	                }   
+	            }
+	        }
         }
 	}
 	
@@ -176,7 +177,7 @@ class MiningController extends ApiController
 		
 		
 		//判断节假日条件
-		$date_validate = getDateStatus(); //0：工作日，1：节假日，2：节假日调整为工作日的休息日，3：休息日
+		$date_validate = getDateInfo(); //0：工作日，1：节假日，2：节假日调整为工作日的休息日，3：休息日
 		$date_special_array = ['20190505']; //视为工作日的特殊日期
 		$date_today = date('Ymd');
 		if ($date_validate != '0' && $date_validate != '2' && !in_array($date_today, $date_special_array)) {

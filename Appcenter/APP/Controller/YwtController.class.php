@@ -299,7 +299,7 @@ class YwtController extends ApiController
         }
 
         //判断节假日条件
-        $date_validate = getDateStatus();
+        $date_validate = getDateInfo();
         if (!empty($date_validate)) {
             exit;
         }

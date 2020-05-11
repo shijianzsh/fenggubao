@@ -1127,10 +1127,10 @@ function getDateStatus($date) {
 	}
 	
 	$url = "http://tool.bitefu.net/jiari/?d=".$date;
-// 	$result = file_get_contents($url);
+	// $result = file_get_contents($url);
 	$result = get_by_curl($url, 'get');
 //	$result = json_decode($result, true);
-	
+
 	return $result;
 }
 
@@ -1261,4 +1261,25 @@ function getPhonePrefix($phone) {
     }
 
     return $return;
+}
+
+/**
+ * 2020年的假期和周末
+ * @return int
+ */
+function getDateInfo() {
+    $date = date('Ymd'); // 当前时间
+    $week = date('w'); // 当前星期
+    if ($week == 0 || $week == 6) {
+        // 周末
+        return 1;
+    } else {
+        // 节日
+        $arr = [20200625,20200626,20200627,20201001,20201002,20201003,20201004,20201005,20201006,20201007,20201008];
+        if (in_array($date, $arr)) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
 }
