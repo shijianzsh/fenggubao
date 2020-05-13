@@ -1,28 +1,22 @@
-<?php
-$host = 'http://apigrb.58dzt.com';
-$logFolder = 'zhongwy';
-
-$opts = [
-    'http' => [
-        'method' => "GET",
-        'timeout' => 10,
-    ]
-];
-$context = stream_context_create($opts);
-$content = file_get_contents(sprintf('%s/ZhongWY/price', $host), false, $context) . PHP_EOL;
-
-
-$logFile = sprintf('record/%s/%s.log.php', $logFolder, date('Y-m-d'));
-
-//第一次生成文件时,执行特殊的写入
-if (!file_exists($logFile)) {
-    $content = '<?php exit; ?>' . PHP_EOL . $content;
-}
-
-//写入日志
-$dir = dirname($logFile);
-if (!is_dir($dir)) {
-    mkdir($dir, 0777, true);
-}
-
-file_put_contents($logFile, sprintf('[%s] %s', date('Y-m-d H:i:s'), $content), FILE_APPEND);
+<?php 
+$data = array(
+    'foo'=>'bar', 
+    'baz'=>'boom', 
+    'site'=>'www.nowamagic.net', 
+    'name'=>'nowa magic'); 
+     
+$data = http_build_query($data); 
+ 
+//$postdata = http_build_query($data);
+$options = array(
+    'http' => array(
+        'method' => 'POST',
+        'header' => 'Content-type:application/x-www-form-urlencoded',
+        'content' => $data
+        //'timeout' => 60 * 60 // 超时时间（单位:s）
+    )
+);
+ 
+$url = "http://www.fenggubao.com/Admin/Tmp/index.html";
+$context = stream_context_create($options);
+$result = file_get_contents($url, false, $context);

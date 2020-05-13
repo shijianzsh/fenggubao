@@ -1,0 +1,1 @@
+"C:\wamp64\bin\php\php5.6.40\php.exe" -q "C:\wamp64\www\fgb\artisan.php"
