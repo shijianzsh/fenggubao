@@ -1399,6 +1399,7 @@ class OrderModel
         }
         $where['o.uid'] = $user_id;
         $where['o.exchangeway'] = 1;
+        $where['o.is_del'] = 0;
         if ($tag == 1) {
             $where['o.order_status'] = 1;
         } elseif ($tag == 2) {

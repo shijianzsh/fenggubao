@@ -8,7 +8,7 @@ return array(
 	'RATIO_START_DATE' => '2017-02-25 00:00:00',
 		
 	//三级安全密码(主要用于奖项管理三级安全验证)
-	'THREE_SAFE_PWD' => '90f144b8e62fb186169e55b0871aea93',
+	'THREE_SAFE_PWD' => '6dc3cacb3d23edaddc0c11169e9672d8',
 	
 	//短信验证码有效时长(秒)
 	'SMS_ENABLE_TIME' => '120',
